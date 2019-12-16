@@ -24,10 +24,10 @@ https://demo.kplphp.com  [域名正在建设中]
 密　码：admin
 
 ## **界面截图**
-![主页](https://gitee.com/JefferyCai/kplphp/11.png "主页")
-![用户管理](https://gitee.com/JefferyCai/kplphp/22.png "用户管理")
-![角色管理](https://gitee.com/JefferyCai/kplphp/33.png "角色管理")
-![菜单管理](https://gitee.com/JefferyCai/kplphp/33.png "菜单管理")
+![主页](https://gitee.com/JefferyCai/kplphp/blob/master/11.png "主页")
+![用户管理](https://gitee.com/JefferyCai/kplphp/blob/master/22.png "用户管理")
+![角色管理](https://gitee.com/JefferyCai/kplphp/blob/master/33.png "角色管理")
+![菜单管理](https://gitee.com/JefferyCai/kplphp/blob/master/33.png "菜单管理")
 
 ## **问题反馈**
 
@@ -36,7 +36,7 @@ https://demo.kplphp.com  [域名正在建设中]
 交流社区: https://ask.kplphp.com  [域名正在建设中]
 
 QQ群: [492819172](https://jq.qq.com/?_wv=1027&k=5uZkVZl)(满) 
-Wechat: ![微信号](https://gitee.com/JefferyCai/kplphp/wechat.jpg "微信号")
+Wechat: ![微信号](https://gitee.com/JefferyCai/kplphp/blob/master/wechat.jpg "微信号")
 
 Email: (1345199080#qq.com, 把#换成@)
 
