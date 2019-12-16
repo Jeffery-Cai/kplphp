@@ -15,6 +15,20 @@ Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
 https://doc.kplphp.com   [域名正在建设中]
 
+## **推荐配置**
+
+LNMP环境：
+
+- PHP7.1+
+- Nginx
+- CentOS7
+- MySQL5.6+
+
+注意:
+
+ThinkPHP6.0基于精简核心和统一用法两大原则在5.1的基础上对底层架构做了进一步的优化改进，并更加规范化。由于引入了一些新特性，ThinkPHP6.0运行环境要求PHP7.1+，不支持5.1的无缝升级（官方给出了升级指导用于项目的升级参考）。
+
+
 ## **在线演示**
 
 https://demo.kplphp.com  [域名正在建设中]
@@ -28,6 +42,8 @@ https://demo.kplphp.com  [域名正在建设中]
 ![用户管理](http://cdnimg.k-d.fun/22.png "用户管理")
 ![角色管理](http://cdnimg.k-d.fun/33.png "角色管理")
 ![菜单管理](http://cdnimg.k-d.fun/33.png "菜单管理")
+
+
 
 ## **问题反馈**
 
