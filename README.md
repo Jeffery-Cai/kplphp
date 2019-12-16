@@ -40,8 +40,6 @@ Wechat: ![微信号](http://cdnimg.k-d.fun/wechat.jpg "微信号")
 
 Email: (1345199080#qq.com, 把#换成@)
 
-Github: https://github.com/Jeffery-Cai/kplphp
-
 Gitee: https://gitee.com/JefferyCai/kplphp
 
 ## **特别鸣谢**
