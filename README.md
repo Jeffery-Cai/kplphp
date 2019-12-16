@@ -1,38 +1,67 @@
-# kplphp后台极简快速框架
-
-#### 介绍
-基于最新版本的thinkphp6.0以上底层编写的一整套纯净版后台，Thinkphp6方便二次开发，您可以完全参考tp6写法。
-[官方域名正在建设中]
-
-#### 软件架构
-软件架构说明
+Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
 
-#### 安装教程
+## **主要特性**
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+* 基于`Auth`验证的权限管理系统
+    * 支持无限级父子级权限继承，父级的管理员可任意增删改子级管理员及权限设置
+    * 支持单管理员多角色
+    * 支持管理子级数据或个人数据
+* 支持更多强大的功能 [正在升级中]
+* 强大的插件扩展功能，在线安装卸载升级插件 [正在升级中]
+* 丰富的插件应用市场 [正在升级中]
 
-#### 使用说明
+## **安装使用**
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+https://doc.kplphp.com   [域名正在建设中]
 
-#### 参与贡献
+## **在线演示**
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+https://demo.kplphp.com  [域名正在建设中]
 
+用户名：admin
 
-#### 码云特技
+密　码：admin
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## **界面截图**
+![主页](https://gitee.com/JefferyCai/kplphp/11.png "主页")
+![用户管理](https://gitee.com/JefferyCai/kplphp/22.png "用户管理")
+![角色管理](https://gitee.com/JefferyCai/kplphp/33.png "角色管理")
+![菜单管理](https://gitee.com/JefferyCai/kplphp/33.png "菜单管理")
+
+## **问题反馈**
+
+在使用中有任何问题，请使用以下联系方式联系我们
+
+交流社区: https://ask.kplphp.com  [域名正在建设中]
+
+QQ群: [492819172](https://jq.qq.com/?_wv=1027&k=5uZkVZl)(满) 
+Wechat: ![微信号](https://gitee.com/JefferyCai/kplphp/wechat.jpg "微信号")
+
+Email: (1345199080#qq.com, 把#换成@)
+
+Github: https://github.com/Jeffery-Cai/kplphp
+
+Gitee: https://gitee.com/JefferyCai/kplphp
+
+## **特别鸣谢**
+
+感谢以下的项目,排名不分先后
+
+ThinkPHP：http://www.thinkphp.cn
+
+jQuery：http://jquery.com
+
+Datatables : https://datatables.net
+
+等其他.
+
+## **版权信息**
+
+Kplphp遵循Apache2开源协议发布，并提供免费使用。
+
+本项目包含的第三方源码和二进制文件之版权信息另行标注。
+
+版权所有Copyright © 2019-2020 by Kplphp
+
+All rights reserved。
