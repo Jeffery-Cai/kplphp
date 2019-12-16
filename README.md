@@ -51,7 +51,7 @@ https://demo.kplphp.com  [域名正在建设中]
 
 交流社区: https://ask.kplphp.com  [域名正在建设中]
 
-QQ群: [492819172](https://jq.qq.com/?_wv=1027&k=5uZkVZl)(满) 
+QQ群: [492819172](https://jq.qq.com/?_wv=1027&k=5uZkVZl)(未满，第一个qq) 
 Wechat: ![微信号](http://cdnimg.k-d.fun/wechat.jpg "微信号")
 
 Email: (1345199080#qq.com, 把#换成@)
