@@ -1,0 +1,202 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+
+<!-- begin::main -->
+<div id="main">
+
+    {include file="public/header"/}
+
+    <!-- begin::header -->
+    <!-- end::header -->
+
+    <!-- begin::main-content -->
+    <main class="main-content">
+
+        <div class="container">
+
+            <!-- begin::page-header -->
+            <div class="page-header">
+                <h4>权限管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">角色设置&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [492819172]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=5uZkVZl">QQ群</a></span> | <span> <b> <a
+                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- end::page-header -->
+            <div class="row app-block">
+                <div class="col-md-12 app-content">
+                    <div class="app-action">
+                        <div class="action-left">
+                            <ul class="list-inline">
+                                <li class="list-inline-item mb-0">
+                                    <a href="#" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                        <i data-feather="plus" class="mr-2"></i>
+                                        添加
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{:url('/power/role_edit')}">角色组</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="action-right" style="display: none">
+                            <form class="d-flex mr-3">
+                                <a href="#" class="app-sidebar-menu-button btn btn-outline-light">
+                                    <i data-feather="menu"></i>
+                                </a>
+                                <div class="input-group">
+                                    <input type="text"  autofocus="autofocus" class="form-control" placeholder="Search file"
+                                           aria-describedby="button-addon1">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-light" type="button" id="button-addon1">
+                                            <i data-feather="search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example1" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>角色名称</th>
+                                    <th>上级角色</th>
+                                    <th>描述</th>
+                                    <th>默认模块</th>
+                                    <th>状态</th>
+                                    <th>创建时间</th>
+                                    <th>更新时间</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {include file="public/footer"/}
+</div>
+
+
+<!-- Plugin scripts -->
+<script src="__STATIC__/vendors/bundle.js"></script>
+
+<!-- DataTable -->
+<script src="__STATIC__/vendors/dataTable/jquery.dataTables.min.js"></script>
+<script src="__STATIC__/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
+<script src="__STATIC__/vendors/dataTable/dataTables.responsive.min.js"></script>
+
+<script>
+
+    function role_edit(id) {
+        window.location.href = '{:url("/power/role_edit")}?id='+id;
+    }
+    function role_del(id,that) {
+        window.location.href = '{:url("/power/role_del")}?id='+id;
+    }
+    function role_set(id) {
+        window.location.href = '{:url("/power/role_set")}?id='+id;
+    }
+
+
+    $(document).ready(function () {
+
+        $('#example1').DataTable({
+            lengthChange:false,//是否允许用户改变表格每页显示的记录数
+            paging: true,//是否开启本地分页
+            pagingType:"full_numbers",//分页按钮显示选项
+            searching:false,//是否允许 DataTables 开启本地搜索
+            info:false,//是否显示左下角信息
+            bFilter : true, //是否启动过滤、搜索功能
+            ordering:false,
+            serverSide: true, // 服务端处理分页
+            processing:true,// 数据量大则显示进度
+            ajax: function (data, callback, settings) {
+                var param = {};
+                param.size = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
+                param.start = data.start;//开始的记录序号
+                param.page = (data.start / data.length)+1;//当前页码
+                param.order = data.order[0];
+                $.ajax({
+                    url:"{:url('/Power/role')}",
+                    type:'POST',
+                    cache: false,  //禁用缓存
+                    data: param,  //传入组装的参数
+                    dataType: "json",
+                    success: function (result) {
+                        setTimeout(function () {
+                            //封装返回数据
+                            var returnData = {};
+                            returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
+                            returnData.recordsTotal = result.total;//返回数据全部记录
+                            returnData.recordsFiltered = result.total;//后台不实现过滤功能，每次查询均视作全部结果
+                            returnData.data = result.data;//返回的数据列表
+                            callback(returnData);
+                        }, 200);
+                    }
+                })
+            },
+            columns: [
+                { data : null,'render':function (data,type,row,meta) {
+                        var html = 'ID: '+row['id']+' ';
+                        if(row['id'] != 1)
+                        {
+                            html += '<button type="button" title="编辑" data-toggle="tooltip" data-placement="top" onclick="role_edit('+row['id']+')" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-check-box"></i></button> ';
+                            html += '<button type="button" title="设置" data-toggle="tooltip" data-placement="top" onclick="role_set('+row['id']+')" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-settings"></i></button> ';
+                            html += ' <button type="button" title="删除" data-toggle="tooltip" data-placement="top" onclick="role_del('+row['id']+')" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-trash"></i></button>';
+                        }else{
+                        }
+
+
+                        return html;
+                    }},
+                { data: "name"},
+                { data: "pid"},
+                { data: "description"},
+                { data: "default_module"},
+                { data: null,'render':function (data,type,row,meta) {
+                        var html = '<div class="form-group"><div class="custom-control custom-switch custom-checkbox-secondary">';
+                        if(row['id'] != 1) {
+                            if (row['status'] == 1) {
+                                html += '<input type="checkbox" onclick="fieldchange(' + row['id'] + ')" class="custom-control-input" id="customSwitch' + row['id'] + '" checked><label class="custom-control-label" for="customSwitch' + row['id'] + '"></label>';
+                            } else {
+                                html += '<input type="checkbox" onclick="fieldchange(' + row['id'] + ')" class="custom-control-input" id="customSwitch' + row['id'] + '"><label class="custom-control-label" for="customSwitch' + row['id'] + '"></label>';
+                            }
+                        }
+                        html += '</div></div>';
+                        return html;
+                    }},
+                { data: "create_time"},
+                { data: "update_time"}
+            ]
+        });
+    });
+</script>
+
+<!-- Prism -->
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+
+<!-- App scripts -->
+<script src="__STATIC__/assets/js/app.min.js"></script>
+<script>
+    function fieldchange(id,field='status')
+    {
+        $.post("{:url('/power/role_fieldchange')}",{id:id,field:field},function(){});
+    }
+</script>

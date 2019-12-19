@@ -1,0 +1,162 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+
+<link href="__STATIC__/vendors/jstree/themes/default/style.min.css" rel="stylesheet" />
+<style>
+    .dd3-content:hover{
+        color: #23282d;
+    }
+
+    .dd3-handle:hover {
+        background: #84949b;
+    }
+    .dd3-handle{
+        background: #64737a;
+    }
+</style>
+<!-- begin::main -->
+<div id="main">
+
+    {include file="public/header"/}
+
+    <!-- begin::header -->
+    <!-- end::header -->
+
+    <!-- begin::main-content -->
+    <main class="main-content">
+
+        <div class="container">
+
+            <!-- begin::page-header -->
+            <div class="page-header">
+                <h4>权限管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">权限分配&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [492819172]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=5uZkVZl">QQ群</a></span> | <span> <b> <a
+                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                <div class="mb-4">
+                    <button type="button" class="btn btn-secondary mr-2" id="check-all"> <i class="fa fa-check-circle-o"></i>&nbsp;全选</button>
+                    <button type="button" class="btn btn-secondary mr-2" id="uncheck-all"> <i class="fa fa-ban"></i>&nbsp;取消全选</button>
+                    <button type="button" onclick="save_role_set({$_GET['id']})" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存权限</button>
+                    <button type="button" class="btn btn-secondary mr-2" id="expand-all" data-action="expand-all"><i class="fa fa-plus"></i>&nbsp;展开全部</button>
+                    <button type="button" class="btn btn-secondary" id="collapse-all" data-action="collapse-all"><i class="fa fa-minus"></i>&nbsp;收缩全部</button>
+                </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <form action="" id="form">
+                            <div class="card-body">
+                                {volist name="menuj" id="vo"}
+                                <div class="tab-pane {$curr_tab == $key ?= 'active'}" id="{$key}">
+                                    <div class="push js-tree" data-tab="{$key}">{$vo.menus|raw|default=''}</div>
+                                </div>
+                                {/volist}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" onclick="location.href='{:url("/power/role")}'" class="btn btn-secondary mr-2">返回</button>
+                    <button type="button" onclick="save_role_set({$_GET['id']})" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存权限</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    {include file="public/footer"/}
+
+    <!-- end::footer -->
+</div>
+
+
+<script src="__STATIC__/vendors/bundle.js"></script>
+
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+<script src="__STATIC__/assets/js/app.min.js"></script>
+
+<script src="__STATIC__/vendors/jstree/jstree.min.js"></script>
+
+<script>
+    // toastr.success('保存成功!');
+
+        const $tree_list = {};
+        const $key_auth  = {};
+        let curr_tab     = '{$curr_tab}';
+
+        // 切换节点tab
+        $('#menu-tab > li > a').click(function () {
+            curr_tab = $(this).data('tab');
+            $('#search-auth').val($key_auth[curr_tab]);
+        });
+        // 初始化节点
+        $('.js-tree').each(function () {
+            const $tree = $(this);
+            const tab   = $(this).data('tab');
+
+            $key_auth[tab] = '';
+
+            $tree.jstree({
+                plugins: ["checkbox"],
+                "checkbox" : {
+                    "keep_selected_style" : false,
+                    "three_state" : false,
+                    "cascade" : 'down+up'
+                }
+            });
+            $tree_list[tab] = $tree;
+        });
+
+        // 全选
+        $('#check-all').click(function () {
+            $tree_list[curr_tab].jstree(true).check_all();
+        });
+        // 取消全选
+        $('#uncheck-all').click(function () {
+            $tree_list[curr_tab].jstree(true).uncheck_all();
+        });
+        // 展开所有
+        $('#expand-all').click(function () {
+            $tree_list[curr_tab].jstree(true).open_all();
+        });
+        // 收起所有
+        $('#collapse-all').click(function () {
+            $tree_list[curr_tab].jstree(true).close_all();
+        });
+
+
+        function save_role_set(id)
+        {
+            var auth_node = [];
+            $.each($tree_list, function () {
+                auth_node.push.apply(auth_node,$tree_list[curr_tab].jstree(true).get_checked());
+            });
+            $.post("{:url('/power/role_set_edit')}",{id:id,menu_auth:auth_node.join(',')},function (res) {
+                if (res==1) {
+                    toastr.success('保存成功!');
+                    setTimeout(function () {
+                        location.href = '';
+                    }, 1500);
+                } else {
+                    toastr.error('保存失败!');
+                }
+                return false;
+            });
+        }
+
+
+
+</script>

@@ -1,0 +1,109 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+
+<!-- begin::main -->
+<div id="main">
+
+    {include file="public/header"/}
+
+    <!-- begin::header -->
+    <!-- end::header -->
+
+    <!-- begin::main-content -->
+    <main class="main-content">
+
+        <div class="container">
+
+            <!-- begin::page-header -->
+            <div class="page-header">
+                <h4>权限管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">用户设置 &nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [492819172]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=5uZkVZl">QQ群</a></span> | <span> <b> <a
+                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{:url('/power/edit')}" method="post" enctype="multipart/form-data" >
+                                <div class="form-group row">
+                                    <input type="hidden" value="{$info['id']}" name="id">
+                                    <label for="" class="col-sm-1 col-form-label">登录名</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="username"  class="form-control-plaintext" value="{$info['username']}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="role" class="col-sm-1 col-form-label">所属角色</label>
+                                    <div class="col-sm-11">
+                                        <select name="role" id="role" class="form-control" >
+                                            {volist name="role" id="role"}
+                                                <option value="{$role.id}" {if condition="$role.id eq $info.role"} selected {/if} >{$role.name}</option>
+                                            {/volist}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="nickname" class="col-sm-1 col-form-label">昵称</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="nickname" id="nickname" class="form-control" placeholder="昵称" value="{$info['nickname']}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-1 col-form-label">邮箱</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="email" id="" class="form-control" placeholder="邮箱" value="{$info['email']}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-1 col-form-label">手机号</label>
+                                    <div class="col-sm-11">
+                                        <input type="number" oninput = "value=value.replace(/[^\d]/g,'')" maxlength="11" name="mobile" id="" class="form-control" placeholder="手机号" value="{$info['mobile']}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-1 col-form-label">上传头像</label>
+                                    <div class="col-sm-11">
+                                        <div id="avatar" class="dropzone"></div>
+                                        <input type="hidden" name="avatar" value="{$info['avatar']}" id="avatarinput">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-1 col-form-label">操作</label>
+                                    <div class="col-sm-5">
+                                        <div class="custom-control custom-switch custom-checkbox-secondary custom-control-inline">
+                                            <input name="status" type="checkbox" {if condition="$info.status eq 1"} checked {/if}  class="custom-control-input" id="customSwitchInline2">
+                                            <label class="custom-control-label" for="customSwitchInline2">状态[是否可登陆]</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-1">
+                                        <button type="reset" class="btn btn-secondary">重置</button>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-secondary">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    {include file="public/footer"/}
+    <!-- end::footer -->
+</div>
+
+<script src="__STATIC__/vendors/bundle.js"></script>
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+<script src="__STATIC__/assets/js/app.min.js"></script>

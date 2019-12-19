@@ -1,0 +1,131 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+
+<!-- begin::main -->
+<div id="main">
+
+    {include file="public/header"/}
+
+    <!-- begin::header -->
+    <!-- end::header -->
+
+    <!-- begin::main-content -->
+    <main class="main-content">
+
+        <div class="container">
+
+            <!-- begin::page-header -->
+            <div class="page-header">
+                <h4>权限管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">权限菜单设置&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [492819172]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=5uZkVZl">QQ群</a></span> | <span> <b> <a
+                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{:url('/power/role_set_edit')}" method="post" enctype="multipart/form-data" >
+
+                                <div class="form-group row">
+                                    <input type="hidden" value="{$info['id']}" name="id">
+                                    <label for="title" class="col-sm-1 col-form-label">菜单标题</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="title"  class="form-control" placeholder="菜单标题" value="{$info['title']}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pid" class="col-sm-1 col-form-label">节点上级</label>
+                                    <div class="col-sm-11">
+                                        <select name="pid" id="pid" class="form-control" >
+                                            {volist name="menuj" id="menuj"}
+                                            <option value="{$key}" {if condition="$_GET['pid'] eq $key"} selected {/if} >{$menuj}</option>
+                                            {/volist}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="controller" class="col-sm-1 col-form-label">控制器模块名</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="controller"  class="form-control" placeholder="控制器模块名" value="{$info['controller']}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="action" class="col-sm-1 col-form-label">控制器方法</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="action" id="action" class="form-control" placeholder="控制器方法" value="{$info['action']}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="module" class="col-sm-1 col-form-label">模块名称</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" readonly name="module" id="module" class="form-control" placeholder="模块名称" value="admin">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="url_value" class="col-sm-1 col-form-label">链接地址</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="url_value" id="url_value" class="form-control" placeholder="请用/开头的链接地址" value="{$info['url_value']}">
+                                        <span>请以/开头</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="module" class="col-sm-1 col-form-label">图标</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="icon" id="icon" class="form-control" placeholder="显示图标" value="{$info['icon']}">
+                                        <span><a href="http://www.fontawesome.com.cn/">字体图标链接</a></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="sort" class="col-sm-1 col-form-label">排序</label>
+                                    <div class="col-sm-11">
+                                        <input type="number" name="sort" id="sort" class="form-control" placeholder="排序" value="{$info['sort']}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="params" class="col-sm-1 col-form-label">参数</label>
+                                    <div class="col-sm-11">
+                                        <input type="text" name="params" id="params" class="form-control" placeholder="参数" value="{$info['params']}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-1 col-form-label">操作</label>
+                                    <div class="col-sm-5">
+                                        <div class="custom-control custom-switch custom-checkbox-secondary custom-control-inline">
+                                            <input name="status" checked type="checkbox" {if condition="$info.status eq 1"} checked {/if}  class="custom-control-input" id="customSwitchInline2">
+                                            <label class="custom-control-label" for="customSwitchInline2">状态[是否有效]</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-1">
+                                        <button type="reset" class="btn btn-secondary">重置</button>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-secondary">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    {include file="public/footer"/}
+
+    <!-- end::footer -->
+</div>
+
+<script src="__STATIC__/vendors/bundle.js"></script>
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+<script src="__STATIC__/assets/js/app.min.js"></script>

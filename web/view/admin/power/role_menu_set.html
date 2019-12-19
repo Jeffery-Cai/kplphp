@@ -1,0 +1,120 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+<link rel="stylesheet" href="__STATIC__/vendors/nestable/nestable.css" type="text/css">
+<style>
+    .dd3-content:hover{
+        color: #23282d;
+    }
+
+    .dd3-handle:hover {
+        background: #84949b;
+    }
+    .dd3-handle{
+        background: #64737a;
+    }
+</style>
+<!-- begin::main -->
+<div id="main">
+
+    {include file="public/header"/}
+
+    <!-- begin::header -->
+    <!-- end::header -->
+
+    <!-- begin::main-content -->
+    <main class="main-content">
+
+        <div class="container">
+
+            <!-- begin::page-header -->
+            <div class="page-header">
+                <h4>权限管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">角色权限菜单设置&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [492819172]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=5uZkVZl">QQ群</a></span> | <span> <b> <a
+                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                <div class="mb-4" id="nestable-menu">
+                    <button type="button" onclick="location.href=' {:url("/power/role_menu_set_edit",array("pid"=>2))} '" class="btn btn-secondary mr-2"> <i class="fa fa-plus-circle"></i>&nbsp;新增</button>
+                    <button type="button" onclick="save_menu()" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存节点</button>
+                    <button type="button" class="btn btn-secondary mr-2" data-action="expand-all"><i class="fa fa-plus"></i>&nbsp;展开全部</button>
+                    <button type="button" class="btn btn-secondary" data-action="collapse-all"><i class="fa fa-minus"></i>&nbsp;收缩全部</button>
+                </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dd" id="nestablemenu">
+                                <ol class="dd-list">{$menus|raw}</ol>
+                            </div>
+                        </div>
+
+<!--                        检测json-->
+                        <div class="form-group" style="display: none">
+                            <textarea id="nestable-output" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    {include file="public/footer"/}
+
+    <!-- end::footer -->
+</div>
+
+
+<script src="__STATIC__/vendors/bundle.js"></script>
+<!--<script src="__STATIC__/assets/js/examples/sweet-alert.js"></script>-->
+
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+<script src="__STATIC__/assets/js/app.min.js"></script>
+
+<script src="__STATIC__/vendors/nestable/jquery.nestable.js"></script>
+<script>
+    function save_menu()
+    {
+        $.post("{:url('/power/save_menu')}", {menus: $('#nestablemenu').nestable('serialize')}, function(data) {
+            // swal("保存成功", "You clicked the button!", "success");
+            toastr.success('保存成功!');
+        });
+    }
+
+    $(function () {
+        var updateOutput = function (e) {
+            var list = e.length ? e : $(e.target),
+                output = list.data('output');
+            if (window.JSON) {
+                output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
+            } else {
+                output.val('JSON browser support required for this demo.');
+            }
+        };
+
+        $('#nestablemenu').nestable().on('change', updateOutput);
+
+        updateOutput($('#nestablemenu').data('output', $('#nestable-output')));
+        $('#nestable-menu').on('click', function (e) {
+            var target = $(e.target),
+                action = target.data('action');
+            if (action === 'expand-all') {
+                $('.dd').nestable('expandAll');
+            }
+            if (action === 'collapse-all') {
+                $('.dd').nestable('collapseAll');
+            }
+        });
+    });
+</script>

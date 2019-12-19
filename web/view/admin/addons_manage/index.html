@@ -1,0 +1,169 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+
+<!-- begin::main -->
+<div id="main">
+
+    {include file="public/header"/}
+
+    <!-- begin::header -->
+    <!-- end::header -->
+
+    <!-- begin::main-content -->
+    <main class="main-content">
+
+        <div class="container">
+
+            <!-- begin::page-header -->
+            <div class="page-header">
+                <h4>插件管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">已安装插件&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [492819172]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=5uZkVZl">QQ群</a></span> | <span> <b> <a
+                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- end::page-header -->
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a title="全部"  href="{:url('addonsManage/index')}">全部({$total.all|default='0'})</a>&nbsp; &nbsp; |&nbsp;&nbsp;&nbsp;
+                                    <a title="已启用"  href="{:url('addonsManage/index', ['status' => '1'])}">已启用({$total['1']|default='0'})</a> &nbsp; &nbsp; |&nbsp;&nbsp;&nbsp;
+                                    <a title="已禁用"  href="{:url('addonsManage/index', ['status' => '0'])}">已禁用({$total['0']|default='0'})</a> &nbsp; &nbsp;|&nbsp;&nbsp;&nbsp;
+                                    <a title="未安装"  href="{:url('addonsManage/index', ['status' => '-1'])}">未安装({$total['-1']|default='0'})</a> &nbsp; &nbsp; |&nbsp;&nbsp;&nbsp;
+                                    <a title="已损坏"  href="{:url('addonsManage/index', ['status' => '-2'])}" id="hide_disable">已损坏({$total['-2']|default='0'})</a>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                {volist name="list" id="vo"}
+                                <div class="col-md-3">
+                                    <div class="card border">
+                                        <div class="card-body">
+                                            <h5><b>{$vo.title}</b> {$vo.version}</h5>
+                                            <p><a href="{$vo.author_url}" target="_blank">{$vo.author}</a></p>
+                                            <p class="card-text">{$vo.description} <br><br><a data-toggle="modal" data-target="#exampleModalCenter" style="text-decoration: underline">更多详情</a></p>
+                                            {if condition='$vo.status eq -1'}
+                                            <button class="btn btn-sm btn-outline-secondary" onclick="location.href='{:url("addons_manage/install",array("name"=>$vo["name"]))}'" class="btn btn-sm btn-outline-secondary">安装</button>
+                                            {else /}
+                                            <button onclick="location.href='{:url("addons_manage/uninstall",array("name"=>$vo["name"]))}'" class="btn btn-sm btn-outline-secondary">卸载</button>
+                                            <button class="btn btn-sm btn-outline-secondary">启用</button>
+                                            <button onclick="location.href='<?php echo addons_url($vo["name"]."://Index/manage") ?>'"  class="btn btn-sm btn-outline-secondary">设置</button>
+                                            {/if}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="ti-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                        重点词汇
+                        Column柱; 圆形石柱; 纪念柱; 圆柱状物; 柱形物; 栏
+                        not(构成动词be、do和have及情态动词can或must等的否定形式，常缩略为n't)不，没有; 不; (用于hope、expect、believe等动词后，作为否定的回答)不
+                        found创建，创办; 建立，兴建; 把…基于; 把…建立在; find的过去分词和过去式
+                        Unknown未知的; 不详的; 未被确认的; 不出名的; 无名的; 从未发生的; 从不存在的; 未知
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+    <!-- end::main-content -->
+
+    <!-- begin::footer -->
+    {include file="public/footer"/}
+
+    <!-- end::footer -->
+
+</div>
+<!-- end::main -->
+
+<!-- Plugin scripts -->
+<script src="__STATIC__/vendors/bundle.js"></script>
+
+<!-- Prism -->
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+
+<!-- App scripts -->
+<script src="__STATIC__/assets/js/app.min.js"></script>
+</body>
+</html>

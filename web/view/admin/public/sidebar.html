@@ -1,0 +1,102 @@
+<style>
+    html,body{
+        height: 100%;
+    }
+    .navigation{
+        height: 100%;
+        background: #23282d;
+        width: 160px;
+    }
+    .navigation .navigation-menu-body>ul li a{
+        color: rgba(240,245,250,.7);
+        /*border-bottom: #393939 1px solid;*/
+    }
+    .navigation .navigation-menu-body>ul li a{
+        padding: 10px 23px;
+    }
+
+    .navigation .navigation-menu-body>ul li a.active .nav-link-icon{
+        stroke: #000;
+    }
+    .navigation .navigation-menu-body>ul li a .nav-link-icon{
+        stroke: #fff;
+    }
+    .navigation .navigation-menu-body>ul li a.active{
+        position: relative;
+        color: #000;
+        font-weight: 700;
+        background: #fff;
+    }
+    .navigation .navigation-menu-body>ul li a.active{
+        position: relative;
+        font-weight: 700;
+    }
+    .navigation .navigation-menu-body>ul li.open>a.active1:hover{
+        color: #000;
+    }
+    .navigation .navigation-menu-body>ul li.open>a:hover{
+        color: #fff;
+    }
+    .navigation .navigation-menu-body>ul li.open>a .nav-link-icon{
+        stroke: #fff3cd;
+    }
+    .navigation .navigation-menu-body>ul li a:hover{
+        color: #23282d;
+    }
+    .navigation .navigation-menu-body>ul li a+ul li a{
+        padding-left: 34px;
+    }
+    .theme-switcher{
+        display: none;
+    }
+</style>
+<!-- begin::navigation -->
+<div class="navigation">
+
+    <!-- begin::logo -->
+    <div id="logo">
+        <a href="{:url('/admin/index')}">
+            <img class="logo" src="__PUBLICS__/logo.png" alt="logo">
+            <img class="logo-sm" src="__PUBLICS__/logo-sm.png" alt="small logo">
+        </a>
+    </div>
+    <!-- end::logo -->
+    <!-- begin::navigation menu -->
+    <div class="navigation-menu-body">
+        <ul>
+            {notempty name="sidebar"}
+            {volist name="sidebar" id="menu"}
+                <li {$menu['id'] == $_location[1]["id"]?='class="open"'}>
+            {notempty name="menu.url_value"}
+                <a href="<?php echo url($menu['url_value']) ?>" {if($menu['id'] == $_location[1]["id"])}class="active active1"{/if}>
+                    <i class="{$menu.icon}"></i>
+                    &nbsp;<span>{$menu['title']}</span>
+                </a>
+            {else/}
+                <a href="<?php echo url($menu['url_value']) ?>" >
+                <i class="{$menu.icon}"></i>
+                &nbsp;<span>{$menu['title']}</span>
+                </a>
+                {if condition="isset($menu['child'])"}
+                    <ul>
+                        {volist name="menu['child']" id="menuchild"}
+                        <li>
+                            <a {if(isset($_location[2]) && $menuchild['id'] == $_location[2]["id"])}class="active"{/if}  href=" {:url($menuchild['url_value'])} ">
+                            <i class="{$menuchild.icon}"></i>
+                            &nbsp;<span>{$menuchild['title']}</span>
+                            </a></li>
+                        {/volist}
+
+                    </ul>
+                {/if}
+            {/notempty}
+                </li>
+            {/volist}
+            {/notempty}
+
+        </ul>
+    </div>
+    <!-- end::navigation menu -->
+
+</div>
+<!-- end::navigation -->

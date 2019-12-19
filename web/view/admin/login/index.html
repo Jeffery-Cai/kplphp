@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>kplphp极简极速后台框架登录</title>
+    <link rel="shortcut icon" href="__STATIC__/assets/media/image/favicon.png"/>
+    <link rel="stylesheet" href="__STATIC__/vendors/bundle.css" type="text/css">
+    <link rel="stylesheet" href="__STATIC__/assets/css/app.min.css" type="text/css">
+</head>
+<body class="form-membership">
+<div class="form-wrapper">
+    <div id="logo">
+        <img class="logo" src="__STATIC__/assets/media/image/logo.png" alt="image">
+        <img class="logo-dark" src="__STATIC__/assets/media/image/logo-dark.png" alt="image">
+    </div>
+    <h5>登录</h5>
+    <form method="post" action="{:url('/login/index')}">
+        <div class="form-group">
+            <input type="text" name="username" class="form-control" placeholder="账号" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="密码" required>
+        </div>
+        <div class="form-group d-flex justify-content-between">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" name="remember-me" value="1" class="custom-control-input" checked="" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">长时间记住</label>
+            </div>
+            <!--<a href="#">Reset password</a>-->
+        </div>
+        <button class="btn btn-secondary btn-block">kplphp后台登录</button>
+        <hr>
+        <p class="text-muted">使用其它方式进行登录</p>
+        <ul class="list-inline">
+            <li class="list-inline-item">
+                <a href="#" class="btn btn-floating btn-facebook">
+                    <i class="fa fa-qq"></i>
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a href="#" class="btn btn-floating btn-twitter">
+                    <i class="fa fa-wechat"></i>
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <p class="text-muted">喜欢并下载该框架</p>
+        <a href="https://gitee.com/JefferyCai/kplphp" target="_blank" class="btn btn-outline-light btn-sm">码云地址</a>
+        <a href="https://github.com/Jeffery-Cai/kplphp" target="_blank" class="btn btn-outline-light btn-sm">Github地址</a>
+    </form>
+</div>
+
+</body>
+</html>

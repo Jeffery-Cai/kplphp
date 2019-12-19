@@ -1,0 +1,166 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+
+<div id="main">
+	{include file="public/header"/}
+	<div class="main-content">
+		<div class="container">
+			<div class="page-header">
+				<h4>kplphp团队</h4>
+				<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [492819172]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=5uZkVZl">QQ群</a></span> | <span> <b> <a
+						href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title d-flex align-items-start justify-content-between mb-0">
+										<span>访问数</span>
+										<span class="avatar">
+                                            <span class="avatar-title bg-success text-white rounded-circle">
+                                                <i class="fa fa-percent"></i>
+                                            </span>
+                                        </span>
+									</h6>
+									<div class="d-flex d-sm-block d-lg-flex align-items-end mb-3">
+										<h3 class="mb-0 mr-2">89.19%</h3>
+										<p class="small text-muted mb-0 line-height-20">
+											<span class="text-success">+ 1.2%</span> 比昨天高
+										</p>
+									</div>
+									<canvas id="widget-chart1"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title d-flex align-items-start justify-content-between mb-0">
+										<span>会员</span>
+										<span class="avatar">
+                                            <span class="avatar-title bg-warning text-white rounded-circle">
+                                                <i class="fa fa-dollar"></i>
+                                            </span>
+                                        </span>
+									</h6>
+									<div class="d-flex d-sm-block d-lg-flex align-items-end mb-3">
+										<h3 class="mb-0 mr-2">6,137</h3>
+										<p class="small text-muted mb-0 line-height-20">
+											<span class="text-danger">+ 3.2%</span> 本周统计
+										</p>
+									</div>
+									<canvas id="widget-chart2"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title d-flex align-items-start justify-content-between mb-0">
+										<span>码云价值</span>
+										<span class="avatar">
+                                            <span class="avatar-title bg-danger text-white rounded-circle">
+                                                <i class="fa fa-cube"></i>
+                                            </span>
+                                        </span>
+									</h6>
+									<div class="d-flex d-sm-block d-lg-flex align-items-end mb-3">
+										<h3 class="mb-0 mr-2">7,650</h3>
+										<p class="small text-muted mb-0 line-height-20">
+											<span class="text-success">+ 5.1%</span> 上周统计
+										</p>
+									</div>
+									<canvas id="widget-chart3"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-8">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title d-flex justify-content-between">
+										<span>今日量</span>
+										<span class="dropdown">
+                                            <a href="#" data-toggle="dropdown" aria-haspopup="true"
+											   aria-expanded="false">
+                                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                            </a>
+                                            <span class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">导出</a>
+                                                <a href="#" class="dropdown-item">下载</a>
+                                                <a href="#" class="dropdown-item">设置</a>
+                                            </span>
+                                        </span>
+									</h6>
+									<div id="chart1"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title">框架投票</h6>
+									<div class="text-center">
+										<div class="mb-2">
+											<span class="bar-1">2,5,9,6,5,2,4,3,7,5</span>
+										</div>
+										<div class="font-size-30 mb-1 font-weight-bold text-primary">3,241</div>
+										<p class="mb-0 text-muted">
+											<i class="fa fa-caret-up text-primary m-r-5"></i> 23% 比上周高
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title">框架价值</h6>
+									<div class="text-center">
+										<div class="mb-2">
+											<span class="bar-3">2,5,9,6,5,2,4,3,7,5</span>
+										</div>
+										<div class="font-size-30 mb-1 font-weight-bold text-success">$772.52</div>
+										<p class="mb-0 text-muted">
+											<i class="fa fa-caret-down text-danger m-r-5"></i> 本周统计
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+	{include file="public/footer"/}
+</div>
+<script src="__STATIC__/vendors/bundle.js"></script>
+<script src="__STATIC__/vendors/charts/chartjs/chart.min.js"></script>
+<script src="__STATIC__/vendors/charts/apex/apexcharts.min.js"></script>
+<script src="__STATIC__/vendors/circle-progress/circle-progress.min.js"></script>
+<script src="__STATIC__/vendors/slick/slick.min.js"></script>
+<script src="__STATIC__/assets/js/examples/dashboard.js"></script>
+<div class="colors">
+	<div class="bg-primary"></div>
+	<div class="bg-primary-bright"></div>
+	<div class="bg-secondary"></div>
+	<div class="bg-secondary-bright"></div>
+	<div class="bg-info"></div>
+	<div class="bg-info-bright"></div>
+	<div class="bg-success"></div>
+	<div class="bg-success-bright"></div>
+	<div class="bg-danger"></div>
+	<div class="bg-danger-bright"></div>
+	<div class="bg-warning"></div>
+	<div class="bg-warning-bright"></div>
+</div>
+<script src="__STATIC__/assets/js/app.min.js"></script>
+</body>
+</html>

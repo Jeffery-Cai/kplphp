@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>hello tpl</h1>
+
+如果插件中需要有链接或提交数据的业务，可以在插件中创建controller业务文件，
+要访问插件中的controller时使用addon_url生成url链接。
+如下：
+<a href="{:addons_url('Action/link')}">link test</a>
+或
+<a href="{:addons_url('test://Action/link')}">link test</a>
+格式为：
+test为插件名，Action为controller中的类名[多级控制器可以用.分割]，link为controller中的方法
+</body>
+</html>

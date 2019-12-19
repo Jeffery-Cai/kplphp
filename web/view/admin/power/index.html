@@ -1,0 +1,216 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+<!-- begin::main -->
+<!--导出例子-->
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">-->
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">-->
+
+
+
+<div id="main">
+
+    {include file="public/header"/}
+
+    <!-- begin::header -->
+    <!-- end::header -->
+
+    <!-- begin::main-content -->
+    <main class="main-content">
+
+        <div class="container">
+
+            <!-- begin::page-header -->
+            <div class="page-header">
+                <h4>权限管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">用户设置&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [492819172]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=5uZkVZl">QQ群</a></span> | <span> <b> <a
+                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- end::page-header -->
+            <div class="row app-block">
+                <div class="col-md-12 app-content">
+                    <div class="app-action">
+                        <div class="action-left">
+                            <ul class="list-inline">
+                                <li class="list-inline-item mb-0">
+                                    <a href="#" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                        <i data-feather="plus" class="mr-2"></i>
+                                        添加
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{:url('/power/edit')}">用户</a>
+                                        <a class="dropdown-item" href="{:url('/power/role_edit')}">角色</a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="action-right" style="display: none">
+                            <form class="d-flex mr-3">
+                                <a href="#" class="app-sidebar-menu-button btn btn-outline-light">
+                                    <i data-feather="menu"></i>
+                                </a>
+                                <div class="input-group">
+                                    <input type="text" autofocus="autofocus"  class="form-control" placeholder="Search file"
+                                           aria-describedby="button-addon1">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-light" type="button" id="button-addon1">
+                                            <i data-feather="search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example1" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>所属角色</th>
+                                    <th>登录名</th>
+                                    <th>昵称</th>
+                                    <th>邮箱</th>
+                                    <th>手机号</th>
+                                    <th>状态</th>
+                                    <th>创建时间</th>
+                                    <th>更新时间</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {include file="public/footer"/}
+
+    <!-- end::footer -->
+</div>
+
+
+<!-- Plugin scripts -->
+<script src="__STATIC__/vendors/bundle.js"></script>
+
+<!-- DataTable -->
+<script src="__STATIC__/vendors/dataTable/jquery.dataTables.min.js"></script>
+<script src="__STATIC__/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
+<script src="__STATIC__/vendors/dataTable/dataTables.responsive.min.js"></script>
+
+<!--导出例子-->
+<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>-->
+
+<script>
+    function edit(id) {
+        window.location.href = '{:url("/power/edit")}?id='+id;
+    }
+    function del(id,that) {
+        window.location.href = '{:url("/power/del")}?id='+id;
+    }
+    function fieldchange(id,field='status')
+    {
+        $.post("{:url('/power/fieldchange')}",{id:id,field:field},function(){});
+    }
+    $(document).ready(function () {
+
+        $('#example1').DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '导出数据',
+                customize: function (xlsx) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    $('row c[r^="C"]', sheet).attr('s', '2');
+                }
+            }],
+            lengthChange:false,//是否允许用户改变表格每页显示的记录数
+            paging: true,//是否开启本地分页
+            pagingType:"simple_numbers",//分页按钮显示选项
+            searching:false,//是否允许 DataTables 开启本地搜索
+            info:false,//是否显示左下角信息
+            ordering:false,
+            serverSide: true, // 服务端处理分页
+            processing:true,// 数据量大则显示进度
+            ajax: function (data, callback, settings) {
+                var param = {};
+                param.size = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
+                param.start = data.start;//开始的记录序号
+                param.page = (data.start / data.length)+1;//当前页码
+                param.order = data.order[0];
+                $.ajax({
+                    url:"{:url('/Power/index')}",
+                    type:'POST',
+                    cache: false,  //禁用缓存
+                    data: param,  //传入组装的参数
+                    dataType: "json",
+                    success: function (result) {
+                        setTimeout(function () {
+                            //封装返回数据
+                            var returnData = {};
+                            returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
+                            returnData.recordsTotal = result.total;//返回数据全部记录
+                            returnData.recordsFiltered = result.total;//后台不实现过滤功能，每次查询均视作全部结果
+                            returnData.data = result.data;//返回的数据列表
+                            callback(returnData);
+                        }, 200);
+                    }
+                })
+            },
+            columns: [
+                { data : null,'render':function (data,type,row,meta) {
+                        var html = 'ID: '+row['id']+' ';
+                        if(row['id'] != 1)
+                        {
+                            html += '<button onclick="edit('+row['id']+')" title="编辑" data-toggle="tooltip" data-placement="top" type="button" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-check-box"></i></button> ';
+                            html += ' <button onclick="del('+row['id']+')" title="删除" data-toggle="tooltip" data-placement="top" type="button" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-trash"></i></button>';
+                        }else{
+                            // html += '<button disabled type="button" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  >不可操作</button> ';
+                        }
+                        return html;
+                    }},
+                { data: "role_name"},
+                { data: "username"},
+                { data: "nickname"},
+                { data: "email"},
+                { data: "mobile"},
+                { data: null,'render':function (data,type,row,meta) {
+                        var html = '<div class="form-group"><div class="custom-control custom-switch custom-checkbox-secondary">';
+                        if(row['id'] != 1) {
+                            if (row['status'] == 1) {
+                                html += '<input type="checkbox"  onclick="fieldchange(' + row['id'] + ')" value="' + row['id'] + '" class="custom-control-input" id="customSwitch' + row['id'] + '" checked><label class="custom-control-label" for="customSwitch' + row['id'] + '"></label>';
+                            } else {
+                                html += '<input type="checkbox" onclick="fieldchange(' + row['id'] + ')" value="' + row['id'] + '" class="custom-control-input" id="customSwitch' + row['id'] + '"><label class="custom-control-label" for="customSwitch' + row['id'] + '"></label>';
+                            }
+                        }
+                        html += '</div></div>';
+                        return html;
+                    }},
+                { data: "create_time"},
+                { data: "update_time"}
+            ]
+        });
+
+    });
+</script>
+
+<!-- Prism -->
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+
+<!-- App scripts -->
+<script src="__STATIC__/assets/js/app.min.js"></script>
