@@ -1,0 +1,80 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+<div id="main">
+    {include file="public/header"/}
+    <main class="main-content">
+
+        <div class="container">
+            <div class="page-header">
+                <h4>案例管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">导入CSV表</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page"> 导入CSV表 &nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [972703635]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=57JpRdR">QQ群</a></span> | <span> <b> <a
+                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{:url('/ceshi/import_csv')}" enctype="multipart/form-data" method="post">
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-1 col-form-label">导入CSV格式</label>
+                                    <div class="col-sm-11">
+                                        <input type="file" name="file" value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-secondary">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">学校名称</th>
+                                        <th scope="col">电话号码</th>
+                                        <th scope="col">学生昵称</th>
+                                        <th scope="col">手机号码</th>
+                                        <th scope="col">添加时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="list" id="list"}
+                                    <tr>
+                                        <th scope="row">{$list['id']}</th>
+                                        <td>{$list['name']}</td>
+                                        <td>{$list['telphone']}</td>
+                                        <td>{$list['username']}</td>
+                                        <td>{$list['phone']}</td>
+                                        <td>{$list['create_time']}</td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    {include file="public/footer"/}
+    <!-- end::footer -->
+</div>
+
+<script src="__STATIC__/vendors/bundle.js"></script>
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+<script src="__STATIC__/assets/js/app.min.js"></script>

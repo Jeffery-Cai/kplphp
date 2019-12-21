@@ -243,6 +243,7 @@ class Power extends AdminController
     {
         if ($this->request->isPost()) {
             $data = $this->request->post();
+            $data['status'] = isset($data['status']) && $data['status'] == 'on'?1:0;
             $id = $data['id'];
             if (!isset($data['menu_auth'])) {
                 $data['menu_auth'] = [];
@@ -262,9 +263,10 @@ class Power extends AdminController
                 // 更新成功，循环处理子角色权限
                 Role::resetAuth($id, $data['menu_auth']);
                 $this->role_auth();
-                echo json_encode(1);exit;
+
+                $this->success('操作成功',url('/power/role_menu_set'));
             } else {
-                echo json_encode(0);exit;
+                $this->error('操作失败');
             }
         }
     }
