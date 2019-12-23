@@ -14,20 +14,20 @@
         background: #64737a;
     }
 </style>
-<!-- begin::main -->
+
 <div id="main">
 
     {include file="public/header"/}
 
-    <!-- begin::header -->
-    <!-- end::header -->
 
-    <!-- begin::main-content -->
+
+
+
     <main class="main-content">
 
         <div class="container">
 
-            <!-- begin::page-header -->
+
             <div class="page-header">
                 <h4>权限管理</h4>
                 <nav aria-label="breadcrumb">
@@ -79,7 +79,7 @@
 
     {include file="public/footer"/}
 
-    <!-- end::footer -->
+
 </div>
 
 
@@ -145,14 +145,7 @@
                 auth_node.push.apply(auth_node,$tree_list[curr_tab].jstree(true).get_checked());
             });
             $.post("{:url('/power/role_set_edit')}",{id:id,menu_auth:auth_node.join(',')},function (res) {
-                if (res==1) {
-                    toastr.success('保存成功!');
-                    setTimeout(function () {
-                        location.href = '';
-                    }, 1500);
-                } else {
-                    toastr.error('保存失败!');
-                }
+                toastr.success('保存成功!');
                 return false;
             });
         }

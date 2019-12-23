@@ -1,15 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Win10 - Jeffery 13..@qq.com
- * Date: 2019/11/20
- * Time: 16:53
- */
+/*----------------------------------------------------------------
+ * 版权所有 2019~2020 极盾工作室  kplphp地址[ http://www.kplphp.com ]
+ * 作者由JefferyCai码云所创造 [ https://gitee.com/JefferyCai ]
+ * 当前码云地址 与 操作文档都在 [ https://gitee.com/JefferyCai/kplphp ]
+ * QQ群请加 972703635 [ https://jq.qq.com/?_wv=1027&k=5YnmIH8 ]，如有更多服务，请单独加群主: 1345199080
+ * 登录功能
+----------------------------------------------------------------*/
 namespace app\admin\controller;
 use app\AdminController;
 use app\admin\model\Menu;
-use app\admin\model\Role;
-use app\admin\model\User as UserModel;
+use app\admin\logic\User;
 use think\App;
 use think\facade\Config;
 use think\facade\View;
@@ -18,18 +18,12 @@ class Login extends AdminController
     public function index()
     {
         if (request()->isPost()) {
-            // 获取post数据
             $data = request()->post();
             $rememberme = isset($data['remember-me']) ? true : false;
-
-            // 验证数据
             $result = $this->validate($data, 'User.signin');
             if(true !== $result){
-                // 验证失败 输出错误信息
                 $this->error($result);
             }
-
-            // 验证码
             if (Config::get('app.captcha_signin')) {
                 $captcha = request()->post('captcha', '');
                 $captcha == '' && $this->error('请输入验证码');
@@ -38,15 +32,9 @@ class Login extends AdminController
                     $this->error('验证码错误或失效');
                 };
             }
-
-            // 登录
-            $UserModel = new UserModel();
-            $uid = $UserModel->login($data['username'], $data['password'], $rememberme);
+            $uid = User::login($data['username'], $data['password'], $rememberme);
             if ($uid[0]!=0) {
-                // 记录行为
-//                action_log('user_signin', 'admin_user', $uid, $uid);
                 $this->success('登录成功',url('/admin/index'));
-//                header('location:'.url('/admin/index'));exit;
             } else {
                 $this->error($uid[1]);
             }
@@ -61,6 +49,7 @@ class Login extends AdminController
 
     public function loginout()
     {
+        halt(123);
         session(null);
         cookie('uid', null);
         cookie('signin_token', null);

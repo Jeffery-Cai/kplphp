@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 namespace app;
 
+use app\admin\logic\User;
 use app\admin\model\Menu;
 use app\admin\model\Role;
 use app\admin\model\User as UserModel;
@@ -146,7 +147,7 @@ abstract class AdminController
                     $signin_token = $this->data_auth_sign($user['username'].$user['id'].$user['last_login_time']);
                     if (cookie('signin_token') == $signin_token) {
                         // 自动登录
-                        $UserModel->autoLogin($user);
+                        User::autoLogin($user);
                         return $user['id'];
                     }
                 }

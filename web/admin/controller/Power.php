@@ -1,29 +1,35 @@
 <?php
+/*----------------------------------------------------------------
+ * 版权所有 2019~2020 极盾工作室  kplphp地址[ http://www.kplphp.com ]
+ * 作者由JefferyCai码云所创造 [ https://gitee.com/JefferyCai ]
+ * 当前码云地址 与 操作文档都在 [ https://gitee.com/JefferyCai/kplphp ]
+ * QQ群请加 972703635 [ https://jq.qq.com/?_wv=1027&k=5YnmIH8 ]，如有更多服务，请单独加群主: 1345199080
+ * 权限功能
+----------------------------------------------------------------*/
 namespace app\admin\controller;
 use app\admin\model\Menu;
 use app\admin\model\Module;
 use app\admin\model\Role;
 use app\admin\model\User;
-use app\admin\model\User as UserModel;
-use app\AdminController;
-use app\admin\model\Role as RoleModel;
 use think\App;
 use think\Db;
 use util\Tree;
+use app\AdminController;
 
 class Power extends AdminController
 {
     public function index()
     {
         $map = [];
+        # 用户角色不是超级管理员角色
         if (session('user_auth.role') != 1) {
-            $role_list = RoleModel::getChildsId(session('user_auth.role'));
+            $role_list = Role::getChildsId(session('user_auth.role'));
             $map[] = ['role', 'in', $role_list];
         }
-        $list = UserModel::where($map)->order('id asc')->page($this->page,$this->size)->select();
+        $list = User::where($map)->order('id asc')->page($this->page,$this->size)->select();
         foreach ($list as $k => $v)
         {
-            $list[$k]['role_name'] = RoleModel::where(array('id'=>$v['role']))->value('name');
+            $list[$k]['role_name'] = Role::where(array('id'=>$v['role']))->value('name');
         }
         if(request()->isPost())
         {
@@ -35,8 +41,8 @@ class Power extends AdminController
     public function edit($id=null)
     {
         if(intval($id)==1)halt('不可进入');
-        $role = RoleModel::select();
-        $userModel = new UserModel();
+        $role = Role::select();
+        $userModel = new User();
         if(!empty($id))
         {
             $action = $userModel->find($id);
@@ -56,7 +62,7 @@ class Power extends AdminController
     public function role_edit($id=null)
     {
         if(intval($id)==1)halt('不可进入');
-        $roleModel = new RoleModel();
+        $roleModel = new Role();
         if(!empty($id))
         {
             $action = $roleModel->find($id);
@@ -76,14 +82,14 @@ class Power extends AdminController
     public function role_del($id=null)
     {
         if(intval($id)==1)halt('不可进入');
-        RoleModel::destroy($id);
+        Role::destroy($id);
         $this->success('操作成功',url('/power/role'));
     }
 
     public function role()
     {
         $map = [];
-        $list = RoleModel::where($map)->order('sort,id asc')->page($this->page,$this->size)->select();
+        $list = Role::where($map)->order('sort,id asc')->page($this->page,$this->size)->select();
         if(request()->isPost())
         {
             echo json_encode(['data'=>$list]);exit;
@@ -96,16 +102,16 @@ class Power extends AdminController
         $id = input('id',0);
         if(intval($id)==1)halt('不可进入');
         $field = input('field','');
-        $ifind = UserModel::find($id);
+        $ifind = User::find($id);
         if(!empty($ifind))
         {
             if($ifind[$field] == 0)
             {
-                UserModel::where(['id'=>$id])->update([$field=>1]);
+                User::where(['id'=>$id])->update([$field=>1]);
             }
             if($ifind[$field] == 1)
             {
-                UserModel::where(['id'=>$id])->update([$field=>0]);
+                User::where(['id'=>$id])->update([$field=>0]);
             }
         }
         echo json_encode(1);exit;
@@ -141,7 +147,7 @@ class Power extends AdminController
     # 角色权限菜单编辑
     public function role_menu_set($id = null)
     {
-        $info = RoleModel::find($id);
+        $info = Role::find($id);
         // 配置分组信息
         $list_group = Menu::getGroup();
         foreach ($list_group as $key => $value) {
