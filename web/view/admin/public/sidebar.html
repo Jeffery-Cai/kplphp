@@ -76,7 +76,7 @@
             {notempty name="menu.url_value"}
                 <a href="<?php echo url($menu['url_value']) ?>" {if($menu['id'] == $_location[1]["id"])}class="active active1"{/if}>
                     <i class="{$menu.icon}"></i>
-                    &nbsp;<span>{$menu['title']}</span>
+            &nbsp;<span>{$menu['title']}</span>
                 </a>
             {else/}
                 <a href="#" >
@@ -89,7 +89,7 @@
                         <li>
                             <a {if(isset($_location[2]) && $menuchild['id'] == $_location[2]["id"])}class="active"{/if}  href=" {:url($menuchild['url_value'])} ">
                             <i class="{$menuchild.icon}"></i>
-                            &nbsp;<span>{$menuchild['title']}</span>
+                            &nbsp;{$menuchild['title']}
                             </a></li>
                         {/volist}
 
