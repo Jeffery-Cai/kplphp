@@ -1,5 +1,9 @@
 Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
+基于thinkphp6操作文档
+https://www.kancloud.cn/manual/thinkphp6_0/1037479
+
+
 码云地址：https://gitee.com/JefferyCai/kplphp
 
 码云模板地址：https://gitee.com/JefferyCai/kplphp_template  [暂不开放，请加QQ群获取]
