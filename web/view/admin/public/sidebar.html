@@ -13,7 +13,7 @@
         width: 160px;
     }
     .navigation .navigation-menu-body>ul li a{
-        color: rgba(240,245,250,.7);
+        color: #000;
         /*border-bottom: #393939 1px solid;*/
     }
     .navigation .navigation-menu-body>ul li a{
@@ -58,6 +58,14 @@
     .main-content{
         overflow-y: auto;
         outline: none;
+    }
+    /*.navigation .navigation-menu-body>ul li:hover a{*/
+    /*    color:#000;*/
+    /*}*/
+
+    body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body ul li a+ul li a
+    {
+        color: #000;
     }
 </style>
 <!-- begin::navigation -->
