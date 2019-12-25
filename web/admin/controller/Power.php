@@ -51,6 +51,7 @@ class Power extends AdminController
         }
         if(request()->isPost())
         {
+            $this->error('禁止操作');exit;
             $post = request()->post();
             $post['status'] = isset($post['status']) && $post['status'] == 'on'?1:0;
             $action->save($post);
@@ -71,6 +72,7 @@ class Power extends AdminController
         }
         if(request()->isPost())
         {
+            $this->error('禁止操作');exit;
             $post = request()->post();
             $post['status'] = isset($post['status']) && $post['status'] == 'on'?1:0;
             $action->save($post);
@@ -99,6 +101,7 @@ class Power extends AdminController
 
     public function fieldchange()
     {
+        $this->error('禁止操作');exit;
         $id = input('id',0);
         if(intval($id)==1)halt('不可进入');
         $field = input('field','');
@@ -139,6 +142,7 @@ class Power extends AdminController
 
     public function del($id=null)
     {
+        $this->error('禁止操作');exit;
         if(intval($id)==1)halt('不可进入');
         User::destroy($id);
         $this->success('操作成功',url('/power/index'));
@@ -163,6 +167,7 @@ class Power extends AdminController
     # 角色权限菜单编辑
     public function role_menu_set_edit($id = null,$pid = null)
     {
+        $this->error('不能操作');
         $menuModel = new Menu();
         if(!empty($id))
         {
@@ -186,6 +191,7 @@ class Power extends AdminController
     public function save_menu()
     {
         if ($this->request->isPost()) {
+            $this->error('禁止操作');exit;
             $data = $this->request->post();
             if (!empty($data)) {
                 $menus = $this->parseMenu($data['menus']);
@@ -206,6 +212,7 @@ class Power extends AdminController
     # 删除节点
     public function role_menu_set_del($id=null)
     {
+        $this->error('不能操作');exit;
         Menu::destroy($id);
         $this->success('删除成功');
     }
@@ -213,6 +220,7 @@ class Power extends AdminController
     # 权限分配
     public function role_set($id=null)
     {
+        $this->error('不能操作');exit;
         $info = Role::find($id);
         $modules = Module::where('status', 1)->column('name,title');
         $map     = [];
@@ -248,6 +256,7 @@ class Power extends AdminController
     public function role_set_edit()
     {
         if ($this->request->isPost()) {
+            $this->error('不能操作');exit;
             $data = $this->request->post();
             $data['status'] = isset($data['status']) && $data['status'] == 'on'?1:0;
             $id = $data['id'];

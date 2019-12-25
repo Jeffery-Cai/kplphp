@@ -1,5 +1,13 @@
 Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
+码云地址：https://gitee.com/JefferyCai/kplphp
+码云模板地址：https://gitee.com/JefferyCai/kplphp_template
+
+## **后台框架测试地址**
+http://139.9.38.224:6602 [主后台框架]  admin  admin
+http://139.9.38.224:6603 [主后台框架模板功能]
+
+
 ## **近期开放，请如果对这套框架有意思的，可以加微信，提供BUG需求**
 微信在以下，记得往下拉
 
@@ -32,18 +40,17 @@ ThinkPHP6.0基于精简核心和统一用法两大原则在5.1的基础上对底
 
 
 ## **在线演示**
+http://139.9.38.224:6602 [主后台框架]  admin  admin
+http://139.9.38.224:6603 [主后台框架模板功能]
 
 https://demo.kplphp.com  [域名正在建设中]
 
 用户名：admin
-
 密　码：admin
 
 ## **界面截图**
-![主页](http://cdnimg.k-d.fun/11.png "主页")
-![用户管理](http://cdnimg.k-d.fun/22.png "用户管理")
-![角色管理](http://cdnimg.k-d.fun/33.png "角色管理")
-![菜单管理](http://cdnimg.k-d.fun/33.png "菜单管理")
+![主页](http://139.9.38.224:6602/11.png "主页")
+![用户管理](http://139.9.38.224:6602/22.png "菜单管理")
 
 
 
@@ -53,7 +60,7 @@ https://demo.kplphp.com  [域名正在建设中]
 
 交流社区: https://ask.kplphp.com  [域名正在建设中]
 
-QQ群: [972703635](https://jq.qq.com/?_wv=1027&k=57JpRdR)(未满，第一个qq) 
+QQ群: [972703635](https://jq.qq.com/?_wv=1027&k=57JpRdR)(未满，可加) 
 Wechat: ![微信号](http://cdnimg.k-d.fun/wechat.jpg "微信号")
 
 Email: (1345199080#qq.com, 把#换成@)
