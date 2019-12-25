@@ -1,12 +1,15 @@
 Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
 码云地址：https://gitee.com/JefferyCai/kplphp
+
 码云模板地址：https://gitee.com/JefferyCai/kplphp_template  [暂不开放，请加QQ群获取]
+
 mysql数据库文件请加以下QQ群获取。
 
 
 ## **后台框架测试地址**
 http://139.9.38.224:6602 [主后台框架]  admin  admin
+
 http://139.9.38.224:6603 [主后台框架模板功能]
 
 
