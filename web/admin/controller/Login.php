@@ -7,6 +7,7 @@
  * 登录功能
 ----------------------------------------------------------------*/
 namespace app\admin\controller;
+use app\admin\model\Role;
 use app\AdminController;
 use app\admin\model\Menu;
 use app\admin\logic\User;
@@ -19,7 +20,7 @@ class Login extends AdminController
     {
         if (request()->isPost()) {
             $data = request()->post();
-            $rememberme = isset($data['remember-me']) ? true : false;
+            $rememberme = isset($data['remember_me']) ? true : false;
             $result = $this->validate($data, 'User.signin');
             if(true !== $result){
                 $this->error($result);
@@ -40,50 +41,19 @@ class Login extends AdminController
             }
         } else {
             if ($this->is_signin()) {
-                $this->jumpUrl();
+                header('location:'.url('/admin/index'));exit;
             } else {
                 return View::fetch();
             }
         }
     }
 
+
     public function loginout()
     {
-        halt(123);
         session(null);
         cookie('uid', null);
         cookie('signin_token', null);
         $this->success('退出登录',url('/login/index'));
-    }
-
-
-    /**
-     * 跳转到第一个有权限访问的url
-     * @return mixed|string
-     */
-    private function jumpUrl()
-    {
-        if (session('user_auth.role') == 1) {
-
-            header('location:'.url('/admin/index'));exit;
-        }
-        $default_module = Role::where('id', session('user_auth.role'))->value('default_module');
-        $menu = Menu::find($default_module);
-        if (!$menu) {
-            $this->error('当前角色未指定默认跳转模块！');
-        }
-
-        if ($menu['url_type'] == 'link') {
-            header('location:'.$menu['url_value']);exit;
-        }
-
-        $menu_url = explode('/', $menu['url_value']);
-        role_auth();
-        $url = action('/admin/ajax/getSidebarMenu', ['module_id' => $default_module, 'module' => $menu['module'], 'controller' => $menu_url[1]]);
-        if ($url == '') {
-            $this->error('权限不足');
-        } else {
-            header('location:'.$url);exit;
-        }
     }
 }

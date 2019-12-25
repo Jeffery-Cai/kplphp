@@ -5,7 +5,7 @@
 
 return [
     // session name
-    'name'           => 'PHPSESSID',
+    'name'           => 'KPLPHPSESSID',
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
     // 驱动方式 支持file cache
@@ -15,5 +15,5 @@ return [
     // 过期时间
     'expire'         => 1440,
     // 前缀
-    'prefix'         => '',
+    'prefix'         => 'kplphp_',
 ];

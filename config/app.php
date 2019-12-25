@@ -38,5 +38,7 @@ return [
 
     'auto_multi_app' => true,
 
-    'captcha_signin' => 0
+    'captcha_signin' => 0,
+
+    'key' => 'kplphp4QrcOUm6Wau+VuBX8g+IPg==',
 ];

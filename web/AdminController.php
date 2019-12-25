@@ -60,7 +60,7 @@ abstract class AdminController
         $this->initialize();
     }
 
-    // 初始化
+    # 初始化
     protected function initialize()
     {
         // 判断是否登录 || 去掉login控制器
@@ -69,7 +69,7 @@ abstract class AdminController
         $uid = $this->is_signin();
         if(!in_array(request()->controller(),$iarray))
         {
-            if ($uid<0 || empty($uid)) {
+            if ($uid<=0 || empty($uid)) {
                 $this->success('请登录','/admin.php/login/index');
             }
         }
@@ -81,7 +81,6 @@ abstract class AdminController
                 defined('UID') or define('UID',$uid);
                 session('role_menu_auth', Role::roleAuth());
                 if (!Role::checkAuth()) $this->error('权限不足！');
-
                 View::assign('_location', Menu::getLocation('', true));
                 View::assign('sidebar', Menu::getSidebarMenu());
             }
@@ -131,23 +130,25 @@ abstract class AdminController
     {
         return "addons\\{$name}\\plugin";
     }
-    /**
-     * 判断是否登录
-     */
+
+    # 判断是否登录
     public function is_signin()
     {
         $user = session('user_auth');
+//        halt($user);
         if (empty($user)) {
             // 判断是否记住登录
             if (cookie('?uid') && cookie('?signin_token')) {
-
                 $UserModel = new UserModel();
                 $user = $UserModel::find(cookie('uid'));
                 if ($user) {
-                    $signin_token = $this->data_auth_sign($user['username'].$user['id'].$user['last_login_time']);
+                    $signin_token = $this->data_auth_sign($user['username'].$user['id'].config('app.key'));
                     if (cookie('signin_token') == $signin_token) {
-                        // 自动登录
-                        User::autoLogin($user);
+                        $haltU = User::autoLogin($user);
+                        if($haltU[0]!=1)
+                        {
+                            $this->error($haltU[1]);
+                        }
                         return $user['id'];
                     }
                 }

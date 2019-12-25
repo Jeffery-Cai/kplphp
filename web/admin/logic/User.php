@@ -47,7 +47,7 @@ class User{
     static public function autoLogin($user, $rememberme = false)
     {
         # 记录登录SESSION和COOKIES
-        $auth = array(
+        $auth = [
             'uid'             => $user->id,
             'group'           => $user->group,
             'role'            => $user->role,
@@ -56,8 +56,8 @@ class User{
             'username'        => $user->username,
             'nickname'        => $user->nickname,
             'last_login_time' => $user->last_login_time,
-            'last_login_ip'   => get_client_ip(1),
-        );
+            'last_login_ip'   => get_client_ip(),
+        ];
         session('user_auth', $auth);
         session('user_auth_sign', data_auth_sign($auth));
         if ($user->role != 1) {
@@ -70,7 +70,7 @@ class User{
             }
         }
         if ($rememberme) {
-            $signin_token = $user->username.$user->id.$user->last_login_time;
+            $signin_token = $user->username.$user->id.config('app.key');
             cookie('uid', $user->id, 24 * 3600 * 7);
             # 自动记录时间天数
             cookie('signin_token', data_auth_sign($signin_token), 24 * 3600 * 7);

@@ -158,8 +158,6 @@ class Menu extends Model
         $controller = $controller == '' ? request()->controller() : $controller;
         $cache_tag  = strtolower('_sidebar_menus_' . $module . '_' . $controller).'_role_'.session('user_auth.role');
         $menus      = cache($cache_tag);
-
-
         if (!$menus) {
             // 获取当前节点地址
             $location = self::getLocation($id);
@@ -170,12 +168,7 @@ class Menu extends Model
             $map = [
                 'status' => 1
             ];
-            // 非开发模式，只显示可以显示的菜单
-            if (config('develop_mode') == 0) {
-                $map['online_hide'] = 0;
-            }
             $menus = self::where($map)->order('sort,id')->column('id,controller,action,pid,module,title,url_value,url_type,url_target,icon,params');
-
             // 解析模块链接
             foreach ($menus as $key => &$menu) {
                 // 没有访问权限的节点不显示
@@ -188,11 +181,6 @@ class Menu extends Model
                 }
             }
             $menus = Tree::toLayer($menus, $top_id, 2);
-
-            // 非开发模式，缓存菜单
-            if (config('develop_mode') == 0) {
-                cache($cache_tag, $menus);
-            }
         }
         return $menus;
     }
