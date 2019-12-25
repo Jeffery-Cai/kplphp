@@ -12,10 +12,6 @@ http://139.9.38.224:6602 [主后台框架]  admin  admin
 
 http://139.9.38.224:6603 [主后台框架模板功能]
 
-
-## **近期开放，请如果对这套框架有意思的，可以加微信，提供BUG需求**
-微信在以下，记得往下拉
-
 ## **主要特性**
 
 * 基于`Auth`验证的权限管理系统
@@ -66,7 +62,6 @@ https://demo.kplphp.com  [域名正在建设中]
 交流社区: https://ask.kplphp.com  [域名正在建设中]
 
 QQ群: [972703635](https://jq.qq.com/?_wv=1027&k=57JpRdR)(未满，可加) 
-Wechat: ![微信号](http://cdnimg.k-d.fun/wechat.jpg "微信号")
 
 Email: (1345199080#qq.com, 把#换成@)
 
