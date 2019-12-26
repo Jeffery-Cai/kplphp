@@ -8,14 +8,33 @@
 
 namespace liliuwei\think;
 use think\exception\HttpResponseException;
+use think\App;
 use think\Response;
 trait Jump
 {
+    /**
+     * Request实例
+     * @var \think\Request
+     */
+    protected $request;
+
     /**
      * 应用实例
      * @var \think\App
      */
     protected $app;
+
+    /**
+     * 构造方法
+     * @access public
+     * @param  App  $app  应用对象
+     */
+    public function __construct(App $app)
+    {
+        $this->app     = $app;
+        $this->request = $this->app->request;
+    }
+
     /**
      * 操作成功跳转的快捷方法
      * @access protected

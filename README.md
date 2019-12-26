@@ -1,5 +1,7 @@
 Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
+## **目前已更新至thinkphp官网最新版本 6.0.1  [ 一直迭代更新~ ]**
+
 [![Fork me on Gitee](https://gitee.com/JefferyCai/kplphp/widgets/widget_3.svg)](https://gitee.com/JefferyCai/kplphp)
 
 
