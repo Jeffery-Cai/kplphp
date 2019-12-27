@@ -9,8 +9,6 @@ https://www.kancloud.cn/manual/thinkphp6_0/1037479
 
 码云地址：https://gitee.com/JefferyCai/kplphp
 
-码云模板地址：https://gitee.com/JefferyCai/kplphp_template  [暂不开放，请加QQ群获取]
-
 mysql数据库文件请加以下QQ群获取。
 
 
