@@ -24,7 +24,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{:url('/system/index')}" method="post" enctype="multipart/form-data" >
+                            <form >
                                 <div class="form-group row">
                                     <input type="hidden" value="{$info['id']}" name="id">
                                     <label for="name" class="col-sm-1 col-form-label">扩展中</label>
@@ -33,13 +33,12 @@
                                     </div>
                                 </div>
 
-
                                 <div class="form-group row">
                                     <label for="" class="col-sm-1">
                                         <button type="reset" class="btn btn-secondary">重置</button>
                                     </label>
                                     <div class="col-sm-9">
-                                        <button type="submit" class="btn btn-secondary">提交</button>
+                                        <button type="button" class="btn btn-secondary">提交</button>
                                     </div>
                                 </div>
                             </form>

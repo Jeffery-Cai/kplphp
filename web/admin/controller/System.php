@@ -16,6 +16,8 @@ class System extends AdminController
 {
     public function index()
     {
+        $this->success('操作成功');exit;
+
         $id = input('id',0);
         $systemModel = new SystemModel();
         $action = $systemModel->where(['istype'=>0])->find($id);

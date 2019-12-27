@@ -4,10 +4,8 @@ Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
 [![Fork me on Gitee](https://gitee.com/JefferyCai/kplphp/widgets/widget_3.svg)](https://gitee.com/JefferyCai/kplphp)
 
-
 基于thinkphp6操作文档
 https://www.kancloud.cn/manual/thinkphp6_0/1037479
-
 
 码云地址：https://gitee.com/JefferyCai/kplphp
 
@@ -16,6 +14,59 @@ https://www.kancloud.cn/manual/thinkphp6_0/1037479
 mysql数据库文件请加以下QQ群获取。
 
 
+## **目录结构 **
+~~~
+www  WEB部署目录（或者子目录）
+├─web           应用目录 [已把tp6原本目录app更改为web]
+│  ├─admin           应用目录 [后台模块]
+│  │  ├─common.php      函数文件
+│  │  ├─controller      控制器目录
+│  │  ├─model           模型目录
+│  │  ├─view            视图目录
+│  │  ├─config          配置目录
+│  │  ├─route           路由目录
+│  │  └─ ...            更多类库目录
+│  ├─api           应用目录 [api模块]
+│  │  ├─common.php      函数文件
+│  │  ├─controller      控制器目录
+│  │  ├─model           模型目录
+│  │  ├─view            视图目录
+│  │  ├─config          配置目录
+│  │  ├─route           路由目录
+│  │  └─ ...            更多类库目录
+│  │
+│  ├─common.php         公共函数文件
+│  └─event.php          事件定义文件
+│
+├─config                全局配置目录
+│  ├─app.php            应用配置
+│  ├─cache.php          缓存配置
+│  ├─console.php        控制台配置
+│  ├─cookie.php         Cookie配置
+│  ├─database.php       数据库配置
+│  ├─filesystem.php     文件磁盘配置
+│  ├─lang.php           多语言配置
+│  ├─log.php            日志配置
+│  ├─middleware.php     中间件配置
+│  ├─route.php          URL和路由配置
+│  ├─session.php        Session配置
+│  ├─trace.php          Trace配置
+│  └─view.php           视图配置
+│
+├─public                WEB目录（对外访问目录）
+│  ├─index.php          入口文件
+│  ├─router.php         快速测试文件
+│  └─.htaccess          用于apache的重写
+│
+├─extend                扩展类库目录
+├─runtime               应用的运行时目录（可写，可定制）
+├─vendor                Composer类库目录
+├─.example.env          环境变量示例文件
+├─composer.json         composer 定义文件
+├─LICENSE.txt           授权说明文件
+├─README.md             README 文件
+├─think                 命令行入口文件
+~~~
 ## **后台框架测试地址**
 http://139.9.38.224:6602 [主后台框架]  admin  admin  [360浏览器访问记得使用极速模式]
 
