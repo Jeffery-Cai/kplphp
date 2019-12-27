@@ -39,6 +39,7 @@ www  WEB部署目录（或者子目录）
 │  └─event.php          事件定义文件
 │
 ├─config                全局配置目录
+│  ├─addons.php         插件配置
 │  ├─app.php            应用配置
 │  ├─cache.php          缓存配置
 │  ├─console.php        控制台配置
@@ -47,6 +48,7 @@ www  WEB部署目录（或者子目录）
 │  ├─filesystem.php     文件磁盘配置
 │  ├─lang.php           多语言配置
 │  ├─log.php            日志配置
+│  ├─jump.php           跳转配置
 │  ├─middleware.php     中间件配置
 │  ├─route.php          URL和路由配置
 │  ├─session.php        Session配置
