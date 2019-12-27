@@ -225,7 +225,7 @@ class Power extends AdminController
     public function role_set($id=null)
     {
         $info = Role::find($id);
-        $modules = Module::where('status', 1)->column('title','name');
+        $modules = Module::where('status','=', 1)->column('title','name');
         $map     = [];
         // 当前用户能分配的所有菜单
         $menus = Menu::where('module', 'in', array_keys($modules))
