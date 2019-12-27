@@ -224,17 +224,14 @@ class Power extends AdminController
     # 权限分配
     public function role_set($id=null)
     {
-        $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
-
         $info = Role::find($id);
-        $modules = Module::where('status', 1)->column('name,title');
+        $modules = Module::where('status', 1)->column('title','name');
         $map     = [];
         // 当前用户能分配的所有菜单
         $menus = Menu::where('module', 'in', array_keys($modules))
             ->where($map)
             ->order('module,sort,id')
             ->column('id,pid,sort,url_value,title,icon,module');
-
         // 按模块分组菜单
         $moduleMenus = [];
         foreach ($menus as $key => $menu) {
