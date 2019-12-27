@@ -16,13 +16,14 @@ class System extends AdminController
 {
     public function index()
     {
-        $this->success('操作成功');exit;
 
         $id = input('id',0);
         $systemModel = new SystemModel();
         $action = $systemModel->where(['istype'=>0])->find($id);
         if(request()->isPost())
         {
+            $this->success('操作成功');exit;
+
             $post = request()->post();
             $post['status'] = isset($post['status']) && $post['status'] == 'on'?1:0;
             $systemModel->save($post);
