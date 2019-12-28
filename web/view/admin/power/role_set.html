@@ -39,39 +39,38 @@
                     </ol>
                 </nav>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                <div class="mb-4">
-                    <button type="button" class="btn btn-secondary mr-2" id="check-all"> <i class="fa fa-check-circle-o"></i>&nbsp;全选</button>
-                    <button type="button" class="btn btn-secondary mr-2" id="uncheck-all"> <i class="fa fa-ban"></i>&nbsp;取消全选</button>
-                    <button type="button" onclick="save_role_set({$_GET['id']})" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存权限</button>
-                    <button type="button" class="btn btn-secondary mr-2" id="expand-all" data-action="expand-all"><i class="fa fa-plus"></i>&nbsp;展开全部</button>
-                    <button type="button" class="btn btn-secondary" id="collapse-all" data-action="collapse-all"><i class="fa fa-minus"></i>&nbsp;收缩全部</button>
-                </div>
-                </div>
-            </div>
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <button type="button" class="btn btn-secondary mr-2" id="check-all"> <i class="fa fa-check-circle-o"></i>&nbsp;全选</button>
+                                <button type="button" class="btn btn-secondary mr-2" id="uncheck-all"> <i class="fa fa-ban"></i>&nbsp;取消全选</button>
+                                <button type="button" onclick="save_role_set({$_GET['id']})" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存权限</button>
+                                <button type="button" class="btn btn-secondary mr-2" id="expand-all" data-action="expand-all"><i class="fa fa-plus"></i>&nbsp;展开全部</button>
+                                <button type="button" class="btn btn-secondary" id="collapse-all" data-action="collapse-all"><i class="fa fa-minus"></i>&nbsp;收缩全部</button>
+                            </div>
                         <form action="" id="form">
-                            <div class="card-body">
                                 {volist name="menuj" id="vo"}
                                 <div class="tab-pane {$curr_tab == $key ?= 'active'}" id="{$key}">
                                     <div class="push js-tree" data-tab="{$key}">{$vo.menus|raw|default=''}</div>
                                 </div>
                                 {/volist}
-                            </div>
                         </form>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" onclick="location.href='{:url("/power/role")}'" class="btn btn-secondary mr-2">返回</button>
+                                    <button type="button" onclick="save_role_set({$_GET['id']})" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存权限</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <button type="button" onclick="location.href='{:url("/power/role")}'" class="btn btn-secondary mr-2">返回</button>
-                    <button type="button" onclick="save_role_set({$_GET['id']})" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存权限</button>
-                </div>
-            </div>
+
 
         </div>
     </main>

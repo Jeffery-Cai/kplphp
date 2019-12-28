@@ -161,7 +161,6 @@ class Menu extends Model
         if (!$menus) {
             // 获取当前节点地址
             $location = self::getLocation($id);
-
             // 当前顶级节点id
             $top_id = $location[0]['id'];
             // 获取顶级节点下的所有节点
@@ -169,15 +168,13 @@ class Menu extends Model
                 'status' => 1
             ];
             $menus = self::where($map)->order('sort,id')->column('id,controller,action,pid,module,title,url_value,url_type,url_target,icon,params');
+//            halt($menus);
             // 解析模块链接
             foreach ($menus as $key => &$menu) {
                 // 没有访问权限的节点不显示
                 if (!RoleModel::checkAuth($menu['id'])) {
                     unset($menus[$key]);
                     continue;
-                }
-                if ($menu['url_value'] != '' && ($menu['url_type'] == 'module_admin' || $menu['url_type'] == 'module_home')) {
-//                    $menu['url_value'] = $menu['url_type'] == 'module_admin' ? admin_url($menu['url_value'], $menu['params']) : home_url($menu['url_value'], $menu['params']);
                 }
             }
             $menus = Tree::toLayer($menus, $top_id, 2);

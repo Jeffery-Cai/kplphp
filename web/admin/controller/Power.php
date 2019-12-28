@@ -25,10 +25,12 @@ class Power extends AdminController
         $map = [];
         $keyname = trim(input('keyname',''));
         # 用户角色不是超级管理员角色
+        /*
         if (session('user_auth.role') != 1) {
             $role_list = Role::getChildsId(session('user_auth.role'));
             $map[] = ['role', 'in', $role_list];
         }
+        */
         if(!empty($keyname))
         {
             $map[] = ['username|nickname|email|mobile','like','%'.$keyname.'%'];

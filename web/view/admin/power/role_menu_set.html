@@ -84,8 +84,12 @@
     function save_menu()
     {
         $.post("{:url('/power/save_menu')}", {menus: $('#nestablemenu').nestable('serialize')}, function(data) {
-            // swal("保存成功", "You clicked the button!", "success");
-            toastr.success('保存成功!');
+            if(data['code']!=1)
+            {
+                toastr.error(data['msg']);
+            }else{
+                toastr.success(data['msg']);
+            }
         });
     }
 
