@@ -12,7 +12,9 @@ use app\admin\model\Module;
 use app\admin\model\Role;
 use app\admin\model\User;
 use think\App;
-use think\Db;
+use think\exception\ErrorException;
+use think\exception\ValidateException;
+use think\helper\Hash;
 use util\Tree;
 use app\AdminController;
 
@@ -21,15 +23,20 @@ class Power extends AdminController
     public function index()
     {
         $map = [];
+        $keyname = trim(input('keyname',''));
         # 用户角色不是超级管理员角色
         if (session('user_auth.role') != 1) {
             $role_list = Role::getChildsId(session('user_auth.role'));
             $map[] = ['role', 'in', $role_list];
         }
+        if(!empty($keyname))
+        {
+            $map[] = ['username|nickname|email|mobile','like','%'.$keyname.'%'];
+        }
         $list = User::where($map)->order('id asc')->page($this->page,$this->size)->select();
         foreach ($list as $k => $v)
         {
-            $list[$k]['role_name'] = Role::where(array('id'=>$v['role']))->value('name');
+            $list[$k]['role_name'] = Role::where('id','=',$v['role'])->value('name');
         }
         if(request()->isPost())
         {
@@ -51,13 +58,65 @@ class Power extends AdminController
         }
         if(request()->isPost())
         {
-            $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
             $post = request()->post();
+            // 禁止修改超级管理员的角色和状态
+            if ($post['id'] == 1 && $post['role'] != 1) {
+                $this->error('禁止修改超级管理员角色');
+            }
+            // 禁止修改超级管理员的状态
+            if ($post['id'] == 1 && $post['status'] != 1) {
+                $this->error('禁止修改超级管理员状态');
+            }
+            try{
+                $this->validate($post, 'User');
+            }catch (ValidateException $e)
+            {
+                $this->error($e->getMessage());
+            }
+            // 如果没有填写密码，则不更新密码
+            if ($post['password'] == '' && $id!='') {
+                unset($post['password']);
+            }else{
+                $post['password'] = Hash::make((string)$post['password']);
+            }
+            // 非超级管理需要验证可选择角色
+            if (session('user_auth.role') != 1) {
+                if ($post['role'] == session('user_auth.role')) {
+                    $this->error('禁止修改为当前角色同级的用户');
+                }
+                $role_list = Role::getChildsId(session('user_auth.role'));
+                if (!in_array($post['role'], $role_list)) {
+                    $this->error('权限不足，禁止修改为非法角色的用户');
+                }
+            }
             $post['status'] = isset($post['status']) && $post['status'] == 'on'?1:0;
             $action->save($post);
             $this->success('操作成功',url('/power/index'));
         }
         return view('edit', ['info' => $action,'role'=>$role]);
+    }
+
+    public function del($id=null)
+    {
+        if(intval($id)==1)halt('不可进入');
+        User::destroy($id);
+        $this->success('操作成功',url('/power/index'));
+    }
+
+    public function role()
+    {
+        $map = [];
+        $keyname = trim(input('keyname',''));
+        if(!empty($keyname))
+        {
+            $map[] = ['name','like','%'.$keyname.'%'];
+        }
+        $list = Role::where($map)->order('sort,id asc')->page($this->page,$this->size)->select();
+        if(request()->isPost())
+        {
+            echo json_encode(['data'=>$list]);exit;
+        }
+        return view('role', ['list' => $list]);
     }
 
     public function role_edit($id=null)
@@ -72,8 +131,14 @@ class Power extends AdminController
         }
         if(request()->isPost())
         {
-            $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
             $post = request()->post();
+            // 验证
+            try{
+                $this->validate($post, 'Role');
+            }catch (ValidateException $e)
+            {
+                $this->error($e->getMessage());
+            }
             $post['status'] = isset($post['status']) && $post['status'] == 'on'?1:0;
             $action->save($post);
             $this->success('操作成功',url('/power/role'));
@@ -83,26 +148,13 @@ class Power extends AdminController
 
     public function role_del($id=null)
     {
-        $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
         if(intval($id)==1)halt('不可进入');
         Role::destroy($id);
         $this->success('操作成功',url('/power/role'));
     }
 
-    public function role()
-    {
-        $map = [];
-        $list = Role::where($map)->order('sort,id asc')->page($this->page,$this->size)->select();
-        if(request()->isPost())
-        {
-            echo json_encode(['data'=>$list]);exit;
-        }
-        return view('role', ['list' => $list]);
-    }
-
     public function fieldchange()
     {
-        $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
         $id = input('id',0);
         if(intval($id)==1)halt('不可进入');
         $field = input('field','');
@@ -123,7 +175,6 @@ class Power extends AdminController
 
     public function role_fieldchange()
     {
-        $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
         $id = input('id',0);
         $field = input('field','');
         $ifind = Role::find($id);
@@ -142,13 +193,6 @@ class Power extends AdminController
     }
 
 
-    public function del($id=null)
-    {
-        $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
-        if(intval($id)==1)halt('不可进入');
-        User::destroy($id);
-        $this->success('操作成功',url('/power/index'));
-    }
 
     # 角色权限菜单编辑
     public function role_menu_set($id = null)
@@ -169,7 +213,6 @@ class Power extends AdminController
     # 角色权限菜单编辑
     public function role_menu_set_edit($id = null,$pid = null)
     {
-        $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
         $menuModel = new Menu();
         if(!empty($id))
         {
@@ -193,8 +236,6 @@ class Power extends AdminController
     public function save_menu()
     {
         if ($this->request->isPost()) {
-            $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
-
             $data = $this->request->post();
             if (!empty($data)) {
                 $menus = $this->parseMenu($data['menus']);
@@ -215,8 +256,6 @@ class Power extends AdminController
     # 删除节点
     public function role_menu_set_del($id=null)
     {
-        $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
-
         Menu::destroy($id);
         $this->success('删除成功');
     }
@@ -258,30 +297,23 @@ class Power extends AdminController
     public function role_set_edit()
     {
         if ($this->request->isPost()) {
-            $this->error('禁止操作,如果已经放在项目中，请搜索这段话去掉便可');exit;
-
-            $data = $this->request->post();
-            $data['status'] = isset($data['status']) && $data['status'] == 'on'?1:0;
-            $id = $data['id'];
-            if (!isset($data['menu_auth'])) {
-                $data['menu_auth'] = [];
+            $post = $this->request->post();
+            if (!isset($post['menu_auth'])) {
+                $post['menu_auth'] = [];
             } else {
-                $data['menu_auth'] = explode(',', $data['menu_auth']);
+                $post['menu_auth'] = explode(',', $post['menu_auth']);
             }
-
             // 非超级管理员检查可添加的节点权限
             if (session('user_auth.role') != 1) {
-                $menu_auth = Role::where('id', session('user_auth.role'))->value('menu_auth');
+                $menu_auth = Role::where('id','=', session('user_auth.role'))->value('menu_auth');
                 $menu_auth = json_decode($menu_auth, true);
-                $menu_auth = array_intersect($menu_auth, $data['menu_auth']);
-                $data['menu_auth'] = $menu_auth;
+                $menu_auth = array_intersect($menu_auth, $post['menu_auth']);
+                $post['menu_auth'] = $menu_auth;
             }
-
-            if (Role::update($data)) {
+            if (Role::update($post)) {
                 // 更新成功，循环处理子角色权限
-                Role::resetAuth($id, $data['menu_auth']);
+                Role::resetAuth($post['id'], $post['menu_auth']);
                 $this->role_auth();
-
                 $this->success('操作成功',url('/power/role_menu_set'));
             } else {
                 $this->error('操作失败');

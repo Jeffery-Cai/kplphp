@@ -64,7 +64,6 @@ abstract class AdminController
     protected function initialize()
     {
         // 判断是否登录 || 去掉login控制器
-        # add
         $iarray = array('Login');
         $uid = $this->is_signin();
         if(!in_array(request()->controller(),$iarray))
@@ -122,7 +121,6 @@ abstract class AdminController
         if ($batch || $this->batchValidate) {
             $v->batch(true);
         }
-
         return $v->failException(true)->check($data);
     }
 

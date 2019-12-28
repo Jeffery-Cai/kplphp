@@ -3,18 +3,9 @@
 
 
 <div id="main">
-
     {include file="public/header"/}
-
-
-
-
-
     <main class="main-content">
-
         <div class="container">
-
-
             <div class="page-header">
                 <h4>权限管理</h4>
                 <nav aria-label="breadcrumb">
@@ -22,8 +13,7 @@
                         <li class="breadcrumb-item">
                             <a href="#">首页</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">用户设置 &nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [972703635]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=57JpRdR">QQ群</a></span> | <span> <b> <a
-                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                        <li class="breadcrumb-item active" aria-current="page">用户设置  </li>
                     </ol>
                 </nav>
             </div>
@@ -31,12 +21,18 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{:url('/power/edit')}" method="post" enctype="multipart/form-data" >
+                            <form action="{:url('/power/edit')}" method="post" target="iframe_form" enctype="multipart/form-data" >
                                 <div class="form-group row">
                                     <input type="hidden" value="{$info['id']}" name="id">
                                     <label for="" class="col-sm-1 col-form-label">登录名</label>
                                     <div class="col-sm-11">
-                                        <input type="text" name="username"  class="form-control-plaintext" value="{$info['username']}">
+                                        <input type="text" name="username"  class="form-control" value="{$info['username']}" placeholder="登录名">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="nickname" class="col-sm-1 col-form-label">密码</label>
+                                    <div class="col-sm-11">
+                                        <input type="password" name="password" id="password" class="form-control" placeholder="密码" value="">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -67,13 +63,7 @@
                                         <input type="number" oninput = "value=value.replace(/[^\d]/g,'')" maxlength="11" name="mobile" id="" class="form-control" placeholder="手机号" value="{$info['mobile']}">
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="" class="col-sm-1 col-form-label">上传头像</label>
-                                    <div class="col-sm-11">
-                                        <div id="avatar" class="dropzone"></div>
-                                        <input type="hidden" name="avatar" value="{$info['avatar']}" id="avatarinput">
-                                    </div>
-                                </div>
+
                                 <div class="form-group row">
                                     <label for="" class="col-sm-1 col-form-label">操作</label>
                                     <div class="col-sm-5">

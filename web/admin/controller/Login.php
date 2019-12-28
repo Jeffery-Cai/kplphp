@@ -19,21 +19,13 @@ class Login extends AdminController
     public function index()
     {
         if (request()->isPost()) {
-            $data = request()->post();
-            $rememberme = isset($data['remember_me']) ? true : false;
-            $result = $this->validate($data, 'User.signin');
+            $post = request()->post();
+            $rememberme = isset($post['remember_me']) ? true : false;
+            $result = $this->validate($post, 'User.signin');
             if(true !== $result){
                 $this->error($result);
             }
-            if (Config::get('app.captcha_signin')) {
-                $captcha = request()->post('captcha', '');
-                $captcha == '' && $this->error('请输入验证码');
-                if(!captcha_check($captcha, '')){
-                    //验证失败
-                    $this->error('验证码错误或失效');
-                };
-            }
-            $uid = User::login($data['username'], $data['password'], $rememberme);
+            $uid = User::login($post['username'], $post['password'], $rememberme);
             if ($uid[0]!=0) {
                 $this->success('登录成功',url('/admin/index'));
             } else {
@@ -41,7 +33,7 @@ class Login extends AdminController
             }
         } else {
             if ($this->is_signin()) {
-                header('location:'.url('/admin/index'));exit;
+                $this->redirect(url('/admin/index'));
             } else {
                 return View::fetch();
             }
@@ -54,6 +46,6 @@ class Login extends AdminController
         session(null);
         cookie('uid', null);
         cookie('signin_token', null);
-        $this->success('退出登录',url('/login/index'));
+        $this->redirect(url('/login/index'));
     }
 }

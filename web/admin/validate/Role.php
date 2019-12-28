@@ -6,7 +6,7 @@
  * QQ群请加 972703635 [ https://jq.qq.com/?_wv=1027&k=5YnmIH8 ]，如有更多服务，请单独加群主: 1345199080
  * 角色验证功能
 ----------------------------------------------------------------*/
-namespace app\admin\user\validate;
+namespace app\admin\validate;
 
 use think\Validate;
 

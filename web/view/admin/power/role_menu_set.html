@@ -34,26 +34,23 @@
                         <li class="breadcrumb-item">
                             <a href="#">首页</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">角色权限菜单设置&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [972703635]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=57JpRdR">QQ群</a></span> | <span> <b> <a
-                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                        <li class="breadcrumb-item active" aria-current="page">角色权限菜单设置 </li>
                     </ol>
                 </nav>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                <div class="mb-4" id="nestable-menu">
-                    <button type="button" onclick="location.href=' {:url("/power/role_menu_set_edit",array("pid"=>2))} '" class="btn btn-secondary mr-2"> <i class="fa fa-plus-circle"></i>&nbsp;新增</button>
-                    <button type="button" onclick="save_menu()" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存节点</button>
-                    <button type="button" class="btn btn-secondary mr-2" data-action="expand-all"><i class="fa fa-plus"></i>&nbsp;展开全部</button>
-                    <button type="button" class="btn btn-secondary" data-action="collapse-all"><i class="fa fa-minus"></i>&nbsp;收缩全部</button>
-                </div>
-                </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
+                                    <div class="mb-4" id="nestable-menu">
+                                        <button type="button" onclick="location.href=' {:url("/power/role_menu_set_edit",array("pid"=>2))} '" class="btn btn-secondary mr-2"> <i class="fa fa-plus-circle"></i>&nbsp;新增</button>
+                                        <button type="button" onclick="save_menu()" class="btn btn-secondary mr-2"><i class="fa fa-check-circle-o"></i>&nbsp;保存节点</button>
+                                        <button type="button" class="btn btn-secondary mr-2" data-action="expand-all"><i class="fa fa-plus"></i>&nbsp;展开全部</button>
+                                        <button type="button" class="btn btn-secondary" data-action="collapse-all"><i class="fa fa-minus"></i>&nbsp;收缩全部</button>
+                                    </div>
+
+
                             <div class="dd" id="nestablemenu">
                                 <ol class="dd-list">{$menus|raw}</ol>
                             </div>

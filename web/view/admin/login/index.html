@@ -24,7 +24,7 @@
         <img class="logo-dark" src="__PUBLICS__/logo-b.png" alt="image">
     </div>
     <h5>登录</h5>
-    <form method="post" id="form" action="{:url('/login/index')}">
+    <form method="post" id="form" action="{:url('/login/index')}" target="iframe_form">
         <div class="form-group">
             <input type="text" name="username" class="form-control" placeholder="账号" value="admin" required autofocus>
         </div>
@@ -36,9 +36,8 @@
                 <input type="checkbox" name="remember_me" value="1" class="custom-control-input" checked="" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">长时间记住</label>
             </div>
-            <!--<a href="#">Reset password</a>-->
         </div>
-        <button class="btn btn-secondary btn-block">kplphp后台登录</button>
+        <button type="submit" class="btn btn-secondary btn-block">kplphp后台登录</button>
         <hr>
         <p class="text-muted">使用其它方式进行登录</p>
         <ul class="list-inline">
@@ -58,5 +57,23 @@
         <a href="https://gitee.com/JefferyCai/kplphp" target="_blank" class="btn btn-outline-light btn-sm">码云地址</a>
     </form>
 </div>
+<script>
+    //接收ifram页面返回的消息
+    function iframe_form_msg(code, msg, url = ''){
+        //这里简单弹窗，想要其他效果可以用其他插件弹窗
+        if(code == 1){
+            toastr.success(msg);
+            setTimeout(function(){
+                location.href = url;
+            }, 1000);
+        }else{
+            toastr.error(msg);
+        }
+    }
+</script>
+<div id="alert_message" style="display:none">
+    <iframe name=iframe_form id="ifr" scrolling="no"></iframe>
+</div>
+<script src="__STATIC__/vendors/bundle.js"></script>
 </body>
 </html>

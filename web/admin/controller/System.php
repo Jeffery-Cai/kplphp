@@ -9,21 +9,60 @@
 namespace app\admin\controller;
 use app\admin\model\System as SystemModel;
 
+use app\admin\model\User;
 use app\AdminController;
 use think\App;
+use think\helper\Hash;
 
 class System extends AdminController
 {
     public function index()
     {
+        return view('index');
+    }
 
+    # 密码设置
+    public function set_password()
+    {
+        if (request()->isPost()) {
+            $post = request()->post();
+            if(empty($post['password']) || empty($post['newpassword']) || empty($post['comnewpassword']))
+            {
+                $this->error('都得填写!');
+            }
+            $uid = session('user_auth.uid');
+            $u = User::field('password')->find($uid);
+            if(empty($u))
+            {
+                $this->error('不存在!');
+            }
+            if (!Hash::check((string)$post['password'], $u['password']))
+            {
+                $this->error('当前密码输入错误!');
+            }
+            if($post['newpassword']!=$post['comnewpassword'])
+            {
+                $this->error('确认密码不一致!');
+            }
+            $d['password'] = Hash::make((string)$post['newpassword']);
+            $status = User::where('id', $uid)->update($d);
+            if($status){
+                $this->success('修改成功!',url('/login/loginout'));
+            }else{
+                $this->error('系统繁忙!');
+            }
+        }
+    }
+
+    # 其他设置
+    public function other_set()
+    {
         $id = input('id',0);
         $systemModel = new SystemModel();
         $action = $systemModel->where(['istype'=>0])->find($id);
         if(request()->isPost())
         {
             $this->success('操作成功');exit;
-
             $post = request()->post();
             $post['status'] = isset($post['status']) && $post['status'] == 'on'?1:0;
             $systemModel->save($post);

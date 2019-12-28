@@ -7,4 +7,9 @@ class Index
     {
         return View::fetch();
     }
+
+    public function sss()
+    {
+        halt(123);
+    }
 }

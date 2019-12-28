@@ -22,8 +22,7 @@
                         <li class="breadcrumb-item">
                             <a href="#">首页</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">权限菜单设置&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [972703635]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=57JpRdR">QQ群</a></span> | <span> <b> <a
-                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                        <li class="breadcrumb-item active" aria-current="page">权限菜单设置 </li>
                     </ol>
                 </nav>
             </div>
@@ -31,7 +30,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{:url('/power/role_menu_set_edit')}" method="post" enctype="multipart/form-data" >
+                            <form action="{:url('/power/role_menu_set_edit')}" method="post" target="iframe_form" enctype="multipart/form-data" >
 
                                 <div class="form-group row">
                                     <input type="hidden" value="{$info['id']}" name="id">

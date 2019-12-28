@@ -34,6 +34,12 @@
     </div>
     <script type="text/javascript">
         (function(){
+
+            if(typeof(parent.iframe_form_msg) == 'function'){
+                parent.iframe_form_msg("{$code}", "<?php echo(strip_tags($msg));?>", '{$url}');
+                return false;
+            }
+
             var wait = document.getElementById('wait'),
                 href = document.getElementById('href').href;
             var interval = setInterval(function(){

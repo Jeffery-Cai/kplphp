@@ -1,25 +1,12 @@
 {include file="public/header-static"/}
 {include file="public/sidebar"/}
-
-<!--导出例子-->
-<!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">-->
-<!--<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">-->
-
-
-
 <div id="main">
 
     {include file="public/header"/}
 
-
-
-
-
     <main class="main-content">
 
         <div class="container">
-
-
             <div class="page-header">
                 <h4>权限管理</h4>
                 <nav aria-label="breadcrumb">
@@ -27,53 +14,53 @@
                         <li class="breadcrumb-item">
                             <a href="#">首页</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">用户设置&nbsp;&nbsp;&nbsp;&nbsp;<small class="">欢迎你访问该框架，喜欢的加QQ群 <span>: [972703635]<a target="_blank" style="text-decoration: underline" href="https://jq.qq.com/?_wv=1027&k=57JpRdR">QQ群</a></span> | <span> <b> <a
-                                href="https://gitee.com/JefferyCai/kplphp" style="text-decoration: underline" title="码云地址" target="_blank">下载该框架</a></b> </span> </small></li>
+                        <li class="breadcrumb-item active" aria-current="page">用户设置 </li>
                     </ol>
                 </nav>
             </div>
             <!-- end::page-header -->
-            <div class="row app-block">
-                <div class="col-md-12 app-content">
-                    <div class="app-action">
-                        <div class="action-left">
-                            <ul class="list-inline">
-                                <li class="list-inline-item mb-0">
-                                    <a href="#" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                                        <i data-feather="plus" class="mr-2"></i>
-                                        添加
-                                    </a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{:url('/power/edit')}">用户</a>
-                                        <a class="dropdown-item" href="{:url('/power/role_edit')}">角色</a>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div class="action-right" style="display: none">
-                            <form class="d-flex mr-3">
-                                <a href="#" class="app-sidebar-menu-button btn btn-outline-light">
-                                    <i data-feather="menu"></i>
-                                </a>
-                                <div class="input-group">
-                                    <input type="text" autofocus="autofocus"  class="form-control" placeholder="Search file"
-                                           aria-describedby="button-addon1">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-light" type="button" id="button-addon1">
-                                            <i data-feather="search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
+                            <div class="app-block">
+                                <div class="app-content">
+                                    <div class="app-action">
+                                        <div class="action-left">
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item mb-0">
+                                                    <a href="#" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                                        <i data-feather="plus" class="mr-2"></i>
+                                                        添加
+                                                    </a>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{:url('/power/edit')}">用户</a>
+                                                        <a class="dropdown-item" href="{:url('/power/role_edit')}">角色</a>
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="action-right">
+                                            <form class="d-flex mr-3" method="get" action="">
+                                                <a href="#" class="app-sidebar-menu-button btn btn-outline-light">
+                                                    <i data-feather="menu"></i>
+                                                </a>
+                                                <div class="input-group">
+                                                    <input type="text" name="keyname" id="keyname" autofocus="autofocus" value="{$Request.get.keyname}"  class="form-control" placeholder="搜索关键字[登录名|昵称|邮箱|手机号]"
+                                                           aria-describedby="button-addon1">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-light" type="submit" id="button-addon1">
+                                                            <i data-feather="search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="table-responsive">
                             <table id="example1" class="table table-bordered table-striped " >
                                 <thead class="thead-dark">
@@ -132,15 +119,30 @@
     $(document).ready(function () {
 
         $('#example1').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                extend: 'excelHtml5',
-                text: '导出数据',
-                customize: function (xlsx) {
-                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                    $('row c[r^="C"]', sheet).attr('s', '2');
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示 _START_ 到 _END_，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "从当前数据中检索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
                 }
-            }],
+            },
             lengthChange:false,//是否允许用户改变表格每页显示的记录数
             paging: true,//是否开启本地分页
             pagingType:"simple_numbers",//分页按钮显示选项
@@ -151,6 +153,7 @@
             processing:true,// 数据量大则显示进度
             ajax: function (data, callback, settings) {
                 var param = {};
+                param.keyname = $.trim($("#keyname").val());//额外传参数
                 param.size = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
                 param.start = data.start;//开始的记录序号
                 param.page = (data.start / data.length)+1;//当前页码
