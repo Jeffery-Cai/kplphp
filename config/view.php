@@ -24,9 +24,9 @@ return [
     'taglib_end'    => '}',
 
     'tpl_replace_string'  =>  [
-        '__STATIC__'=>'/static',
-        '__CSS__' => '/static/css',
-        '__JS__' => '/static/js',
+        '__STATIC__'=>'/static/admin',
+        '__CSS__' => '/static/admin/css',
+        '__JS__' => '/static/admin/js',
         '__PUBLICS__' => '',
     ]
 

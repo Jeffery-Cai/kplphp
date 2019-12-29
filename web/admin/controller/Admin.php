@@ -31,6 +31,4 @@ class Admin extends AdminController
     {
         echo $this->app->addons->getAddonsPath();
     }
-
-
 }
