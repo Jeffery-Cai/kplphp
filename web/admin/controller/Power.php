@@ -100,8 +100,8 @@ class Power extends AdminController
 
     public function del($id=null)
     {
-        if(intval($id)==1)halt('不可进入');
-        User::destroy($id);
+        $info = User::destroy(intval(input('id')));
+        if(!($info))$this->error('操作失败');
         $this->success('操作成功',url('/power/index'));
     }
 
@@ -148,10 +148,10 @@ class Power extends AdminController
         return view('role_edit', ['info' => $action]);
     }
 
-    public function role_del($id=null)
+    public function role_del()
     {
-        if(intval($id)==1)halt('不可进入');
-        Role::destroy($id);
+        $info = Role::destroy(intval(input('id')));
+        if(!($info))$this->error('操作失败');
         $this->success('操作成功',url('/power/role'));
     }
 
@@ -225,6 +225,15 @@ class Power extends AdminController
         if(request()->isPost())
         {
             $post = request()->post();
+
+            // 验证
+            try{
+                $this->validate($post, 'Menu');
+            }catch (ValidateException $e)
+            {
+                $this->error($e->getMessage());
+            }
+
             $post['status'] = isset($post['status']) && $post['status'] == 'on'?1:0;
             $post['system_menu'] = 1;
             $action->save($post);
@@ -247,19 +256,19 @@ class Power extends AdminController
                     }
                     Menu::update($menu);
                 }
-                echo json_encode(1);exit;
+                $this->success('操作成功',url('/power/role_menu_set'));
             } else {
-                echo json_encode(0);exit;
+                $this->error('操作失败');
             }
         }
-        echo json_encode(0);exit;
     }
 
     # 删除节点
-    public function role_menu_set_del($id=null)
+    public function role_menu_set_del()
     {
-        Menu::destroy($id);
-        $this->success('删除成功');
+        $info = Menu::destroy(intval(input('id')));
+        if(!($info))$this->error('操作失败');
+        $this->success('操作成功',url('/power/role_menu_set'));
     }
 
     # 权限分配
@@ -346,7 +355,7 @@ class Power extends AdminController
 //                    // 禁用
 //                    $result .= '<a href="javascript:void(0);" data-ids="'.$value['id'].'" class="disable" data-toggle="tooltip" data-original-title="禁用"><i class="list-icon fa fa-ban fa-fw"></i></a>';
 //                }
-                $result .= '<a href="'.url('/power/role_menu_set_del', ['id' => $value['id'], 'table' => 'admin_menu']).'" data-toggle="tooltip" data-original-title="删除" class="ajax-get confirm"><i class="list-icon fa fa-times fa-fw"></i></a></div>';
+                $result .= '<a onclick="del_menu('.$value['id'].',this)" href="javascript:void(0)" data-toggle="tooltip" data-original-title="删除" class="ajax-get confirm"><i class="list-icon fa fa-times fa-fw"></i></a></div>';
                 $result .= '</span>';
 
                 if ($max_level == 0 || $curr_level != $max_level) {

@@ -110,7 +110,19 @@
         window.location.href = '{:url("/power/edit")}?id='+id;
     }
     function del(id,that) {
-        window.location.href = '{:url("/power/del")}?id='+id;
+        $.post("{:url('/power/del')}", {id:id}, function(data) {
+            if(data['code']!=1)
+            {
+                toastr.error(data['msg']);
+            }else{
+                $(that).parents('tr.even').remove();
+                toastr.success(data['msg']);
+                setInterval(function () {
+                    window.location.href = '';
+                },1000);
+            }
+        });
+
     }
     function fieldchange(id,field='status')
     {
@@ -183,7 +195,7 @@
                         if(row['id'] != 1)
                         {
                             html += '<button onclick="edit('+row['id']+')" title="编辑" data-toggle="tooltip" data-placement="top" type="button" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-check-box"></i></button> ';
-                            html += ' <button onclick="del('+row['id']+')" title="删除" data-toggle="tooltip" data-placement="top" type="button" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-trash"></i></button>';
+                            html += ' <button onclick="del('+row['id']+',this)" title="删除" data-toggle="tooltip" data-placement="top" type="button" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-trash"></i></button>';
                         }else{
                             // html += '<button disabled type="button" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  >不可操作</button> ';
                         }

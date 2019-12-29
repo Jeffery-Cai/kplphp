@@ -105,7 +105,18 @@
         window.location.href = '{:url("/power/role_edit")}?id='+id;
     }
     function role_del(id,that) {
-        window.location.href = '{:url("/power/role_del")}?id='+id;
+        $.post("{:url('/power/role_del')}", {id:id}, function(data) {
+            if(data['code']!=1)
+            {
+                toastr.error(data['msg']);
+            }else{
+                $(that).parents('tr.even').remove();
+                toastr.success(data['msg']);
+                setInterval(function () {
+                    window.location.href = '';
+                },1000);
+            }
+        });
     }
     function role_set(id) {
         window.location.href = '{:url("/power/role_set")}?id='+id;
@@ -179,7 +190,7 @@
                         {
                             html += '<button type="button" title="编辑" data-toggle="tooltip" data-placement="top" onclick="role_edit('+row['id']+')" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-check-box"></i></button> ';
                             html += '<button type="button" title="设置" data-toggle="tooltip" data-placement="top" onclick="role_set('+row['id']+')" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-settings"></i></button> ';
-                            html += ' <button type="button" title="删除" data-toggle="tooltip" data-placement="top" onclick="role_del('+row['id']+')" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-trash"></i></button>';
+                            html += ' <button type="button" title="删除" data-toggle="tooltip" data-placement="top" onclick="role_del('+row['id']+',this)" class="btn btn-secondary btn-sm" href="#'+row['id']+'"  ><i class="ti-trash"></i></button>';
                         }else{
                         }
 
