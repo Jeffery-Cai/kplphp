@@ -131,6 +131,7 @@
             searching:false,//是否允许 DataTables 开启本地搜索
             info:false,//是否显示左下角信息
             ordering:false,
+
             serverSide: true, // 服务端处理分页
             processing:true,// 数据量大则显示进度
             ajax: function (data, callback, settings) {
@@ -151,9 +152,9 @@
                             //封装返回数据
                             var returnData = {};
                             returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
-                            returnData.recordsTotal = result.total;//返回数据全部记录
-                            returnData.recordsFiltered = result.total;//后台不实现过滤功能，每次查询均视作全部结果
-                            returnData.data = result.data;//返回的数据列表
+                            returnData.recordsTotal = result.data.total;//返回数据全部记录
+                            returnData.recordsFiltered = result.data.total;//后台不实现过滤功能，每次查询均视作全部结果
+                            returnData.data = result.data.data;//返回的数据列表
                             callback(returnData);
                         }, 200);
                     }

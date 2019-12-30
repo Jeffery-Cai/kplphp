@@ -24,18 +24,11 @@ class Power extends AdminController
     {
         $map = [];
         $keyname = trim(input('keyname',''));
-        # 用户角色不是超级管理员角色
-        /*
-        if (session('user_auth.role') != 1) {
-            $role_list = Role::getChildsId(session('user_auth.role'));
-            $map[] = ['role', 'in', $role_list];
-        }
-        */
         if(!empty($keyname))
         {
             $map[] = ['username|nickname|email|mobile','like','%'.$keyname.'%'];
         }
-        $list = User::where($map)->order('id asc')->page($this->page,$this->size)->select();
+        $list = User::where($map)->order('id asc')->paginate(10);
         foreach ($list as $k => $v)
         {
             $list[$k]['role_name'] = Role::where('id','=',$v['role'])->value('name');
@@ -113,7 +106,7 @@ class Power extends AdminController
         {
             $map[] = ['name','like','%'.$keyname.'%'];
         }
-        $list = Role::where($map)->order('sort,id asc')->page($this->page,$this->size)->select();
+        $list = Role::where($map)->order('sort,id asc')->paginate(10);
         if(request()->isPost())
         {
             echo json_encode(['data'=>$list]);exit;
@@ -225,7 +218,6 @@ class Power extends AdminController
         if(request()->isPost())
         {
             $post = request()->post();
-
             // 验证
             try{
                 $this->validate($post, 'Menu');
