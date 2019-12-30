@@ -1,83 +1,10 @@
-<!--* 版权所有 2019~2020 极盾工作室  kplphp地址[ http://www.kplphp.com ] -->
-<!--* 作者由JefferyCai码云所创造 [ https://gitee.com/JefferyCai ]-->
-<!--* 当前码云地址 与 操作文档都在 [ https://gitee.com/JefferyCai/kplphp ]-->
-<!--* QQ群请加 972703635 [ https://jq.qq.com/?_wv=1027&k=5YnmIH8 ]，如有更多服务，请单独加群主: 1345199080-->
-<!--* 插件模型功能-->
-<style>
-    .navigation{
-        background: #23282d;
-        width: 160px;
-    }
-    .navigation .navigation-menu-body>ul li a{
-        color: #fff;
-        /*border-bottom: #393939 1px solid;*/
-    }
-    .navigation .navigation-menu-body>ul li a{
-        padding: 10px 23px;
-    }
-
-    .navigation .navigation-menu-body>ul li a.active .nav-link-icon{
-        stroke: #000;
-    }
-    .navigation .navigation-menu-body>ul li a .nav-link-icon{
-        stroke: #fff;
-    }
-    .navigation .navigation-menu-body>ul li a.active{
-        position: relative;
-        color: #000;
-        font-weight: 700;
-        background: #fff;
-    }
-    .navigation .navigation-menu-body>ul li a.active{
-        position: relative;
-        font-weight: 700;
-    }
-    .navigation .navigation-menu-body>ul li.open>a.active1:hover{
-        color: #000;
-    }
-    .navigation .navigation-menu-body>ul li.open>a:hover{
-        color: #fff;
-    }
-    .navigation .navigation-menu-body>ul li.open>a .nav-link-icon{
-        stroke: #fff3cd;
-    }
-    .navigation .navigation-menu-body>ul li a:hover{
-        color: #000;
-    }
-    body.small-navigation .navigation .navigation-menu-body>ul li a:hover{
-        color: #fff;
-    }
-    .navigation .navigation-menu-body>ul li a+ul li a{
-        padding-left: 34px;
-    }
-    .main-content{
-        overflow-y: auto;
-        outline: none;
-    }
-    body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body ul li a+ul li a
-    {
-        color: #000;
-    }
-    body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body ul li:hover>a i{
-        stroke: #004deb;
-    }
-    .nav-pills .nav-link.active{
-        background: #64737a;
-    }
-
-</style>
-<!-- begin::navigation -->
 <div class="navigation">
-
-    <!-- begin::logo -->
     <div id="logo">
         <a href="{:url('/admin/index')}">
             <img class="logo" src="__PUBLICS__/logo.png" alt="logo">
             <img class="logo-sm" src="__PUBLICS__/logo-sm.png" alt="small logo">
         </a>
     </div>
-    <!-- end::logo -->
-    <!-- begin::navigation menu -->
     <div class="navigation-menu-body">
         <ul>
             {notempty name="sidebar"}
@@ -101,10 +28,6 @@
                 </li>
             {/volist}
             {/notempty}
-
         </ul>
     </div>
-    <!-- end::navigation menu -->
-
 </div>
-<!-- end::navigation -->
