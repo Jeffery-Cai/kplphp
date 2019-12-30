@@ -164,10 +164,7 @@ class AddonsManage extends Model
             }
 
             $result = ['total' => $total, 'plugins' => $plugins];
-            // 非开发模式，缓存数据
-            if (config('develop_mode') == 0) {
-                cache('plugin_all', $result);
-            }
+
         }
         return $result;
     }

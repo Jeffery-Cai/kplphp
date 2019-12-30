@@ -233,9 +233,9 @@ class Power extends AdminController
             {
                 $this->error($e->getMessage());
             }
-
             $post['status'] = isset($post['status']) && $post['status'] == 'on'?1:0;
             $post['system_menu'] = 1;
+            $post['url_type'] = 'module_admin';
             $action->save($post);
             $this->success('操作成功',url('/power/role_menu_set',array('id'=>$id)));
         }

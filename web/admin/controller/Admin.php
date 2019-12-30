@@ -36,4 +36,9 @@ class Admin extends AdminController
     {
         echo 132;
     }
+
+    public function del()
+    {
+        echo 132;
+    }
 }

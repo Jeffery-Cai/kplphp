@@ -107,10 +107,7 @@ class Menu extends Model
         $cache_tag .= '_role_'.session('user_auth.role');
         $menus = cache($cache_tag);
         if (!$menus) {
-            // 非开发模式，只显示可以显示的菜单
-            if (config('develop_mode') == 0) {
-                $map['online_hide'] = 0;
-            }
+
             $map['status'] = 1;
             $map['pid']    = 0;
             $list_menu     = self::where($map)->order('sort,id')->column('id,pid,module,title,url_value,url_type,url_target,icon,params');
@@ -136,10 +133,6 @@ class Menu extends Model
             }
 
 
-            // 非开发模式，缓存菜单
-            if (config('develop_mode') == 0) {
-                cache($cache_tag, $menus);
-            }
         }
         return $menus;
     }
@@ -187,16 +180,13 @@ class Menu extends Model
      * @param string $id 节点id，如果没有指定，则取当前节点id
      * @param bool $del_last_url 是否删除最后一个节点的url地址
      * @param bool $check 检查节点是否存在，不存在则抛出错误
-
      * @return array
      * @throws \think\Exception
      */
     public static function getLocation($id = '', $del_last_url = false, $check = true,$model='admin')
     {
-//        $model      = request()->module();
         $controller = request()->controller();
         $action     = request()->action();
-
         if ($id != '') {
             $cache_name = 'location_menu_'.$id;
         } else {
@@ -208,10 +198,8 @@ class Menu extends Model
                 ['pid', '<>', 0],
                 ['url_value', '=', strtolower('/'.trim(preg_replace("/[A-Z]/", "_\\0", $controller), "_").'/'.$action)]
             ];
-
             // 当前操作对应的节点ID
             $curr_id = $id == '' ? self::where($map)->value('id') : $id;
-
             // 获取节点ID是所有父级节点
             $location = Tree::getParents(self::column('id,pid,title,url_value,params'), $curr_id);
             if ($check && empty($location)) {
