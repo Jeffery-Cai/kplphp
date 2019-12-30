@@ -1,131 +1,78 @@
 'use strict';
 
 (function ($) {
-
-    $(document).on('click', '.layout-builder .layout-builder-toggle', function () {
-        $('.layout-builder').toggleClass('show');
-    });
-
-    $(window).on('load', function () {
-        setTimeout(function () {
-            $('.layout-builder').removeClass('show');
-        }, 500);
-    });
-
-    $('.body').append(`
-    <div class="layout-builder show">
-        <div class="layout-builder-toggle shw">
-            <i class="ti-settings"></i>
-        </div>
-        <div class="layout-builder-toggle hdn">
-            <i class="ti-close"></i>
-        </div>
-        <div class="layout-builder-body">
-            <h5>Customizer</h5>
-            <div class="mb-3">
-                <p>Layout</p>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="horizontal-side-menu" data-layout="horizontal-side-menu">
-                  <label class="custom-control-label" for="horizontal-side-menu">Horizontal Menu</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="icon-side-menu" data-layout="icon-side-menu">
-                  <label class="custom-control-label" for="icon-side-menu">Icon Menu</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="hidden-side-menu" data-layout="hidden-side-menu">
-                  <label class="custom-control-label" for="hidden-side-menu">Hidden Menu</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="layout-container-1" data-layout="layout-container icon-side-menu">
-                  <label class="custom-control-label" for="layout-container-1">Container Layout 1</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="layout-container-2" data-layout="layout-container horizontal-side-menu">
-                  <label class="custom-control-label" for="layout-container-2">Container Layout 2</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="layout-container-3" data-layout="layout-container hidden-side-menu">
-                  <label class="custom-control-label" for="layout-container-3">Container Layout 3</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="dark-1" data-layout="dark">
-                  <label class="custom-control-label" for="dark-1">Dark Layout 1</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="dark-2" data-layout="layout-container dark icon-side-menu">
-                  <label class="custom-control-label" for="dark-2">Dark Layout 2</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="dark-3" data-layout="layout-container dark horizontal-side-menu">
-                  <label class="custom-control-label" for="dark-3">Dark Layout 3</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" name="layout" id="dark-4" data-layout="layout-container dark hidden-side-menu">
-                  <label class="custom-control-label" for="dark-4">Dark Layout 4</label>
-                </div>
-            </div>
-            <button id="btn-layout-builder-reset" class="btn btn-danger btn-uppercase">Reset</button>
-            <div class="layout-alert mt-3">
-                <i class="fa fa-warning m-r-5 text-warning"></i>Some theme options can not be displayed in case of combined when they are not relevant each other. For that reason, you are adviced to try all theme options seperately.
-            </div>
-        </div>
-    </div>`);
-
-    var site_layout = localStorage.getItem('site_layout');
-    $('body').addClass(site_layout);
-
-    $('.layout-builder .layout-builder-body input[type="radio"][data-layout="' + $('body').attr('class') + '"]').prop('checked', true);
-
-    $('.layout-builder .layout-builder-body input[type="radio"]').click(function () {
-        var class_names = '';
-
-        $('.layout-builder .layout-builder-body input[type="radio"]:checked').each(function () {
-            class_names += ' ' + $(this).data('layout');
-        });
-
-        localStorage.setItem('site_layout', class_names);
-
-        window.location.href = (window.location.href).replace('#', '');
-    });
-
-    $(document).on('click', '#btn-layout-builder', function () {
-
-    });
-
-    $(document).on('click', '#btn-layout-builder-reset', function () {
-        localStorage.removeItem('site_layout');
-        localStorage.removeItem('site_layout_dark');
-
-        window.location.href = (window.location.href).replace('#', '');
-    });
-
-    $(window).on('load', function () {
-        if ($('body').hasClass('horizontal-side-menu') && $(window).width() > 768) {
-            if ($('body').hasClass('layout-container')) {
-                $('.side-menu .side-menu-body').wrap('<div class="container"></div>');
-            } else {
-                $('.side-menu .side-menu-body').wrap('<div class="container"></div>');
-            }
-            setTimeout(function () {
-                $('.side-menu .side-menu-body > ul').append('<li><a href="#"><span>Other</span></a><ul></ul></li>');
-            }, 100);
-            $('.side-menu .side-menu-body > ul > li').each(function () {
-                var index = $(this).index(),
-                    $this = $(this);
-                if (index > 7) {
-                    setTimeout(function () {
-                        $('.side-menu .side-menu-body > ul > li:last-child > ul').append($this.clone());
-                        $this.addClass('d-none');
-                    }, 100);
+    window.datatables= {}; //创建一个自己的对象相当于C#中的命名空间
+    /**
+     *
+     * @param that // 绑定dom操作元素
+     * @param url // post请求数据链接
+     * @param columns // 列显示
+     * @param param 传值参数
+     * @param type = 默认POST请求
+     * @param dataType = json形式
+     */
+    var dt = function (that,url,columns=[],param={},type="POST",dataType="json")
+    {
+        $(that).DataTable({
+            language: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示 _START_ 到 _END_，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "从当前数据中检索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
                 }
-            });
-        }
-    });
-
-    $(document).on('click', '[data-attr="layout-builder-toggle"]', function () {
-        $('.layout-builder').toggleClass('show');
-        return false;
-    });
-
+            },
+            autoWidth: false,  //禁用自动调整列宽
+            lengthChange:false,//是否允许用户改变表格每页显示的记录数
+            paging: true,//是否开启本地分页
+            pagingType:"full_numbers",//分页按钮显示选项
+            searching:false,//是否允许 DataTables 开启本地搜索
+            info:false,//是否显示左下角信息
+            ordering:false,
+            serverSide: true, // 服务端处理分页
+            processing:true,// 数据量大则显示进度
+            ajax: function (data, callback, settings) {
+                param.size = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
+                param.start = data.start;//开始的记录序号
+                param.page = (data.start / data.length)+1;//当前页码
+                param.order = data.order[0];
+                $.ajax({
+                    url:url,
+                    type:type,
+                    cache: false,  //禁用缓存
+                    data: param,  //传入组装的参数
+                    dataType: dataType,
+                    success: function (result) {
+                        setTimeout(function () {
+                            //封装返回数据
+                            var returnData = {};
+                            returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
+                            returnData.recordsTotal = result.data.total;//返回数据全部记录
+                            returnData.recordsFiltered = result.data.total;//后台不实现过滤功能，每次查询均视作全部结果
+                            returnData.data = result.data.data;//返回的数据列表
+                            callback(returnData);
+                        }, 200);
+                    }
+                })
+            },
+            columns: columns
+        });
+    };
+    datatables.dt = dt;  //将函数注册到命名空间上
 })(jQuery);
