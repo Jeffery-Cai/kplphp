@@ -49,7 +49,7 @@
                                     <div class="card border">
                                         <div class="card-body">
                                             <h5><b>{$vo.title}</b> {$vo.version}</h5>
-                                            <p><a href="{$vo.author_url}" target="_blank">{$vo.author}</a></p>
+                                            <p><a href="{$vo.author_url}" target="_blank" rel="noopener noreferrer">{$vo.author}</a></p>
                                             <p class="card-text">{$vo.description} <br><br><a data-toggle="modal" data-target="#exampleModalCenter" style="text-decoration: underline">更多详情</a></p>
                                             {if condition='$vo.status eq -1'}
                                             <button class="btn btn-sm btn-outline-secondary" onclick="location.href='{:url("addons_manage/install",array("name"=>$vo["name"]))}'" class="btn btn-sm btn-outline-secondary">安装</button>
