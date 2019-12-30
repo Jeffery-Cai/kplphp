@@ -167,8 +167,8 @@ class Menu extends Model
             $map = [
                 'status' => 1
             ];
+
             $menus = self::where($map)->order('sort,id')->column('id,controller,action,pid,module,title,url_value,url_type,url_target,icon,params');
-//            halt($menus);
             // 解析模块链接
             foreach ($menus as $key => &$menu) {
                 // 没有访问权限的节点不显示
@@ -202,7 +202,6 @@ class Menu extends Model
         } else {
             $cache_name = 'location_'.$model.'_'.$controller.'_'.$action;
         }
-
         $location = cache($cache_name);
         if (!$location) {
             $map = [
@@ -215,20 +214,14 @@ class Menu extends Model
 
             // 获取节点ID是所有父级节点
             $location = Tree::getParents(self::column('id,pid,title,url_value,params'), $curr_id);
-
             if ($check && empty($location)) {
                 throw new Exception('获取不到当前节点地址，可能未添加节点', 9001);
             }
-
             // 剔除最后一个节点url
             if ($del_last_url) {
                 $location[count($location) - 1]['url_value'] = '';
             }
 
-            // 非开发模式，缓存菜单
-            if (config('develop_mode') == 0) {
-                cache($cache_name, $location);
-            }
         }
 
         return $location;

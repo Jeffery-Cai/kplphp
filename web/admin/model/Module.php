@@ -32,7 +32,7 @@ class Module extends Model
     {
         $modules = cache('modules');
         if (!$modules) {
-            $modules = self::where('status', '>=', 0)->order('id')->column('name,title');
+            $modules = self::where('status', '>=', 0)->order('id')->column('name','title');
             // 非开发模式，缓存数据
             if (config('develop_mode') == 0) {
                 cache('modules', $modules);

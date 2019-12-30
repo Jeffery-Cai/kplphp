@@ -31,4 +31,9 @@ class Admin extends AdminController
     {
         echo $this->app->addons->getAddonsPath();
     }
+
+    public function add()
+    {
+        echo 132;
+    }
 }

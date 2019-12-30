@@ -137,6 +137,7 @@ class Role extends Model
             $location = MenuModel::getLocation();
             $action   = end($location);
 
+
             return $url === false ? isset($menu_auth[$action['id']]) : in_array($action['url_value'], $menu_auth);
         }
 
@@ -154,11 +155,7 @@ class Role extends Model
         if (!$menu_auth) {
             $menu_auth = self::where('id', session('user_auth.role'))->value('menu_auth');
             $menu_auth = json_decode($menu_auth, true);
-            $menu_auth = MenuModel::where('id', 'in', $menu_auth)->column('id,url_value');
-        }
-        // 非开发模式，缓存数据
-        if (config('develop_mode') == 0) {
-            cache('role_menu_auth_'.session('user_auth.role'), $menu_auth);
+            $menu_auth = MenuModel::where('id', 'in', $menu_auth)->column('url_value','id');
         }
         return $menu_auth;
     }
