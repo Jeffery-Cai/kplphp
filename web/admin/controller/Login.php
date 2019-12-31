@@ -7,17 +7,17 @@
  * 登录功能
 ----------------------------------------------------------------*/
 namespace app\admin\controller;
-use app\admin\model\Role;
 use app\AdminController;
-use app\admin\model\Menu;
 use app\admin\logic\User;
 use think\App;
-use think\facade\Config;
+use think\captcha\facade\Captcha;
 use think\facade\View;
+
 class Login extends AdminController
 {
     public function index()
     {
+
         if (request()->isPost()) {
             $post = request()->post();
             $rememberme = isset($post['remember_me']) ? true : false;
@@ -40,7 +40,6 @@ class Login extends AdminController
         }
     }
 
-
     public function loginout()
     {
         session(null);
@@ -48,4 +47,5 @@ class Login extends AdminController
         cookie('signin_token', null);
         $this->redirect(url('/login/index'));
     }
+
 }
