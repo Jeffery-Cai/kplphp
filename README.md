@@ -54,9 +54,9 @@ www  WEB部署目录（或者子目录）
 │  └─view.php           视图配置
 │
 ├─public                WEB目录（对外访问目录） == 在这里提醒，建议新增模块的同时，在该目录下复制相同的.php文件同名便可
-│  ├─admin.php          入口文件[api入口]
-│  ├─api.php            入口文件[api入口]
-│  ├─index.php          入口文件[api入口]
+│  ├─admin.php          入口文件[admin应用入口]
+│  ├─api.php            入口文件[api应用入口]
+│  ├─index.php          入口文件[index应用入口]
 │  ├─router.php         快速测试文件
 │  └─.htaccess          用于apache的重写
 │
