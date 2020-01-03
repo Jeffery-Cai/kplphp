@@ -26,7 +26,7 @@ class Plugin extends Addons	// 需继承think\Addons类
         // 插件图标[选填]
         'icon'        => 'fa fa-fw fa-globe',
         // 插件图片
-        'img_url' => 'static/img/index.jpg',
+        'img_url'     => 'static/img/index.jpg',
         // 插件描述[选填]
         'description' => '这是一个超级表单插件，一切可以在插件里面进行创建表单项，进行数据处理（只是针对后台创建表单）',
         // 插件作者[必填]
@@ -39,7 +39,7 @@ class Plugin extends Addons	// 需继承think\Addons类
         'admin'       => '1',
     ];
 
-    public $database_prefix = 's_';
+    public $database_prefix = 'kpl_';
 
     /**
      * 插件安装方法
