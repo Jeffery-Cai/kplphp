@@ -2,7 +2,7 @@
 
 return [
     'product_name'      => 'kplphp',
-    'product_version'   => '1.0.0',
+    'product_version'   => 'v1.0.0', // kplphp版本
     'qq_group'          => '972703635',
     'build_version'     => '201912281516',
     'product_website'   => 'http://www.kplphp.com',
