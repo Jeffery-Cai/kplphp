@@ -8,6 +8,7 @@
 ----------------------------------------------------------------*/
 namespace app\admin\controller;
 use app\AdminController;
+use app\common\model\Csvceshi;
 use think\facade\View;
 class Admin extends AdminController
 {
@@ -32,13 +33,10 @@ class Admin extends AdminController
         echo $this->app->addons->getAddonsPath();
     }
 
+    # 自增
     public function add()
     {
-        echo 132;
-    }
 
-    public function del()
-    {
-        echo 132;
+        halt(123);
     }
 }
