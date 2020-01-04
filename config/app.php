@@ -34,7 +34,7 @@ return [
 
     'addons_path' => app()->getRootPath() . 'addons/',
 
-    'dbprefix' => 's_',
+    'dbprefix' => 'kpl_',
 
     'auto_multi_app' => true,
 
