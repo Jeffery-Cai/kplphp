@@ -13,6 +13,7 @@ class Index
     # 管理后台入口 - 主页(必须得存在)
     public function manage()
     {
-        return View::fetch('../addons/test/view/manage/index');
+        View::assign('name','kplphp');
+        return View::fetch();
     }
 }
