@@ -82,7 +82,7 @@ class ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe
         ),
         'app\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/web',
+            0 => __DIR__ . '/../..' . '/app',
         ),
         'Symfony\\Polyfill\\Php72\\' => 
         array (

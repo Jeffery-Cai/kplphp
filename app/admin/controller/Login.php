@@ -20,7 +20,7 @@ class Login extends AdminController
 
         if (request()->isPost()) {
             $post = request()->post();
-            $rememberme = isset($post['remember_me']) ? true : false;
+            $rememberme = 1; # 已默认长时间记住、
             $result = $this->validate($post, 'User.signin');
             if(true !== $result){
                 $this->error($result);

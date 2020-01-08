@@ -13,7 +13,7 @@ return [
     // 是否启用事件
     'with_event'       => true,
     // 默认应用
-    'default_app'      => 'web',
+    'default_app'      => 'app',
     // 默认时区
     'default_timezone' => 'Asia/Shanghai',
 

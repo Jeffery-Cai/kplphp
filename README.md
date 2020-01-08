@@ -17,7 +17,7 @@ mysql数据库文件请加以下QQ群获取。
 ## **目录结构 **
 ~~~
 www  WEB部署目录（或者子目录）
-├─web           应用目录 [已把tp6原本目录app更改为web]
+├─app           应用目录 [原本web目录已经改为app了]
 │  ├─admin           应用目录 [后台模块]
 │  │  ├─common.php      函数文件
 │  │  ├─controller      控制器目录

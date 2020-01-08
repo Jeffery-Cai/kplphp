@@ -42,9 +42,14 @@ class Service extends \think\Service
         $this->registerRoutes(function (Route $route) {
             // 路由脚本
             $execute = '\\think\\addons\\Route::execute';
+
+            // 注册插件公共中间件
+            if (is_file($this->app->addons->getAddonsPath() . 'middleware.php')) {
+                $this->app->middleware->import(include $this->app->addons->getAddonsPath() . 'middleware.php', 'route');
+            }
+
             // 注册控制器路由
-            $route->rule("addons/:addon/[:controller]/[:action]", $execute)
-                ->middleware(Addons::class);
+            $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Addons::class);
             // 自定义路由
             $routes = (array) Config::get('addons.route', []);
             foreach ($routes as $key => $val) {
@@ -103,7 +108,7 @@ class Service extends \think\Service
                     $values = (array) $values;
                 }
                 $hooks[$key] = array_filter(array_map(function ($v) use ($key) {
-                    return [get_addons_class($v), Str::camel($key)];
+                    return [get_addons_class($v), $key];
                 }, $values));
             }
             Cache::set('hooks', $hooks);
