@@ -2,6 +2,11 @@ Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
 ## **目前已更新至thinkphp官网最新版本 6.0.1  [ 一直迭代更新~ ]**
 
+## 已修复tp6存在的bug如下
+### 1、多应用空控制器错误bug  ==  群里'风速'已解决【感谢风速】
+##### 原理是回归检查应用下边的文件名，发现包含在里边的，异常由系统接管，否则重定向首页
+##### 在应用目录下边ExceptionHandle增加个read_dirs方法
+
 [![Fork me on Gitee](https://gitee.com/JefferyCai/kplphp/widgets/widget_3.svg)](https://gitee.com/JefferyCai/kplphp)
 
 基于thinkphp6操作文档
