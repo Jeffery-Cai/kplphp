@@ -40,6 +40,31 @@ class ExceptionHandle extends Handle
         parent::report($exception);
     }
 
+    public function read_dirs($path) {
+        // 判断path是否存在
+        if(!file_exists($path)){
+            var_dump([ 'code'=>'1001','msg' =>'path is not exits!']);
+            // 判断path是否为目录
+        }elseif (!is_dir($path)){
+            var_dump(['code' => '1002','msg'  => 'is not dir' ]);
+        }else{
+            $dir_handle = opendir($path);
+            $Mdir=array();
+            while(false !== $file=readdir($dir_handle)) {
+                if ($file=='.' || $file=='..') continue;
+                //输出该文件
+                $Mdir[]=strtolower(explode('.',$file)[0]);
+                // 判断当前file是否为目录
+                if(is_dir($path . '/' . $file)) {
+                    // file为目录时进行递归遍历
+                    read_dirs($path . '/' . $file);
+                }
+            }
+            closedir($dir_handle);
+            return $Mdir;
+        }
+    }
+
     /**
      * Render an exception into an HTTP response.
      *
@@ -51,8 +76,12 @@ class ExceptionHandle extends Handle
     public function render($request, Throwable $e): Response
     {
         // 添加自定义异常处理机制
+        $Mdir=$this->read_dirs('../app/index/controller');
+        if (in_array(strtolower($request->controller()),$Mdir)){
 
-        // 其他错误交给系统处理
-        return parent::render($request, $e);
+            return parent::render($request, $e);
+        }else{
+            return redirect('/');
+        }
     }
 }
