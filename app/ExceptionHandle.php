@@ -40,13 +40,14 @@ class ExceptionHandle extends Handle
         parent::report($exception);
     }
 
+    /*
     public function read_dirs($path) {
         // 判断path是否存在
         if(!file_exists($path)){
-            var_dump([ 'code'=>'1001','msg' =>'path is not exits!']);
+            halt([ 'code'=>'1001','msg' =>'path is not exits!']);
             // 判断path是否为目录
         }elseif (!is_dir($path)){
-            var_dump(['code' => '1002','msg'  => 'is not dir' ]);
+            halt(['code' => '1002','msg'  => 'is not dir' ]);
         }else{
             $dir_handle = opendir($path);
             $Mdir=array();
@@ -72,16 +73,32 @@ class ExceptionHandle extends Handle
      * @param \think\Request   $request
      * @param Throwable $e
      * @return Response
-     */
+
     public function render($request, Throwable $e): Response
     {
         // 添加自定义异常处理机制
-        $Mdir=$this->read_dirs('../app/index/controller');
+        $Mdir= $this->read_dirs('../app/index/controller');
         if (in_array(strtolower($request->controller()),$Mdir)){
 
             return parent::render($request, $e);
         }else{
             return redirect('/');
         }
+    }
+    */
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @access public
+     * @param \think\Request   $request
+     * @param Throwable $e
+     * @return Response
+     */
+    public function render($request, Throwable $e): Response
+    {
+        // 添加自定义异常处理机制
+
+        // 其他错误交给系统处理
+        return parent::render($request, $e);
     }
 }
