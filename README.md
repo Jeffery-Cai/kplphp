@@ -1,4 +1,8 @@
+# https://gitee.com/JefferyCai/kplphp 建议使用码云地址，因为github地址由于网络卡，不稳定的原因。。。
+
 Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
+
+
 
 ## **目前已更新至thinkphp官网最新版本 6.0.1  [ 一直迭代更新~ ]**
 
