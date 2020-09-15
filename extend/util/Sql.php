@@ -24,7 +24,6 @@ class Sql
 
         // 读取sql文件内容
         $handle = self::read_file($sql_file);
-
         // 分割语句
         $handle = self::parseSql($handle, $string, $replace);
 

@@ -11,6 +11,7 @@ class ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '39594db8502267d6df2fe2dca5f3914d' => __DIR__ . '/..' . '/zzstudio/think-addons/src/helper.php',
     );
@@ -33,6 +34,7 @@ class ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
@@ -84,6 +86,10 @@ class ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
         'Symfony\\Polyfill\\Php72\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
@@ -130,12 +136,18 @@ class ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe
         0 => __DIR__ . '/../..' . '/extend',
     );
 
+    public static $classMap = array (
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe::$prefixDirsPsr4;
             $loader->fallbackDirsPsr0 = ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit9bb4ac3541fdd4df7265b83476c67fbe::$classMap;
 
         }, null, ClassLoader::class);
     }

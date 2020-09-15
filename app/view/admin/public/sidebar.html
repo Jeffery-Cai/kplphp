@@ -7,27 +7,26 @@
     </div>
     <div class="navigation-menu-body">
         <ul>
-            {notempty name="sidebar"}
-            {volist name="sidebar" id="menu"}
+            <?php foreach($sidebar as $key=>$menu){ ?>
                 <li {$menu['id'] == $_location[1]["id"]?='class="open"'}>
-            {notempty name="menu.url_value"}
+                {notempty name="menu.url_value"}
                 <a href="<?php echo url($menu['url_value']) ?>" {if($menu['id'] == $_location[1]["id"])}class="active active1"{/if}>
-                    <i class="{$menu.icon} nav-link-icon"></i><span>{$menu['title']}</span></a>
-            {else/}
+                <i class="{$menu.icon} nav-link-icon"></i><span>{$menu['title']}</span></a>
+                {else/}
                 <a href="#"><i class="{$menu.icon} nav-link-icon" ></i><span>{$menu['title']}</span></a>
                 {if condition="isset($menu['child'])"}
-                    <ul>
-                        {volist name="menu['child']" id="menuchild"}
-                        <li>
-                            <a {if(isset($_location[2]) && $menuchild['id'] == $_location[2]["id"])}class="active"{/if}  href=" {:url($menuchild['url_value'])} "><i class="{$menuchild.icon}" ></i>{$menuchild['title']}</a>
-                        </li>
-                        {/volist}
-                    </ul>
+                <ul>
+                    {volist name="menu['child']" id="menuchild"}
+                    <li>
+                        <a {if(isset($_location[2]) && $menuchild['id'] == $_location[2]["id"])}class="active"{/if}  href=" {:url($menuchild['url_value'])} "><i class="{$menuchild.icon}" ></i>{$menuchild['title']}</a>
+                    </li>
+                    {/volist}
+                </ul>
                 {/if}
-            {/notempty}
+                {/notempty}
                 </li>
-            {/volist}
-            {/notempty}
+            <?php } ?>
+
         </ul>
     </div>
 </div>

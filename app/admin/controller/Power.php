@@ -14,7 +14,6 @@ use app\admin\model\User;
 use think\App;
 use think\exception\ErrorException;
 use think\exception\ValidateException;
-use think\helper\Hash;
 use util\Tree;
 use app\AdminController;
 
@@ -22,27 +21,28 @@ class Power extends AdminController
 {
     public function index()
     {
-        $map = [];
+        $w = [];
         $keyname = trim(input('keyname',''));
         if(!empty($keyname))
         {
-            $map[] = ['username|nickname|email|mobile','like','%'.$keyname.'%'];
+            $w[] = ['username|nickname|email|mobile','like','%'.$keyname.'%'];
         }
-        $list = User::where($map)->order('id asc')->paginate(10);
+        $list = User::where($w)->page(input('page',1),input('limit',10))->select();
+        $count = User::where($w)->page(input('page',1),input('limit',10))->count();
         foreach ($list as $k => $v)
         {
             $list[$k]['role_name'] = Role::where('id','=',$v['role'])->value('name');
         }
         if(request()->isPost())
         {
-            echo json_encode(['data'=>$list]);exit;
+            return json(['data'=>['code'=>0,'msg'=>'数据列表','count'=>$count,'list'=>$list]]);
         }
-        return view('index', ['list' => $list]);
+        return view('index');
     }
 
     public function edit($id=null)
     {
-        if(intval($id)==1)halt('不可进入');
+        if(intval($id)==1)$this->error('禁止修改超级管理员');;
         $role = Role::select();
         $userModel = new User();
         if(!empty($id))
@@ -72,7 +72,7 @@ class Power extends AdminController
             if ($post['password'] == '' && $id!='') {
                 unset($post['password']);
             }else{
-                $post['password'] = Hash::make((string)$post['password']);
+                $post['password'] = password_hash((string)$post['password'], PASSWORD_DEFAULT);
             }
             // 非超级管理需要验证可选择角色
             if (session('user_auth.role') != 1) {
@@ -100,18 +100,19 @@ class Power extends AdminController
 
     public function role()
     {
-        $map = [];
+        $w = [];
         $keyname = trim(input('keyname',''));
         if(!empty($keyname))
         {
-            $map[] = ['name','like','%'.$keyname.'%'];
+            $w[] = ['name','like','%'.$keyname.'%'];
         }
-        $list = Role::where($map)->order('sort,id asc')->paginate(10);
+        $list = Role::where($w)->page(input('page',1),input('limit',10))->order('sort,id asc')->select();
+        $count = Role::where($w)->page(input('page',1),input('limit',10))->count();
         if(request()->isPost())
         {
-            echo json_encode(['data'=>$list]);exit;
+            return json(['data'=>['code'=>0,'msg'=>'数据列表','count'=>$count,'list'=>$list]]);
         }
-        return view('role', ['list' => $list]);
+        return view('role');
     }
 
     public function role_edit($id=null)
@@ -243,9 +244,9 @@ class Power extends AdminController
             if (!empty($data)) {
                 $menus = $this->parseMenu($data['menus']);
                 foreach ($menus as $menu) {
-                    if ($menu['pid'] == 0) {
-                        continue;
-                    }
+//                    if ($menu['pid'] == 0) {
+//                        continue;
+//                    }
                     Menu::update($menu);
                 }
                 $this->success('操作成功',url('/power/role_menu_set'));
@@ -258,6 +259,9 @@ class Power extends AdminController
     # 删除节点
     public function role_menu_set_del()
     {
+        # 增加判断是否存在下级菜单
+        $ifid = Menu::where(['pid'=>input('id')])->value('id');
+        if($ifid)$this->error('先删除下级菜单!');
         $info = Menu::destroy(intval(input('id')));
         if(!($info))$this->error('操作失败');
         $this->success('操作成功',url('/power/role_menu_set'));

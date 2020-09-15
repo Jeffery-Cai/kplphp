@@ -1,0 +1,14 @@
+<div class="page-header">
+    <h4><?php echo array_pop($_location)['title']; ?></h4>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {notempty name="_location"}
+            {volist name="_location" id="v"}
+            <li class="breadcrumb-item">
+                <a href="javascript:void(0)">{$v.title}</a>
+            </li>
+            {/volist}
+            {/notempty}
+        </ol>
+    </nav>
+</div>

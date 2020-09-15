@@ -32,10 +32,6 @@ return [
     // 显示错误信息
     'show_error_msg'   => false,
 
-    'addons_path' => app()->getRootPath() . 'addons/',
-
-    'dbprefix' => 'kpl_',
-
     'auto_multi_app' => true,
 
     'captcha_signin' => 0,

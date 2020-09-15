@@ -9,6 +9,7 @@
 namespace app\admin\model;
 
 use app\admin\model\Role as RoleModel;
+use liliuwei\think\Jump;
 use think\Model;
 use think\Exception;
 use util\Tree;
@@ -107,7 +108,6 @@ class Menu extends Model
         $cache_tag .= '_role_'.session('user_auth.role');
         $menus = cache($cache_tag);
         if (!$menus) {
-
             $map['status'] = 1;
             $map['pid']    = 0;
             $list_menu     = self::where($map)->order('sort,id')->column('id,pid,module,title,url_value,url_type,url_target,icon,params');
@@ -125,14 +125,10 @@ class Menu extends Model
                     $url = explode('/', $menu['url_value']);
                     $menu['controller'] = $url[1];
                     $menu['action']     = $url[2];
-//                    $menu['url_value']  = $menu['url_type'] == 'module_admin' ? admin_url($menu['url_value'], $menu['params']) : home_url($menu['url_value'], $menu['params']);
-//                    $menu['url_value']  = $menu['url_value'];
                 }
                 $menus[$key] = $menu;
                 $i++;
             }
-
-
         }
         return $menus;
     }
@@ -161,6 +157,7 @@ class Menu extends Model
                 'status' => 1
             ];
 
+
             $menus = self::where($map)->order('sort,id')->column('id,controller,action,pid,module,title,url_value,url_type,url_target,icon,params');
             // 解析模块链接
             foreach ($menus as $key => &$menu) {
@@ -187,6 +184,14 @@ class Menu extends Model
     {
         $controller = request()->controller();
         $action     = request()->action();
+
+        # 插件不需要限制菜单权限
+        $pathinfo = request()->pathinfo();
+        $expathinfo = explode('/',$pathinfo);
+        $addons = $expathinfo[0];
+        if($addons == 'addons') {
+            $id = 34;
+        }
         if ($id != '') {
             $cache_name = 'location_menu_'.$id;
         } else {
@@ -198,20 +203,19 @@ class Menu extends Model
                 ['pid', '<>', 0],
                 ['url_value', '=', strtolower('/'.trim(preg_replace("/[A-Z]/", "_\\0", $controller), "_").'/'.$action)]
             ];
+
             // 当前操作对应的节点ID
             $curr_id = $id == '' ? self::where($map)->value('id') : $id;
             // 获取节点ID是所有父级节点
             $location = Tree::getParents(self::column('id,pid,title,url_value,params'), $curr_id);
             if ($check && empty($location)) {
-                throw new Exception('获取不到当前节点地址，可能未添加节点', 9001);
+                throw new Exception('请添加菜单!', 9001);
             }
             // 剔除最后一个节点url
             if ($del_last_url) {
                 $location[count($location) - 1]['url_value'] = '';
             }
-
         }
-
         return $location;
     }
 

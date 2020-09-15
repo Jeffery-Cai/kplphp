@@ -10,23 +10,23 @@ namespace app\admin\model;
 use think\Model;
 use think\facade\Config;
 
-class AddonsManage extends Model
+class Addonsmanage extends Model
 {
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
     protected $name = 'addons_manage';
 
-    public function getAll($keyword = '', $status = '')
+    public static function getAll($keyword = '', $status = '')
     {
         $result = cache('plugin_all');
         if (!$result) {
             // 获取插件目录下的所有插件目录
-            $dirs = array_map('basename', glob(Config::get('app.addons_path').'*', GLOB_ONLYDIR));
-            if ($dirs === false || !file_exists(Config::get('app.addons_path'))) {
+            $dirs = array_map('basename', glob(Config::get('addons.addons_path').'*', GLOB_ONLYDIR));
+            if ($dirs === false || !file_exists(Config::get('addons.addons_path'))) {
                 return '插件目录不可读或者不存在';
             }
             // 读取数据库插件表
-            $plugins = $this->order('sort asc,id desc')->column('*','name');
+            $plugins = self::order('id asc')->column('*','name');
             // 读取未安装的插件
             foreach ($dirs as $plugin) {
                 if (!isset($plugins[$plugin])) {
@@ -51,7 +51,7 @@ class AddonsManage extends Model
                     }
 
                     // 插件插件信息不完整
-                    if (!$this->checkInfo($obj->info)) {
+                    if (!self::checkInfo($obj->info)) {
                         $plugins[$plugin]['status'] = '-4';
                         continue;
                     }
@@ -170,7 +170,7 @@ class AddonsManage extends Model
     }
 
     // 检查信息
-    private function checkInfo($info = '')
+    private static function checkInfo($info = '')
     {
         $default_item = ['name','title','author','version'];
         foreach ($default_item as $item) {

@@ -7,19 +7,20 @@
  * 后台记得继承于此类，此类可以装逼功能
 ----------------------------------------------------------------*/
 declare (strict_types = 1);
-
 namespace app;
-
 use app\admin\logic\User;
 use app\admin\model\Menu;
 use app\admin\model\Role;
 use app\admin\model\User as UserModel;
-use app\admin\user\validate\Role as RoleModel;
+use app\common\controller\Kbuilder;
+use app\common\model\Csvceshi;
 use think\App;
+use think\facade\Cookie;
+use \think\facade\Db;
 use think\exception\ValidateException;
+use think\facade\Config;
 use think\facade\View;
 use think\Validate;
-
 
 /**
  * 控制器基础类
@@ -27,38 +28,12 @@ use think\Validate;
 abstract class AdminController
 {
     use \liliuwei\think\Jump;
-
-    /**
-     * Request实例
-     * @var \think\Request
-     */
     protected $request;
-
-    /**
-     * 应用实例
-     * @var \think\App
-     */
     protected $app;
     protected $page;
     protected $size;
-
-    /**
-     * 是否批量验证
-     * @var bool
-     */
     protected $batchValidate = false;
-
-    /**
-     * 控制器中间件
-     * @var array
-     */
     protected $middleware = [];
-
-    /**
-     * 构造方法
-     * @access public
-     * @param  App  $app  应用对象
-     */
     public function __construct(App $app)
     {
         $this->app     = $app;
@@ -76,7 +51,8 @@ abstract class AdminController
         if(!in_array(request()->controller(),$iarray))
         {
             if ($uid<=0 || empty($uid)) {
-                $this->success('请登录','/admin.php/login/index');
+                header('location:/admin.php/login/index');exit;
+//                $this->success('请登录','/admin.php/login/index');  # 提示[你们想改都行]
             }
         }
         $this->role_auth();
@@ -89,10 +65,14 @@ abstract class AdminController
                 if (!Role::checkAuth()) $this->error('权限不足！');
                 View::assign('_location', Menu::getLocation('', true));
                 View::assign('sidebar', Menu::getSidebarMenu());
+                View::assign('top_menus', Menu::getTopMenu());
             }
         }
         $this->page = input('page',1);
         $this->size = input('size',5);
+
+        $kplphp = Config::get('kplphp');
+        View::assign('kplphp',$kplphp);
     }
 
     /**
@@ -131,18 +111,20 @@ abstract class AdminController
         return $v->failException(true)->check($data);
     }
 
+    /**
+     * 获取插件名称
+     * @param $name 插件名称
+     * @return string
+     */
     public function get_plugin_class($name)
     {
         return "addons\\{$name}\\plugin";
     }
 
-    # 判断是否登录
     public function is_signin()
     {
         $user = session('user_auth');
-//        halt($user);
         if (empty($user)) {
-            // 判断是否记住登录
             if (cookie('?uid') && cookie('?signin_token')) {
                 $UserModel = new UserModel();
                 $user = $UserModel::find(cookie('uid'));
@@ -162,6 +144,143 @@ abstract class AdminController
         }else{
             return session('user_auth_sign') == $this->data_auth_sign($user) ? $user['uid'] : 0;
         }
+    }
+
+    /**
+     * @param null $id == 查看的ID值
+     * @return mixed
+     */
+    public function see($id=null)
+    {
+        if (!$id) $this->error('参数错误');
+        # 重新定义查看
+        return Kbuilder::sets('see')
+            ->setTable(Cookie::get('table'))
+            ->getInfo($id)
+            ->view();
+    }
+
+    public function add()
+    {
+        $table = '\app\admin\model\\' .Cookie::get('table');
+        $model = new $table();
+        if(!empty($id))
+        {
+            $action = $model->find($id);
+        }else{
+            $action = $model;
+        }
+        if(request()->isPost())
+        {
+            $data = request()->post();
+            $file = request()->file();
+            # 处理上传的文件
+            $filek = [];
+            $filev = [];
+            foreach ($file as $k => $v)
+            {
+                $filek[] = $k;
+                if(!is_array($v))
+                {
+                    # 单图片提交
+                    $filev[] = \think\facade\Filesystem::disk('public')->putFile( 'uploads', $v, 'md5');
+                }else{
+                    $filesname = [];
+                    foreach ($v as $k1 => $v1)
+                    {
+                        $filesname[] = \think\facade\Filesystem::disk('public')->putFile( 'uploads', $v1, 'md5');
+                    }
+                    $filev[] = implode(',',$filesname);
+                }
+            }
+            foreach ($filek as $k => $v)
+            {
+                $data[$v] = $filev[$k];
+            }
+            $data['status'] = isset($data['status']) && $data['status'] == 'on'?1:0;
+            $status = $action->save($data);
+            if($status)
+            {
+                $this->success('操作成功');
+            }else{
+                $this->error('操作失败');
+            }
+        }else{
+            # 重新定义查看
+            return Kbuilder::sets('form')
+                ->setTable(Cookie::get('table'))
+                ->getInfo()
+                ->view();
+        }
+    }
+
+    public function edit($id=null)
+    {
+        if (!$id) $this->error('参数错误');
+        $table = '\app\admin\model\\' .Cookie::get('table');
+        $model = new $table();
+        if(!empty($id))
+        {
+            $action = $model->find($id);
+        }else{
+            $action = $model;
+        }
+        if(request()->isPost())
+        {
+            $data = request()->post();
+            $file = request()->file();
+            # 处理上传的文件
+            $filek = [];
+            $filev = [];
+            foreach ($file as $k => $v)
+            {
+                $filek[] = $k;
+                if(!is_array($v))
+                {
+                    # 单图片提交
+                    $filev[] = \think\facade\Filesystem::disk('public')->putFile( 'uploads', $v, 'md5');
+                }else{
+                    $filesname = [];
+                    foreach ($v as $k1 => $v1)
+                    {
+                        $filesname[] = \think\facade\Filesystem::disk('public')->putFile( 'uploads', $v1, 'md5');
+                    }
+                    $filev[] = implode(',',$filesname);
+                }
+            }
+            foreach ($filek as $k => $v)
+            {
+                $data[$v] = $filev[$k];
+            }
+            $data['status'] = isset($data['status']) && $data['status'] == 'on'?1:0;
+            $status = $action->save($data);
+            if($status)
+            {
+                $this->success('操作成功');
+            }else{
+                $this->error('操作失败');
+            }
+        }else{
+            # 重新定义查看
+            return Kbuilder::sets('form')
+                ->setTable(Cookie::get('table'))
+                ->getInfo($id)
+                ->view();
+        }
+    }
+
+    public function del()
+    {
+
+        $table = '\app\admin\model\\' .Cookie::get('table');
+        $action = new $table();
+        $ids = input('id','');
+        if($ids)
+        {
+            $action->where([['id','in',$ids]])->delete();
+            $this->success('操作成功');
+        }
+        $this->error('操作失败');
     }
 
 

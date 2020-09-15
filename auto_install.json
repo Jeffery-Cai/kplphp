@@ -1,0 +1,13 @@
+{
+  "php_ext": "",
+  "chmod": [
+  ],
+  "run_path": "/public",
+  "success_url": "/index.php",
+  "php_versions": "71,72,73,74",
+  "db_config": "config/database.php",
+  "admin_username": "admin",
+  "admin_password": "111111",
+  "remove_file": [],
+  "enable_functions": []
+}

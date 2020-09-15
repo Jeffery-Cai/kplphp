@@ -17,10 +17,9 @@ class Login extends AdminController
 {
     public function index()
     {
-
         if (request()->isPost()) {
             $post = request()->post();
-            $rememberme = 1; # 已默认长时间记住、
+            $rememberme = true; # 已默认长时间记住
             $result = $this->validate($post, 'User.signin');
             if(true !== $result){
                 $this->error($result);
@@ -44,7 +43,7 @@ class Login extends AdminController
     {
         session(null);
         cookie('uid', null);
-        cookie('signin_token', null);
+        cookie('signin_token',null);
         $this->redirect(url('/login/index'));
     }
 

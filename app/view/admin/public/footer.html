@@ -2,13 +2,36 @@
 <!--* 作者由JefferyCai码云所创造 [ https://gitee.com/JefferyCai ]-->
 <!--* 当前码云地址 与 操作文档都在 [ https://gitee.com/JefferyCai/kplphp ]-->
 <!--* QQ群请加 972703635 [ https://jq.qq.com/?_wv=1027&k=5YnmIH8 ]，如有更多服务，请单独加群主: 1345199080-->
+<style>
+    body.stretch-layout #main footer{
+        left: 205px;
+    }
+    .cj a.active{
+        color: #000;
+        font-weight: bold;
+    }
+</style>
 <footer>
     <div class="row">
-        <div class="col-md-12 ml-5">
-            <div>Copyright &copy; 2019-2020.版权所有<a target="_blank" rel="noopener noreferrer" href="http://www.kplphp.com/">kplphp后台框架</a></div>
+        <div class="col-md-12">
+            <div>Copyright &copy; 2019-<?php echo date('Y'); ?>.版权所有<a target="_blank" rel="noopener noreferrer" href="{$kplphp.product_website}">{$kplphp.product_name}{$kplphp.product_version}</a></div>
         </div>
     </div>
 </footer>
+
+<!-- Plugin scripts -->
+<script src="__STATIC__/vendors/bundle.js"></script>
+
+<!-- Prism -->
+<script src="__STATIC__/vendors/prism/prism.js"></script>
+
+<!-- App scripts -->
+<script src="__STATIC__/assets/js/app.min.js"></script>
+
+<script src="__STATIC__/assets/js/examples/toast.js"></script>
+
+
+<script src="__STATIC__/vendors/layui/layui.js"></script>
 <script>
     //接收ifram页面返回的消息
     function iframe_form_msg(code, msg, url = ''){
@@ -22,6 +45,8 @@
             toastr.error(msg);
         }
     }
+
+
 
 </script>
 <div id="alert_message" style="display:none">

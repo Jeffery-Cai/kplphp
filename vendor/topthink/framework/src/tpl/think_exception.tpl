@@ -394,11 +394,10 @@ if (!function_exists('echo_value')) {
     <?php } ?>
 
     <div class="copyright">
-        <a title="官方网站" href="http://www.kplphp.com">Kplphp</a>
-        <span>版本<?php echo config('kplphp.product_version'); ?>   基于 ThinkPHP V<?php echo \think\facade\App::version(); ?></span>
+        <a title="官方网站" href="http://www.thinkphp.cn">ThinkPHP</a> 
+        <span>V<?php echo \think\facade\App::version(); ?></span> 
         <span>{ 十年磨一剑-为API开发设计的高性能框架 }</span>
-        <span>- <a title="KplphpV1.0官方手册" href="https://www.kplphp.com">KplphpV1.0官方手册</a></span>
-        <span>- <a title="TP6官方手册" href="https://www.kancloud.cn/manual/thinkphp6_0/content">TP6官方手册</a></span>
+        <span>- <a title="官方手册" href="https://www.kancloud.cn/manual/thinkphp6_0/content">官方手册</a></span>
     </div>
     <?php if (\think\facade\App::isDebug()) { ?>
     <script>

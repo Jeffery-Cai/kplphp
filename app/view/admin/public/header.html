@@ -2,7 +2,18 @@
 <!--* 作者由JefferyCai码云所创造 [ https://gitee.com/JefferyCai ]-->
 <!--* 当前码云地址 与 操作文档都在 [ https://gitee.com/JefferyCai/kplphp ]-->
 <!--* QQ群请加 972703635 [ https://jq.qq.com/?_wv=1027&k=5YnmIH8 ]，如有更多服务，请单独加群主: 1345199080-->
-<!--* 插件模型功能-->
+<style>
+    .topmenu ul.nav li a{
+        padding: .5rem 1rem!important;
+        width: 100%!important;
+    }
+    .topmenu ul.nav li a.active{
+        color: #fff!important;
+    }
+    .layui-laydate .layui-this {
+        background-color: #64737a!important;
+    }
+</style>
 <div class="header">
     <ul class="navbar-nav ">
         <li class="nav-item navigation-toggler">
@@ -23,16 +34,17 @@
             <li class="nav-item search-form">
                 <div class="row">
                     <div class="col-md-12">
-                            <form>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-default" type="button">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="topmenu">
+                        <ul class="nav nav-pills">
+                            {notempty name="top_menus"}
+                            {volist name="top_menus" id="top_menus"}
+                            <li class="nav-item">
+                                <a class="nav-link {$top_menus['id'] == $_location[0]['id'] ?= 'active'}" target="{$top_menus['url_target']}" href="{:url($top_menus['url_value'])}"><i class="{$top_menus.icon} nav-link-icon" ></i> {$top_menus.title}</a>
+                            </li>
+                            {/volist}
+                            {/notempty}
+                        </ul>
+                        </div>
                     </div>
                 </div>
             </li>
@@ -43,7 +55,7 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link" title="Notifications" data-toggle="dropdown">
+                <a href="#" class="nav-link" title="退出登陆" data-toggle="dropdown">
                     <i data-feather="user"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-big">
@@ -52,7 +64,6 @@
                         <h6 class="mb-1">{:session('user_auth.username')}</h6>
                         <small class="font-size-11 opacity-7">身份：{:session('user_auth.role_name')}</small>
                     </div>
-
                     <div class="p-2 text-center mt-2">
                         <ul class="list-inline small">
                             <li class="list-inline-item">
@@ -62,140 +73,7 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link" title="Apps" data-toggle="dropdown">
-                    <i data-feather="grid"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-big">
-                    <div class="p-3">
-                        <h6 class="text-uppercase font-size-11 mb-3">展示功能</h6>
-                        <div class="row row-xs">
-                            <div class="col-6">
-                                <a href="">
-                                    <div class="text-uppercase font-size-11 p-3 border-radius-1 border text-center mb-3">
-                                        <i class="text-success width-23 height-23" data-feather="message-circle"></i>
-                                        <div class="mt-2">板块1</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-6">
-                                <a href="">
-                                    <div class="text-uppercase font-size-11 p-3 border-radius-1 border text-center mb-3">
-                                        <i class="text-info width-23 height-23" data-feather="mail"></i>
-                                        <div class="mt-2">板块2</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-6">
-                                <a href="">
-                                    <div class="text-uppercase font-size-11 p-3 border-radius-1 border text-center">
-                                        <i class="text-warning width-23 height-23" data-feather="calendar"></i>
-                                        <div class="mt-2">板块3</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-6">
-                                <a href="">
-                                    <div class="text-uppercase font-size-11 p-3 border-radius-1 border text-center">
-                                        <i class="text-danger width-23 height-23" data-feather="file"></i>
-                                        <div class="mt-2">板块4</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link nav-link-notify" title="Messages" data-toggle="dropdown">
-                    <i data-feather="message-circle"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-big">
-                    <div class="p-4 text-center" data-backround-image="__STATIC__/assets/media/image/image1.png">
-                        <h6 class="mb-1">展示功能</h6>
-                        <small class="font-size-11 opacity-7">测试数据</small>
-                    </div>
-                    <div>
-                        <ul class="list-group list-group-flush">
-                            <li>
-                                <a href="#" class="list-group-item d-flex hide-show-toggler">
-                                    <div>
-                                        <figure class="avatar avatar-sm m-r-15">
-                                            <img src="__STATIC__/assets/media/image/user/man_avatar1.jpg"
-                                                 class="rounded-circle" alt="user">
-                                        </figure>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <p class="mb-0 line-height-20 d-flex justify-content-between">
-                                            检测员
-                                            <i title="Make unread" data-toggle="tooltip"
-                                               class="hide-show-toggler-item fa fa-circle-o font-size-11"></i>
-                                        </p>
-                                        <div class="small text-muted">
-                                            <span class="mr-2">02:30 下午</span>
-                                            <span>欢迎你</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="list-group-item d-flex align-items-center hide-show-toggler">
-                                    <div>
-                                        <figure class="avatar avatar-sm m-r-15">
-                                            <img src="__STATIC__/assets/media/image/user/women_avatar5.jpg"
-                                                 class="rounded-circle" alt="user">
-                                        </figure>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <p class="mb-0 line-height-20 d-flex justify-content-between">
-                                            检测员
-                                            <i title="Make unread" data-toggle="tooltip"
-                                               class="hide-show-toggler-item fa fa-circle-o font-size-11"></i>
-                                        </p>
-                                        <div class="small text-muted">
-                                            <span class="mr-2">08:36 下午</span>
-                                            <span>我有几个问题</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="text-divider small pb-2 pl-3 pt-3">
-                                <span>旧消息</span>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="list-group-item d-flex align-items-center hide-show-toggler">
-                                    <div>
-                                        <figure class="avatar avatar-sm m-r-15">
-                                            <img src="__STATIC__/assets/media/image/user/man_avatar3.jpg"
-                                                 class="rounded-circle" alt="user">
-                                        </figure>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <p class="mb-0 line-height-20 d-flex justify-content-between">
-                                            Peter
-                                            <i title="Make unread" data-toggle="tooltip"
-                                               class="hide-show-toggler-item fa fa-check font-size-11"></i>
-                                        </p>
-                                        <div class="small text-muted">
-                                            <span class="mr-2">13点</span>
-                                            <span>准备开会</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="p-2 text-right">
-                        <ul class="list-inline small">
-                            <li class="list-inline-item">
-                                <a href="#">Mark All Read</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
+
         </ul>
         <ul class="navbar-nav d-flex align-items-center">
             <li class="nav-item header-toggler">

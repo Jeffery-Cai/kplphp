@@ -1,0 +1,1 @@
+DELETE FROM `kkk_addons_manage` WHERE identifier = 'kplphpcom.cjf.addons'

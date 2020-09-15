@@ -27,9 +27,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" href="{:url('/system/index')}">密码设置</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " href="#">其他设置</a>
-                                </li>
+<!--                                <li class="nav-item">-->
+<!--                                    <a class="nav-link " href="#">其他设置</a>-->
+<!--                                </li>-->
                             </ul>
                             <br>
                             <form action="{:url('/system/set_password')}" method="post" target="iframe_form" >
@@ -52,14 +52,9 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="" class="col-sm-1">
-                                        <button type="reset" class="btn btn-secondary">重置</button>
-                                    </label>
-                                    <div class="col-sm-9">
+
                                         <button type="submit" class="btn btn-secondary">提交</button>
-                                    </div>
-                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -69,7 +64,3 @@
     </main>
     {include file="public/footer"/}
 </div>
-
-<script src="__STATIC__/vendors/bundle.js"></script>
-<script src="__STATIC__/vendors/prism/prism.js"></script>
-<script src="__STATIC__/assets/js/app.min.js"></script>

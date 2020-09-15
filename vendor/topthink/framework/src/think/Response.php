@@ -129,6 +129,7 @@ abstract class Response
     {
         // 处理输出数据
         $data = $this->getContent();
+
         if (!headers_sent() && !empty($this->header)) {
             // 发送状态码
             http_response_code($this->code);
@@ -140,7 +141,9 @@ abstract class Response
         if ($this->cookie) {
             $this->cookie->save();
         }
+
         $this->sendData($data);
+
         if (function_exists('fastcgi_finish_request')) {
             // 提高页面响应
             fastcgi_finish_request();
@@ -378,7 +381,6 @@ abstract class Response
      */
     public function getContent(): string
     {
-
         if (null == $this->content) {
             $content = $this->output($this->data);
 
@@ -392,6 +394,7 @@ abstract class Response
 
             $this->content = (string) $content;
         }
+
         return $this->content;
     }
 

@@ -1,0 +1,109 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+<div id="main">
+    {include file="public/header"/}
+    <main class="main-content">
+        <div class="container">
+            {include file="public/page-header"/}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="app-block">
+                                <div class="app-content">
+                                    <div class="app-action">
+                                        <div class="action-left">
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item mb-0">
+                                                    <a href="#" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                                        <i data-feather="plus" class="mr-2"></i>
+                                                        添加
+                                                    </a>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{:url('/power/edit')}">用户</a>
+                                                        <a class="dropdown-item" href="{:url('/power/role_edit')}">角色</a>
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="action-right">
+                                            <form class="d-flex mr-3" method="get" action="">
+                                                <a href="#" class="app-sidebar-menu-button btn btn-outline-light">
+                                                    <i data-feather="menu"></i>
+                                                </a>
+                                                <div class="input-group">
+                                                    <input type="text" name="keyname" id="keyname" autofocus="autofocus" value="{$Request.get.keyname}"  class="form-control" placeholder="搜索关键字[登录名|昵称|邮箱|手机号]"
+                                                           aria-describedby="button-addon1">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-light" type="submit" id="button-addon1">
+                                                            <i data-feather="search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <table id="example1" class="table  table-striped table-bordered" >
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Telphone</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+    {include file="public/footer"/}
+</div>
+
+<script src="__STATIC__/vendors/dataTable/jquery.dataTables.min.js"></script>
+<script src="__STATIC__/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
+<script src="__STATIC__/vendors/dataTable/dataTables.responsive.min.js"></script>
+<script src="__STATIC__/assets/js/custom.js"></script>
+
+<script>
+    function edit(id) {
+        window.location.href = '{:url("/power/edit")}?id='+id;
+    }
+    function del(id,that) {
+        $.post("{:url('/power/del')}", {id:id}, function(data) {
+            if(data['code']!=1)
+            {
+                toastr.error(data['msg']);
+            }else{
+                $(that).parents('tr.even').remove();
+                toastr.success(data['msg']);
+                setInterval(function () {
+                    window.location.href = '';
+                },1000);
+            }
+        });
+
+    }
+    function fieldchange(id,field='status')
+    {
+        $.post("{:url('/power/fieldchange')}",{id:id,field:field},function(){});
+    }
+
+    $(document).ready(function () {
+        var param = {};
+        param.keyname = $.trim($("#keyname").val());//额外传参数k,lko]]]]]
+        var columns = [
+            { data: "id"},
+            { data: "name"},
+            { data: "telphone"}
+        ];
+        datatables.dt("#example1","{:url('/ceshi/table')}",columns,param);
+    });
+</script>

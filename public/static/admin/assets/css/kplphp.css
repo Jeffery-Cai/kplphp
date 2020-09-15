@@ -1,0 +1,42 @@
+.file {
+    position: relative;
+    display: inline-block;
+    background: #64737a;
+    border-color: #64737a;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+ul.file-list{
+    overflow: hidden;
+}
+ul.file-list li{
+    position: relative;
+    float: left;
+    margin-right: 27px;
+}
+.clear{
+    float: none;
+    clear: none;
+}
+.file-del{
+    position: absolute;
+    top: -4px;
+    right: -21px;
+    font-weight: 900;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+}
+

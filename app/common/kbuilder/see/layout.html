@@ -1,0 +1,29 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+<div id="main">
+    {include file="public/header"/}
+    <main class="main-content">
+        <div class="container">
+            {include file="public/page-header"/}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                {volist name="data" id="data"}
+                                <div class=" {if !isset($data['css']) } col-sm-2 {else /} {$data['css']} {/if}">{$data['title']} <p> {$data['value']} <small class="text-muted">{$data['mean']}</small> </p></div>
+                                {/volist}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" onclick="location.href='javascript:window.history.back(-1);'" class="btn btn-secondary">返回</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {include file="public/footer"/}
+</div>

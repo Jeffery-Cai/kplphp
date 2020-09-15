@@ -1,0 +1,256 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+<link rel="stylesheet" href="__STATIC__/vendors/select2/css/select2.min.css" type="text/css">
+<link rel="stylesheet" href="__STATIC__/vendors/tagsinput/bootstrap-tagsinput.css" type="text/css">
+<div id="main">
+    {include file="public/header"/}
+    <main class="main-content">
+        <div class="container">
+            {include file="public/page-header"/}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            {if $id && !isset($_GET['id'])}
+                                <form action="{:url($kplurl["edit"])}" method="post" target="iframe_form" enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="{$id}">
+                            {elseif !$id && isset($_GET['id'])}
+                            <input type="hidden" name="id" value="<?php echo input('id'); ?>">
+                            {else /}
+                                <form action="{:url($kplurl["add"])}" method="post" target="iframe_form" enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="">
+                            {/if}
+
+                            {volist name="data" id="data"}
+                            <div class="form-group">
+                                <label for="kplphp_{$key}">{$data['title']}</label>
+                                {if $data['type'] == 'text' || $data['type'] == 'password'}
+                                <input id="kplphp_{$key}" name="{$data['field']}" {if !empty($data['disabled'])} disabled="disabled" {/if}  type="{$data['type']}" value="{$data['value']}" class="form-control" placeholder="{if !empty($data['placeholder'])}{$data['placeholder']}{else /} {$data['title']}  {/if} ">
+                                {elseif $data['type'] == 'switch' /}
+                                <div class="form-group">
+                                    <div class="custom-control  custom-switch custom-checkbox-secondary">
+                                        <input type="checkbox" id="{$data['field']}_ksetarr_{$key}" name="{$data['field']}" class="custom-control-input" {if !empty($data['disabled'])} disabled="disabled" {/if} {if $data['value'] == 1} checked {/if}>
+                                        <label class="custom-control-label" for="{$data['field']}_ksetarr_{$key}">  </label>
+                                    </div>
+                                </div>
+                                {elseif $data['type'] == 'select' /}
+                                <div class="form-group">
+                                    <select id="kplphp_{$key}" name="{$data['field']}" class="custom-select">
+                                        {volist name="data['setarr']" id="setarr"}
+                                        <option value="{$key}">{$setarr}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                                {elseif $data['type'] == 'select2' /}
+                                <div class="form-group">
+                                    <select id="kplphp_{$key}" name="{$data['field']}" class="custom-select select2-example">
+                                        {volist name="data['setarr']" id="setarr"}
+                                        <option value="{$key}" {if !empty($data['disabled'])} disabled="disabled" {/if} {if $data['value'] == $key} selected {/if}>{$setarr}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                                {elseif $data['type'] == 'multiple_use' /}
+                                <div class="form-group">
+                                    <select id="kplphp_{$key}" name="{$data['field']}" class="custom-select select2-example" multiple>
+                                        {volist name="data['setarr']" id="setarr"}
+                                        <option  value="{$key}" {if !empty($data['disabled'])} disabled="disabled" {/if} {if $data['value'] == $key} selected {/if}>{$setarr}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                                {elseif $data['type'] == 'checkboxs' /}
+                                <div class="form-group">
+                                    {volist name="data['setarr']" id="setarr"}
+                                    <div class="custom-control {$data['inline-css']} custom-checkbox custom-checkbox-secondary">
+                                        <input type="checkbox" name="{$data['field']}" value="{$key}" class="custom-control-input" id="customCheck{$key}" {if !empty($data['disabled'])} disabled="disabled" {/if} {if $data['value'] == $key} checked {/if}>
+                                        <label class="custom-control-label" for="customCheck{$key}">{$setarr}</label>
+                                    </div>
+                                    {/volist}
+                                </div>
+                                {elseif $data['type'] == 'radio' /}
+                                <div class="form-group">
+                                    {volist name="data['setarr']" id="setarr"}
+                                    <div class="custom-control {$data['inline-css']} custom-radio  custom-checkbox-secondary">
+                                        <input type="radio" id="customRadio{$key}" name="{$data['field']}" class="custom-control-input" value="{$key}" {if !empty($data['disabled'])} disabled="disabled" {/if} {if $data['value'] == $key} checked {/if}>
+                                        <label class="custom-control-label" for="customRadio{$key}">{$setarr}</label>
+                                    </div>
+                                    {/volist}
+                                </div>
+                                {elseif $data['type'] == 'tags' /}
+                                <div class="form-group">
+                                    <input type="text" class="form-control tagsinput-example" name="{$data['field']}" placeholder="{$data['placeholder']}" value="{$data['exsetarr']}">
+                                </div>
+                                {elseif $data['type'] == 'time' /}
+                                <div class="form-group">
+                                    <input type="text" class="form-control time"  name="{$data['field']}" value="{$data['value']}" placeholder="年月日">
+                                </div>
+                                {elseif $data['type'] == 'datetime' /}
+                                <div class="form-group">
+                                    <input type="text" class="form-control datetime"  name="{$data['field']}" value="{$data['value']}" >
+                                </div>
+                                {elseif $data['type'] == 'image' /}
+                                <div class="form-group image">
+                                    <div style="width: 150px;height: 150px; background: #ddd;" >
+                                        <img src="" id="preview_img" width="150" height="150" alt="">
+                                    </div>
+                                    <br>
+                                    <a href="javascript:;" class="file btn btn-secondary">选择图片
+                                        <input type="file"  name="{$data['field']}" accept="image/png,image/jpeg" onchange="imageview(this)" />
+                                    </a>
+                                </div>
+                                {elseif $data['type'] == 'images' /}
+                                <div class="form-group images">
+                                    <div class="form-group image">
+                                        <ul class="file-list"></ul>
+                                        <br>
+                                        <div class="clear"></div>
+                                        <a href="javascript:;" class="file btn btn-secondary">选择多图片
+                                            <input type="file" name="{$data['field']}[]" multiple="multiple" accept="image/png,image/jpeg" onchange="imagesview(this)" />
+                                        </a>
+                                    </div>
+                                </div>
+                                {else /}
+                                <h3>其他扩展</h3>
+                                {/if}
+                                {if $data['mean']!=''}<small class="form-text text-muted">{$data['mean']}</small>{/if}
+                            </div>
+                            {/volist}
+                                {if isset($bottomBtn['reset'])}
+                                <button type="reset" class="btn btn-secondary">{$bottomBtn['reset']}</button>
+                                {/if}
+                                {if isset($bottomBtn['submit'])}
+                                <button type="submit" class="btn btn-secondary">{$bottomBtn['submit']}</button>
+                                {/if}
+                                {if isset($bottomBtn['return'])}
+                                <button type="button" onclick="javascript:history.back(-1);" class="btn btn-secondary">{$bottomBtn['return']}</button>
+                                {/if}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {include file="public/footer"/}
+</div>
+<script src="__STATIC__/vendors/select2/js/select2.min.js"></script>
+<script src="__STATIC__/vendors/tagsinput/bootstrap-tagsinput.js"></script>
+
+<script>
+
+    var fileList = [];
+    function imagesview(that) {
+        //上传过图片后再次上传时限值数量
+        var filelist = $(that).parent('a').siblings('ul.file-list');
+        // var numold = filelist.children('li').length;
+        // if(numold >= 6){
+        //     layer.alert('最多上传6张图片');
+        //     return;
+        // }
+        // if(num >6 ){
+        //     alert('最多上传6张图片');
+        //     return;
+        // }else if(numall > 6){
+        //     alert('最多上传6张图片');
+        //     return;
+        // }
+        var curFile = that.files;
+        var formData = new FormData();
+        for (var i = 0, len = curFile.length; i < len; i++) {
+            formData.append('file[]', curFile[i]);
+        }
+        formData.append('type', 'image');
+        $.ajax({
+            url: "{:url('/upload/file')}",
+            type: "post",
+            dataType: "json",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                for (dd in d['data'])
+                {
+                    filelist.append('<li class="file-item"><img src="' + d['data'][dd]['filename'] + '" alt="" height="70"><span class="file-del" onclick="xdel(this,' + dd+ ')"> X </span></li>').children(':last').hide().fadeIn(2500);
+                }
+            },
+        })
+    }
+
+    function xdel(that,id) {
+        let $parent = $(that).parent();
+        let index = $parent.index();
+        fileList.splice(index, 1);
+        var formData = new FormData();
+        formData.append('id', id);
+        $.ajax({
+            url: "{:url('/upload/delfile')}",
+            type: "post",
+            dataType: "json",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                if(d['status'] == 1)
+                {
+                    $parent.fadeOut(350, function () {
+                        $parent.remove()
+                    });
+                }
+            }
+        })
+    }
+
+    // 单图片上传
+    function imageview(that) {
+        var fileObj = $(that)[0].files[0];
+        var formData = new FormData();
+        formData.append('file', fileObj);
+        formData.append('type', 'image');
+        $.ajax({
+            url: "{:url('/upload/file')}",
+            type: "post",
+            dataType: "json",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                for (dd in d['data'])
+                {
+                    $(that).parents('.image').find('#preview_img').attr('src',d['data'][dd]['filename']);
+                }
+            },
+        })
+    }
+
+
+    $('.select2-example').select2({
+        placeholder: 'Select'
+    });
+    $("input.tagsinput-example").tagsinput('items');
+
+    // layui插件
+    layui.use(['table','laydate'],function() {
+        var laydate = layui.laydate;
+        $('.time').each(function(){
+            laydate.render({
+                elem: this
+                ,position: 'fixed'
+                ,trigger: 'click'
+                ,format: 'yyyy-MM-dd'
+            });
+        })
+        $(".datetime").each(function(){
+            laydate.render({
+                elem: this
+                ,range: true
+            });
+        })
+    })
+
+
+</script>

@@ -1,11 +1,10 @@
-# https://gitee.com/JefferyCai/kplphp 建议使用码云地址，因为github地址由于网络卡，不稳定的原因。。。
-
+# http://www.kplphp.com
 Kplphp是一款基于ThinkPHP6底层的极简极速后台开发框架。
 
+## 如果您觉得有帮助，请点右上角 "Star" 支持一下谢谢
 
-
-## **目前已更新至thinkphp官网最新版本 6.0.1  [ 一直迭代更新~ ]**
-
+## **目前已更新至thinkphp官网最新版本 6.0.3  [ 一直迭代更新~ 2020/6/30 ]**
+    
 [![Fork me on Gitee](https://gitee.com/JefferyCai/kplphp/widgets/widget_3.svg)](https://gitee.com/JefferyCai/kplphp)
 
 基于thinkphp6操作文档
@@ -17,6 +16,7 @@ Github地址 ：   https://github.com/Jeffery-Cai/kplphp
 
 mysql数据库文件请加以下QQ群获取。
 
+#  http://www.kplphp.com/public/admin.php/login/index
 
 ## **目录结构 **
 ~~~
@@ -75,25 +75,35 @@ www  WEB部署目录（或者子目录）
 ├─README.md             README 文件
 ├─think                 命令行入口文件
 ~~~
-## **后台框架测试地址**
+## **后台框架测试地址 [重大更换]**
 
-http://139.9.38.224:6602 [主后台框架]  ceshi  123456789  [360浏览器访问记得使用极速模式]
+http://www.kplphp.com/public/admin.php/login/index   ceshi  123456789  [360浏览器访问记得使用极速模式]
 
-http://139.9.38.224:6603 [主后台框架模板功能]  [360浏览器访问记得使用极速模式]
+## [注意:V1.0 跟 V2.0区别重大，建议使用V2.0版本] **
+## V2.0版本 [当前码云版本]
+* 前后端分离，自写kbuilder操作器【form，see，table快速构建器】。内置增删查改，表单多类型扩展
+* 内置一键快速CURD命令
+~~~ 
+php think make:kplphp_kbuilder Hello Hello --app admin   [ # 快速构建器命令 ]
+php think make:kplphp_curd Hello Hello Hello --app admin [ # 普通CURD增删改查+验证器 ]
+~~~
 
-## **主要特性**
+* 增加顶部菜单，让菜单更新理性
+* 由V1.0版本的table表格datatables插件优化为layui插件
+* 强大的插件扩展功能，在线安装卸载升级插件 [可进群下载更多插件]
+* 丰富的插件应用市场 [升级中]
 
-* 基于`Auth`验证的权限管理系统
-    * 支持无限级父子级权限继承，父级的管理员可任意增删改子级管理员及权限设置
-    * 支持单管理员多角色
-    * 支持管理子级数据或个人数据
-* 支持更多强大的功能 [正在升级中]
-* 强大的插件扩展功能，在线安装卸载升级插件 [正在升级中]
-* 丰富的插件应用市场 [正在升级中]
+## V1.0版本
+* 下载kplphpV1.0.0版本地址：https://gitee.com/JefferyCai/kplphp/releases
+* 基本的权限管理系统
+  支持无限级父子级权限继承，父级的管理员可任意增删改子级管理员及权限设置
+  支持单管理员多角色
+  支持管理子级数据或个人数据
+* 去除顶部菜单,只有左侧菜单
 
 ## **安装使用**
 
-https://doc.kplphp.com   [域名正在建设中]
+https://www.kancloud.cn/jefferycai/kplphp/1805815
 
 ## **推荐配置**
 
@@ -110,11 +120,15 @@ ThinkPHP6.0基于精简核心和统一用法两大原则在5.1的基础上对底
 
 
 ## **界面截图**
-![主页](http://139.9.38.224:6602/11.png "主页")
+![主页](http://119.3.239.1:8882/public/11.png "主页")
 
-![菜单管理](http://139.9.38.224:6602/22.png "菜单管理")
+![菜单管理](http://119.3.239.1:8882/public/22.png "菜单管理")
 
-![模板](http://139.9.38.224:6602/33.png "模板")
+![模板](http://119.3.239.1:8882/public/44.png "模板")
+
+![模板](http://119.3.239.1:8882/public/55.png "模板")
+
+![模板](http://119.3.239.1:8882/public/33.png "模板")
 
 
 ## **问题反馈**
@@ -123,7 +137,8 @@ ThinkPHP6.0基于精简核心和统一用法两大原则在5.1的基础上对底
 
 交流社区: https://ask.kplphp.com  [域名正在建设中]
 
-QQ群: [972703635](https://jq.qq.com/?_wv=1027&k=57JpRdR)(未满，可加) 
+QQ群1: [972703635](https://jq.qq.com/?_wv=1027&k=57JpRdR)(未满，可加) 
+QQ群2: [972703635](https://jq.qq.com/?_wv=1027&k=57JpRdR)(未满，可加) 
 
 Email: (1345199080#qq.com, 把#换成@)
 
@@ -137,7 +152,7 @@ ThinkPHP：http://www.thinkphp.cn
 
 jQuery：http://jquery.com
 
-Datatables : https://datatables.net
+layui : https://www.layui.com
 
 等其他.
 

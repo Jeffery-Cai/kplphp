@@ -2,7 +2,6 @@
 <!--* 作者由JefferyCai码云所创造 [ https://gitee.com/JefferyCai ]-->
 <!--* 当前码云地址 与 操作文档都在 [ https://gitee.com/JefferyCai/kplphp ]-->
 <!--* QQ群请加 972703635 [ https://jq.qq.com/?_wv=1027&k=5YnmIH8 ]，如有更多服务，请单独加群主: 1345199080-->
-<!--* 插件模型功能-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,5 +16,56 @@
     <link rel="stylesheet" href="__STATIC__/vendors/bundle.css" type="text/css">
     <link rel="stylesheet" href="__STATIC__/vendors/prism/prism.css" type="text/css">
     <link rel="stylesheet" href="__STATIC__/assets/css/app.min.css" type="text/css">
+    <link rel="stylesheet" href="__STATIC__/vendors/layui/css/layui.css" type="text/css">
+    <link rel="stylesheet" href="__STATIC__/assets/css/kplphp.css" type="text/css">
+    <style>
+        .app-block .app-content .app-action{
+            margin-bottom: 0;
+        }
+        .layui-laypage .layui-laypage-curr .layui-laypage-em{
+            background-color: #64737a;
+        }
+        .layui-laypage input:focus, .layui-laypage select:focus{
+            border-color: #64737a!important;
+        }
+        .layui-bg-secondary{
+            background-color: #393D49!important;
+            color: #fff!important;
+        }
+        .layui-layer-btn .layui-layer-btn0{
+            border-color: #393D49!important;
+            background-color: #393D49!important;
+            color: #fff!important;
+        }
+        .layui-form-checked[lay-skin=primary] i {
+            border-color: #64737a!important;
+            background-color: #64737a;
+            color: #fff;
+        }
+        .layui-form-checkbox[lay-skin=primary]:hover i {
+            border-color: #64737a;
+            color: #fff;
+        }
+        .layui-form-onswitch {
+            border-color: #64737a;
+            background-color: #64737a;
+        }
+        .header ul.navbar-nav li.nav-item a.nav-link:hover{
+            /*color: #64737a!important;*/
+        }
+        body.small-navigation:not(.hidden-navigation) .navigation .navigation-menu-body ul li.open>a{
+            background-color: #64737a;
+        }
+        .header ul.navbar-nav li.nav-item{
+            margin-left: 0;
+        }
+
+        .layui-form-label{
+            width: auto;
+        }
+        .layui-form-select dl dd.layui-this{
+            background-color: #64737a;
+        }
+    </style>
 </head>
-<body class="sticky-navigation">
+<body class="stretch-layout sticky-navigation">

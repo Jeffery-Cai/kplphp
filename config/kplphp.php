@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'product_name'      => 'kplphp',
-    'product_version'   => 'v1.0.0', // kplphp版本
+    'product_name'      => 'kplphp后台框架',
+    'product_version'   => 'v2.0.1', // kplphp版本
     'qq_group'          => '972703635',
     'build_version'     => '201912281516',
     'product_website'   => 'http://www.kplphp.com',

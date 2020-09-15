@@ -8,12 +8,13 @@
 ----------------------------------------------------------------*/
 namespace app\admin\controller;
 use app\AdminController;
+use app\admin\model\Addonsmanage as AddonsmanageModel;
+use think\App;
 use think\facade\Config;
 use think\facade\Db;
 use think\facade\View;
-use think\facade\cache;
 use util\Sql;
-class AddonsManage extends AdminController
+class Addonsmanage extends AdminController
 {
     public function index($group = 'local')
     {
@@ -25,10 +26,9 @@ class AddonsManage extends AdminController
                 } else {
                     $status  = '';
                 }
-                $PluginModel = new \app\admin\model\AddonsManage();
-                $result = $PluginModel->getAll($keyword, $status);
+                $result = AddonsmanageModel::getAll($keyword, $status);
                 if ($result['plugins'] === false) {
-                    $this->error($PluginModel->getError());
+                    $this->error(AddonsmanageModel::getError());
                 }
                 View::assign('list', $result['plugins']);
                 View::assign('total', $result['total']);
@@ -37,6 +37,12 @@ class AddonsManage extends AdminController
             case 'online':
                 break;
         }
+    }
+
+    # 查看详细信息
+    public function checkdes($title,$name)
+    {
+        return json(['title'=>$title,'des'=>@file_get_contents(root_path().'public/addons/'.$name.'/des.html')]);
     }
 
     # add
@@ -56,42 +62,41 @@ class AddonsManage extends AdminController
         if (!class_exists($plugin_class)) {
             $this->error ('插件不存在！');
         }
-        // 实例化插件
+        # 实例化插件
         $plugin = new $plugin_class;
-        // 插件预安装
+        # 插件预安装
         if(!$plugin->install()) {
             $this->error ('插件预安装失败!原因：'. $plugin->getError());
         }
-        // 执行安装插件sql文件
-        $sql_file = realpath(Config::get('app.addons_path').$name.'/install.sql');
-        if (file_exists($sql_file)) {
-            if (isset($plugin->database_prefix) && $plugin->database_prefix != '') {
-                $sql_statement = Sql::getSqlFromFile($sql_file, false, [$plugin->database_prefix => Config::get('app.dbprefix')]);
-            } else {
-                $sql_statement = Sql::getSqlFromFile($sql_file);
-            }
-            if (!empty($sql_statement)) {
-                foreach ($sql_statement as $value) {
-                    Db::execute($value);
+        $plugin_info = $plugin->info;
+        $info = AddonsManageModel::where(['identifier'=>$plugin_info['identifier']])->find();
+        if(empty($info))
+        {
+            $sql_file = realpath(Config::get('addons.addons_path').$name.'/install.sql');
+            if (file_exists($sql_file)) {
+                if (isset($plugin->database_prefix) && $plugin->database_prefix != '') {
+                    $sql_statement = Sql::getSqlFromFile($sql_file, false, [$plugin->database_prefix => Config::get('database.connections.mysql.prefix')]);
+                } else {
+                    $sql_statement = Sql::getSqlFromFile($sql_file);
+                }
+                if (!empty($sql_statement)) {
+                    # 用sql语句写入方式
+                    foreach ($sql_statement as $value) {
+                        Db::execute($value);
+                    }
                 }
             }
-        }
-        $plugin_info = $plugin->info;
-        $plugin_info['status'] = 1;
-        $info = \app\admin\model\AddonsManage::where(array('identifier'=>$plugin_info['identifier']))->find();
-        if(!$info)
-        {
-            // 将插件信息写入数据库
-            if (\app\admin\model\AddonsManage::create($plugin_info)) {
-                header('location:/addonsManage/index');
-                exit;
+            # 写入插件式
+            $plugin_info['status'] = 1;
+            if (AddonsManageModel::create($plugin_info)) {
+                $this->addonscopy($name);
+                $this->success('操作成功',url('/addonsmanage/index'));
             } else {
-                header('location:/addonsManage/index');
-                exit;
+                $this->error('操作失败');
             }
+        }else{
+            $this->error('已存在该插件，如想重新安装请卸载！');
         }
-        header('location:/addonsManage/index');
-        exit;
     }
 
     # 卸载
@@ -103,37 +108,98 @@ class AddonsManage extends AdminController
         if (!class_exists($class)) {
             $this->error ('插件不存在！');
         }
-        // 实例化插件
-        $plugin = new $class;
+        # 实例化插件
+        $plugin = new $class();
         if(!$plugin->uninstall()) {
             $this->error ('插件预卸载失败!原因：'. $plugin->getError());
         }
-        // 执行卸载插件sql文件
-        $sql_file = realpath(Config::get('app.addons_path').$plug_name.'/uninstall.sql');
-        if (file_exists($sql_file)) {
-            if (isset($plugin->database_prefix) && $plugin->database_prefix != '') {
-                $sql_statement = Sql::getSqlFromFile($sql_file, true, [$plugin->database_prefix => Config::get('app.dbprefix')]);
-            } else {
-                $sql_statement = Sql::getSqlFromFile($sql_file, true);
-            }
-            if (!empty($sql_statement)) {
-                Db::execute($sql_statement);
-            }
-        }
         $plugin_info = $plugin->info;
-        $info = \app\admin\model\AddonsManage::where(array('identifier'=>$plugin_info['identifier']))->find();
+        $info = AddonsManageModel::where(['identifier'=>$plugin_info['identifier']])->find();
         if($info)
         {
-            // 删除插件信息
-            if (\app\admin\model\AddonsManage::where('name', $plug_name)->delete()) {
-                header('location:/addonsManage/index');
-                exit;
-            } else {
-                header('location:/addonsManage/index');
-                exit;
+            # 执行卸载插件sql文件
+            $sql_file = realpath(Config::get('addons.addons_path').$plug_name.'/uninstall.sql');
+            if (file_exists($sql_file)) {
+                if (isset($plugin->database_prefix) && $plugin->database_prefix != '') {
+                    $sql_statement = Sql::getSqlFromFile($sql_file, true, [$plugin->database_prefix => Config::get('database.connections.mysql.prefix')]);
+                } else {
+                    $sql_statement = Sql::getSqlFromFile($sql_file, true);
+                }
+                if (!empty($sql_statement)) {
+                    Db::execute($sql_statement);
+                }
+            }
+            $this->addonsdel($name);
+            AddonsManageModel::where(['identifier'=>$plugin_info['identifier']])->delete();
+            $this->success('操作成功',url('/addonsmanage/index'));
+        }else{
+            $this->error('不存在该插件');
+        }
+    }
+
+    # 复制目录
+    public function addonscopy($name="")
+    {
+        if(!$name)return;
+        $srcdir = root_path().'addons/'.$name.'/static';
+        $dstdir = root_path().'public/addons/'.$name;
+        copydir($srcdir,$dstdir);
+    }
+
+    # 删除目录
+    public function addonsdel($name="")
+    {
+        if(!$name)return;
+        $dstdir = root_path().'public/addons/'.$name;
+        delDirAndFile($dstdir);
+    }
+
+}
+// $srcdir 源目录  $dstdir 目标目录
+function copydir($srcdir,$dstdir){
+    if(!file_exists($dstdir)){
+        @mkdir($dstdir);
+    }
+    $files=scandir($srcdir);
+    foreach ($files as $file) {
+        if($file!='.' && $file!='..'){
+            $srcf=$srcdir.'/'.$file;
+            $dstf=$dstdir.'/'.$file;
+            if(is_dir($srcf)){
+                copydir($srcf,$dstf);
+            }
+            else{
+                @copy($srcf,$dstf);
             }
         }
-        header('location:/addonsManage/index');
-        exit;
+    }
+}
+
+function delDirAndFile($path, $delDir = true)
+{
+    if (is_array($path)) {
+        foreach ($path as $subPath) {
+            delDirAndFile($subPath, $delDir);
+        }
+    }
+    if (is_dir($path)) {
+        $handle = @opendir($path);
+        if ($handle) {
+            while (false !== ($item = readdir($handle))) {
+                if ($item != "." && $item != "..") {
+                    @is_dir("$path/$item") ? delDirAndFile("$path/$item", $delDir) : unlink("$path/$item");
+                }
+            }
+            @closedir($handle);
+            if ($delDir) {
+                return @rmdir($path);
+            }
+        }
+    } else {
+        if (@file_exists($path)) {
+            return @unlink($path);
+        } else {
+            return false;
+        }
     }
 }

@@ -37,12 +37,19 @@
         }
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "secure-http": true
     },
     "scripts": {
         "post-autoload-dump": [
             "@php think service:discover",
             "@php think vendor:publish"
         ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }

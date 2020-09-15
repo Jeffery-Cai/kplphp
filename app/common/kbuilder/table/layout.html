@@ -1,0 +1,134 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+<div id="main">
+    {include file="public/header"/}
+    <main class="main-content" >
+        <div class="container">
+            {include file="public/page-header"/}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            {if count($searchKey)>=1}
+                            <form class="layui-form">
+                            <div class="form-inline layui-form">
+                                {volist name="searchKey" id="searchKey"}
+                                <div class="form-group mb-3">
+                                    <label for="staticEmail2" >{$searchKey[2]}</label>
+                                    <div class="ml-3 mr-3">
+                                        {if $searchKey[1] == 'text'}
+                                        <input type="text" name="{$searchKey[0]}" class="form-control" id="staticEmail2" value=""  placeholder="{$searchKey[3]}">
+                                        {elseif $searchKey[1] == 'select'/}
+                                        <select name="{$searchKey[0]}" >
+                                            {volist name="searchKey[4]" id="searchKeySelect"}
+                                            <option value="{$key}">{$searchKeySelect}</option>
+                                            {/volist}
+                                        </select>
+                                        {elseif $searchKey[1] == 'select2'/}
+                                        <select name="{$searchKey[0]}"  lay-search="">
+                                            {volist name="searchKey[4]" id="searchKeySelect"}
+                                            <option value="{$key}">{$searchKeySelect}</option>
+                                            {/volist}
+                                        </select>
+                                        {elseif $searchKey[1] == 'time'/}
+                                        <div class="layui-inline">
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="{$searchKey[0]}" class="layui-input times" placeholder="{$searchKey[3]}">
+                                            </div>
+                                        </div>
+                                        {else /}
+                                        {/if}
+                                    </div>
+                                </div>
+                                {/volist}
+
+                                <div class="form-group mb-3">
+                                    <label for=""></label>
+                                    <div class="">
+                                        <button type="button" lay-submit lay-filter="formSearch" class="btn btn-secondary"><i class="layui-icon layui-icon-search"></i> 查询</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                            {/if}
+                            <table id="kplphptable" lay-filter="kplphptable"></table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+    {include file="public/footer"/}
+</div>
+<script type="text/html" id="toolbarDemo">
+    <button lay-event="refresh" class="btn btn-sm btn-secondary"><i class="layui-icon layui-icon-refresh-3"></i></button>
+    {{#  if(asbtn){ }}<button lay-event="add" class="btn btn-sm btn-secondary"><i class="layui-icon layui-icon-edit"></i>添加</button>{{#  } }}
+    {{#  if(ischeckbox == 1){ }}<button lay-event="delete" class="btn btn-sm btn-secondary"><i class="layui-icon layui-icon-delete"></i>删除</button>{{#  } }}
+</script>
+<script type="text/html" id="barDemo">
+    {{#  if(asbtn0){ }}<button lay-event="see" class="btn btn-sm btn-outline-secondary">查看</button>{{#  } }}
+    {{#  if(asbtn1){ }}<button lay-event="edit" class="btn btn-sm btn-outline-secondary">编辑</button>{{#  } }}
+    {{#  if(asbtn2){ }}<button lay-event="del" class="btn btn-sm btn-outline-secondary">删除</button>{{#  } }}
+</script>
+<script src="__STATIC__/assets/js/custom.js"></script>
+
+<script>
+    var ischeckbox = "<?php echo $checkbox; ?>";
+    var asbtn = "<?php echo $rightBtn['add'] = !isset($rightBtn['add'])?'':$rightBtn['add']; ?>";
+    var asbtn0 = "<?php echo $rightBtn['see'] = !isset($rightBtn['see'])?'':$rightBtn['see']; ?>";
+    var asbtn1 = "<?php echo $rightBtn['edit'] = !isset($rightBtn['edit'])?'':$rightBtn['edit']; ?>";
+    var asbtn2 = "<?php echo $rightBtn['del'] = !isset($rightBtn['del'])?'':$rightBtn['del']; ?>";
+    function add() {
+        window.location.href = '{:url($kplurl["add"])}';
+    }
+    function see(id) {
+        window.location.href = '{:url($kplurl["see"])}?id='+id;
+    }
+    function edit(id) {
+        window.location.href = '{:url($kplurl["edit"])}?id='+id;
+    }
+    function del(id) {
+        $.post('{:url($kplurl["del"])}', {id:id}, function(data) {
+            if(data['code']!=1)
+            {
+                toastr.error(data['msg']);
+            }else{
+                toastr.success(data['msg']);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        var param = {};
+        var columns = [];
+        {volist name="columns" id="columns"}
+        <?php $str = '';
+        if($columns['name']){
+            $str.='"field":"'.$columns['name'].'",';
+        }
+        if($columns['title']){
+            $str.='"title":"'.$columns['title'].'",';
+        }
+        if($columns['sort']){
+            $str.='"sort":"'.$columns['sort'].'",';
+        }
+        if($columns['align']){
+            $str.='"align":"'.$columns['align'].'",';
+        }
+        if($columns['width']){
+            $str.='width:'.$columns['width'].',';
+        }
+        $str = substr($str,0,-1);
+        ?>
+        {if $columns['name']!='checkbox' && $columns['name']!='rightbtn'}
+        columns[{$key}] = { {$str|raw} };
+        {elseif $columns['name']== 'rightbtn'/}
+        columns[{$key}] = {toolbar: "#barDemo", {$str|raw}}
+        {else /}
+            columns[{$key}] = {type:'checkbox'};
+            {/if}
+                {/volist}
+                    datatables.dt("#kplphptable","{:url($kplurl['index'])}",columns,{$datalimit},param);
+                });
+</script>

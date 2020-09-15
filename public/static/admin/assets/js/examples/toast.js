@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     toastr.options = {
         timeOut: 3000,
+        positionClass: "toast-center-center",//弹出窗的位置
         progressBar: true,
         showMethod: "slideDown",
         hideMethod: "slideUp",

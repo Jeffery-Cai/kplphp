@@ -2,7 +2,6 @@
 namespace app\admin\logic;
 use app\admin\model\User as UserModel;
 use app\admin\model\Role as RoleModel;
-use think\helper\Hash;
 
 class User{
 
@@ -28,7 +27,7 @@ class User{
             if (!RoleModel::where(['id' => $user['role'], 'status' => 1])->value('access')) {
                 return array(0,'禁止访问，用户所在角色未启用或禁止访问后台！');
             }
-            if (!Hash::check((string)$password, $user['password'])) {
+            if (!password_verify((string)$password, $user['password'])) {
                 return array(0, '账号或者密码错误！');
             } else {
                 $uid = $user['id'];

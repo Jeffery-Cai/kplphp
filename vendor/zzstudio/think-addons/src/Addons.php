@@ -1,32 +1,14 @@
 <?php
 /**
  * +----------------------------------------------------------------------
- * | think-addons [thinkphp6]
- * +----------------------------------------------------------------------
- *  .--,       .--,             | FILE: Addons.php
- * ( (  \.---./  ) )            | AUTHOR: byron
- *  '.__/o   o\__.'             | EMAIL: xiaobo.sun@qq.com
- *     {=  ^  =}                | QQ: 150093589
- *     /       \                | DATETIME: 2019/11/5 14:47
- *    //       \\               |
- *   //|   .   |\\              |
- *   "'\       /'"_.-~^`'-.     |
- *      \  _  /--'         `    |
- *    ___)( )(___               |-----------------------------------------
- *   (((__) (__)))              | 高山仰止,景行行止.虽不能至,心向往之。
- * +----------------------------------------------------------------------
- * | Copyright (c) 2019 http://www.zzstudio.net All rights reserved.
+ * | think-addons [thinkphp6] zzstudio
  * +----------------------------------------------------------------------
  */
 declare(strict_types=1);
 
 namespace think;
-
-use think\App;
-use think\helper\Str;
 use think\facade\Config;
 use think\facade\View;
-
 abstract class Addons
 {
     // app 容器
@@ -49,26 +31,25 @@ abstract class Addons
      * Addons constructor.
      * @param \think\App $app
      */
-    public function __construct(App $app)
+    public function __construct()
     {
-        $this->app = $app;
-        $this->request = $app->request;
+        $this->app = app();
+        $this->request = app()->request;
         $this->name = $this->getName();
-        $this->addon_path = $app->addons->getAddonsPath() . $this->name . DIRECTORY_SEPARATOR;
+        $this->addon_path = app()->addons->getAddonsPath() . $this->name . DIRECTORY_SEPARATOR;
         $this->addon_config = "addon_{$this->name}_config";
         $this->addon_info = "addon_{$this->name}_info";
         $this->view = clone View::engine('Think');
         $this->view->config([
-            'view_path' => $this->addon_path . 'view' . DIRECTORY_SEPARATOR
+            'view_path'    => $this->addon_path . 'view' . DIRECTORY_SEPARATOR,
+            'view_dir_name' => $this->addon_path . 'view' . DIRECTORY_SEPARATOR
         ]);
-
-        // 控制器初始化
-        $this->initialize();
     }
 
     // 初始化
     protected function initialize()
-    {}
+    {
+    }
 
     /**
      * 获取插件标识
@@ -79,7 +60,6 @@ abstract class Addons
         $class = get_class($this);
         list(, $name, ) = explode('\\', $class);
         $this->request->addon = $name;
-
         return $name;
     }
 

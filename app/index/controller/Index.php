@@ -5,12 +5,11 @@ class Index
 {
     public function index()
     {
-
         return View::fetch();
     }
 
     public function sss()
     {
-        halt(123);
+        hook('testhook', ['id'=>1]);
     }
 }

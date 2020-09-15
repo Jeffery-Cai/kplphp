@@ -9,6 +9,10 @@
 namespace app\admin\controller;
 class Index
 {
+    public function hello($name)
+    {
+        echo  $name;
+    }
     public function index()
     {
         header('location:'.url('/admin/index'));exit;

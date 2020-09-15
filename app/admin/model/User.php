@@ -9,9 +9,6 @@
 namespace app\admin\model;
 
 use think\Model;
-use think\helper\Hash;
-use app\admin\model\Role as RoleModel;
-use think\Db;
 
 /**
  * 后台用户模型

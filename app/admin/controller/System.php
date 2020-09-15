@@ -12,7 +12,6 @@ use app\admin\model\System as SystemModel;
 use app\admin\model\User;
 use app\AdminController;
 use think\App;
-use think\helper\Hash;
 
 class System extends AdminController
 {
@@ -36,7 +35,7 @@ class System extends AdminController
             {
                 $this->error('不存在!');
             }
-            if (!Hash::check((string)$post['password'], $u['password']))
+            if (!password_verify((string)$post['password'], $u['password']))
             {
                 $this->error('当前密码输入错误!');
             }
@@ -44,7 +43,7 @@ class System extends AdminController
             {
                 $this->error('确认密码不一致!');
             }
-            $d['password'] = Hash::make((string)$post['newpassword']);
+            $d['password'] = password_hash((string)$post['newpassword'], PASSWORD_DEFAULT);
             $status = User::where('id', $uid)->update($d);
             if($status){
                 $this->success('修改成功!',url('/login/loginout'));

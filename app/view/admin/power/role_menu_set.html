@@ -64,23 +64,16 @@
 </div>
 
 
-<script src="__STATIC__/vendors/bundle.js"></script>
-<!--<script src="__STATIC__/assets/js/examples/sweet-alert.js"></script>-->
-
-<script src="__STATIC__/vendors/prism/prism.js"></script>
-<script src="__STATIC__/assets/js/app.min.js"></script>
-
 <script src="__STATIC__/vendors/nestable/jquery.nestable.js"></script>
 <script>
     function del_menu(id,that)
     {
-        $(that).parents('.dd3-content').parent('.dd-item').remove();
-
         $.post("{:url('/power/role_menu_set_del')}", {id: id}, function(data) {
             if(data['code']!=1)
             {
                 toastr.error(data['msg']);
             }else{
+                $(that).parents('.dd3-content').parent('.dd-item').remove();
                 toastr.success(data['msg']);
             }
         });

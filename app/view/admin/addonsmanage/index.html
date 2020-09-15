@@ -1,0 +1,203 @@
+{include file="public/header-static"/}
+{include file="public/sidebar"/}
+<style>
+    .app-file-list .app-file-icon{
+        padding: 0;
+    }
+    .app-file-list .app-file-icon img{
+        width: 100%;
+        height: 100px;
+    }
+
+    .topmodel .card{
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        width: 600px;
+        margin-left: -300px;
+
+        z-index: 99999;
+        border: #ddd 1px solid;
+    }
+</style>
+<div id="main">
+
+    {include file="public/header"/}
+
+
+    <main class="main-content">
+
+        <div class="container">
+
+
+            <div class="page-header">
+                <h4>插件管理</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">已安装插件 </li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- end::page-header -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 cj">
+                                    <a title="全部" {if input('status') == ''} class="active" {/if}  href="{:url('/addonsmanage/index')}">全部({$total.all|default='0'})</a>&nbsp; &nbsp; |&nbsp;&nbsp;&nbsp;
+                                    <a title="已安装" {if input('status') == 1} class="active" {/if}  href="{:url('/addonsmanage/index', ['status' => '1'])}">已安装({$total['1']|default='0'})</a> &nbsp; &nbsp; |&nbsp;&nbsp;&nbsp;
+                                    <a title="未安装" {if input('status') === '-1'} class="active" {/if}  href="{:url('/addonsmanage/index', ['status' => '-1'])}">未安装({$total['-1']|default='0'})</a> &nbsp; &nbsp; |&nbsp;&nbsp;&nbsp;
+                                    <a title="已损坏" {if input('status') === '-2'} class="active" {/if}  href="{:url('/addonsmanage/index', ['status' => '-2'])}" id="hide_disable">已损坏({$total['-2']|default='0'})</a>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                {volist name="list" id="vo"}
+                                <div class="col-xl-3">
+                                    <div class="card app-file-list">
+                                        <div class="app-file-icon">
+                                            <img src="__PUBLICS__/addons/{$vo["name"]}{$vo["img_url"]}" alt="{$vo.title}">
+                                            <div class="dropdown position-absolute top-0 right-0 mr-3">
+                                                <a href="#" class="font-size-14" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-157px, 41px, 0px);">
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="checkdes('{$vo["name"]}','{$vo["title"]}V{$vo.version}','{$vo.author}')">更多详细</a>
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="feedback('{$vo["name"]}','{$vo["title"]}V{$vo.version}','{$vo.author}')">反馈</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="p-2 small">
+                                            <div><b>{$vo.title}</b> V{$vo.version}</div>
+                                            <div class="text-muted">1.2M | 作者：<a target="_blank" href="{$vo.author_url}">{$vo.author} </a><br> {$vo.description|mb_substr=0,23}...</div>
+                                            <hr>
+                                            <div>
+                                                {if condition='$vo.status eq -1'}
+                                                <button class="btn btn-sm btn-outline-secondary" onclick="install('{$vo["name"]}')" class="btn btn-sm btn-outline-secondary">安装</button>
+                                                {else /}
+                                                <button onclick="uninstall('{$vo["name"]}')" class="btn btn-sm btn-outline-secondary">卸载</button>
+                                                <button onclick="location.href='<?php echo addons_url($vo["name"]."://admin/manage") ?>'"  class="btn btn-sm btn-outline-secondary">设置</button>
+                                                {/if}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/volist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="topmodel">
+
+        </div>
+
+
+    </main>
+    <!-- end::main-content -->
+    <!-- begin::footer -->
+    {include file="public/footer"/}
+
+</div>
+
+<!-- Javascript -->
+<script src="__STATIC__/vendors/slick/slick.min.js"></script>
+<script>
+    function feedback(name,title,author) {
+        swal({
+            text: '对此插件有问题,你将此 "'+title+'" 进行反馈,请填写反馈内容!',
+            content: "input",
+            button: {
+                text: "提交!",
+                closeModal: false,
+            },
+        })
+            .then(name => {
+                if (!name) throw null;
+                return fetch(``);
+            })
+            .then(results => {
+                return results.json();
+            })
+            .then(json => {
+                const movie = json.results[0];
+                if (!movie) {
+                    return swal("No movie was found!");
+                }
+                const name = movie.trackName;
+                const imageURL = movie.artworkUrl100;
+                swal({
+                    title: "结果: ",
+                    text: name,
+                    icon: imageURL,
+                });
+            })
+            .catch(err => {
+                if (err) {
+                    swal("提交失败!", "系统繁忙!", "error");
+                } else {
+                    swal.stopLoading();
+                    swal.close();
+                }
+            });
+    }
+
+
+    function checkdes(name,title,author) {
+        $.post('{:url("/addonsmanage/checkdes")}',{title:title,name:name},function (d) {
+            $(".topmodel").css('display','block');
+            $(".topmodel").html('<div class="card">\n' +
+                '  <div class="card-header">'+title+'</div>\n' +
+                '  <div class="card-body">\n' +
+                '    <div class="card-scroll">\n' +
+                '     '+d['des']+'\n' +
+                '    </div>\n' +
+                '  </div>\n' +
+                '  <div class="card-footer">作者：'+author+' <button type="button" onclick="closetopmodel(this)" class="btn btn-secondary btn-uppercase" style="float: right;">关闭</button></div>\n' +
+                '</div>');
+        },'json')
+    }
+    function closetopmodel() {
+        $(".topmodel").css('display','none');
+    }
+
+    function install(name) {
+        $.post('{:url("/addonsmanage/install")}',{name:name},function (d) {
+            if(d['code'] == 1){
+                toastr.success(d['msg']);
+                setTimeout(function(){
+                    location.href = '{:url("/addonsmanage/index")}';
+                }, 1000);
+            }else{
+                toastr.error(d['msg']);
+            }
+        },'json')
+    }
+
+    function uninstall(name) {
+        $.post('{:url("/addonsmanage/uninstall")}',{name:name},function (d) {
+            if(d['code'] == 1){
+                toastr.success(d['msg']);
+                setTimeout(function(){
+                    location.href = '{:url("/addonsmanage/index")}';
+                }, 1000);
+            }else{
+                toastr.error(d['msg']);
+            }
+        },'json')
+    }
+
+
+
+</script>

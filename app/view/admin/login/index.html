@@ -27,25 +27,15 @@
             <input type="password" name="password" class="form-control" placeholder="密码" value="" required>
         </div>
         <button type="submit" class="btn btn-secondary btn-block">kplphp后台登录</button>
+
         <hr>
-        <p class="text-muted">使用其它方式进行登录</p>
-        <ul class="list-inline">
-            <li class="list-inline-item">
-                <a href="#" class="btn btn-floating btn-facebook">
-                    <i class="fa fa-qq"></i>
-                </a>
-            </li>
-            <li class="list-inline-item">
-                <a href="#" class="btn btn-floating btn-twitter">
-                    <i class="fa fa-wechat"></i>
-                </a>
-            </li>
-        </ul>
-        <hr>
-        <p class="text-muted">喜欢并下载该框架</p>
+        <p class="text-muted">喜欢并下载该框架 [kplphpV2.0]</p>
         <a href="https://gitee.com/JefferyCai/kplphp" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm">码云地址</a>
     </form>
 </div>
+<script src="__STATIC__/vendors/bundle.js"></script>
+<script src="__STATIC__/assets/js/examples/toast.js"></script>
+
 <script>
     //接收ifram页面返回的消息
     function iframe_form_msg(code, msg, url = ''){
@@ -63,6 +53,5 @@
 <div id="alert_message" style="display:none">
     <iframe name=iframe_form id="ifr" scrolling="no"></iframe>
 </div>
-<script src="__STATIC__/vendors/bundle.js"></script>
 </body>
 </html>
