@@ -94,7 +94,8 @@ php think make:kplphp_curd Hello Hello Hello --app admin [ # 普通CURD增删改
 * 丰富的插件应用市场 [升级中]
 
 ## V1.0版本
-* 下载kplphpV1.0.0版本地址：https://gitee.com/JefferyCai/kplphp/releases
+* 下载kplphpV1.0.0 / V2版本地址：https://gitee.com/JefferyCai/kplphp/releases      【码云】https://github.com/Jeffery-Cai/kplphp/releases  【github】
+
 * 基本的权限管理系统
   支持无限级父子级权限继承，父级的管理员可任意增删改子级管理员及权限设置
   支持单管理员多角色
