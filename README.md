@@ -121,15 +121,15 @@ ThinkPHP6.0基于精简核心和统一用法两大原则在5.1的基础上对底
 
 
 ## **界面截图**
-![主页](http://119.3.239.1:8882/public/11.png "主页")
+![主页](http://www.kplphp.com/public/11.png "主页")
 
-![菜单管理](http://119.3.239.1:8882/public/22.png "菜单管理")
+![菜单管理](http://www.kplphp.com/public/22.png "菜单管理")
 
-![模板](http://119.3.239.1:8882/public/44.png "模板")
+![模板](http://www.kplphp.com/public/44.png "模板")
 
-![模板](http://119.3.239.1:8882/public/55.png "模板")
+![模板](http://www.kplphp.com/public/55.png "模板")
 
-![模板](http://119.3.239.1:8882/public/33.png "模板")
+![模板](http://www.kplphp.com/public/33.png "模板")
 
 
 ## **问题反馈**
